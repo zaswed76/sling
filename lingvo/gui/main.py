@@ -9,7 +9,7 @@ from gui.choosedict import ChooseDictStack
 from gui.view import ViewStack
 
 import paths
-from libs.dictsequence import DictSeq
+from core.dictsequence import DictSeq
 from gui.centrallframe import CenterFrame
 
 

@@ -1,5 +1,5 @@
 import paths
-from libs import scandicts
+from core import scandicts
 
 datadir = paths.DATA
 
