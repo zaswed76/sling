@@ -7,3 +7,15 @@ ChooseDictStack {
 ViewStack {
     background-color: #c2c2c2;
 }
+
+ChooseDictFrame {
+    background-color: #9c9c9e;
+}
+
+ControlFrame {
+    background-color: #d1d1d3;
+}
+
+TextFrame {
+    background-color: #a8a8a8;
+}

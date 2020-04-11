@@ -20,7 +20,7 @@ class ToolTypeFrame(QtWidgets.QFrame):
 
 
 class BoxLayout(QtWidgets.QBoxLayout):
-    def __init__(self, direction, parent, **kwargs):
+    def __init__(self, direction, parent=None, **kwargs):
         super().__init__(direction, parent)
         self.setDirection(direction)
         self.setParent(parent)

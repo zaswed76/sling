@@ -17,8 +17,8 @@ class CenterFrame(QFrame):
         self.main = main
         self.hbox = QHBoxLayout(self)
         self.hbox.setContentsMargins(0, 0, 0, 0)
-        self.stack = QStackedLayout()
-        self.hbox.addLayout(self.stack)
+        self.stack = QStackedWidget()
+        self.hbox.addWidget(self.stack, alignment=Qt.AlignCenter)
 
 
 
