@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import datetime
 import sys
 from PyQt5 import QtWidgets, QtCore
 
@@ -31,25 +31,33 @@ class Top(QtWidgets.QFrame):
 class Center(DragFrame):
     def __init__(self):
         super().__init__()
-        self.box = QHBoxLayout(self)
+        self.box = QVBoxLayout(self)
         self.setStyleSheet('background: grey;')
         self.setAcceptDrops(True)
+        self.labels = {}
 
     def dragEnterEvent(self, e):
         e.accept()
 
     def dropEvent(self, e):
-        if self.box.count() < 1:
-            self.newLabel = DropLabel("WORD", self)
-            self.newLabel.setFont(QFont("arial", 40))
-            self.newLabel.setAlignment(Qt.AlignCenter)
-            self.box.addWidget(self.newLabel)
+        mime = e.mimeData()
+        text = mime.text()
+        if self.box.count() < 4:
+
+                suffix = datetime.datetime.now().strftime("_%y%m%d%H%M%S")
+                text += suffix
+                self.labels[text] = DropLabel(text, self)
+                self.labels[text].setFont(QFont("arial", 40))
+                self.box.addWidget(self.labels[text])
         e.accept()
 
     def delLabel(self):
-        self.box.removeWidget(self.newLabel)
-        self.newLabel.deleteLater()
-        self.newLabel = None
+        lb = self.sender()
+
+        key = lb.lbText
+        self.box.removeWidget(self.labels[key])
+        self.labels[key].deleteLater()
+
 
 class Bottom(QtWidgets.QFrame):
     def __init__(self):
@@ -58,18 +66,39 @@ class Bottom(QtWidgets.QFrame):
 
 
 
-class Left(QtWidgets.QFrame):
+class Left(QtWidgets.QListWidget):
     def __init__(self):
         super().__init__()
-        self.setAcceptDrops(True)
-        self.setStyleSheet('background: grey;')
-        self.setFixedSize(200, 500)
-        self.dragLabel = DragLabel("word", self)
-        self.dragLabel.show()
+        self.setFont(QFont("Arial", 24))
+        self.setDragEnabled(True)
+        self.setFixedSize(250, 500)
+        self.l1 = QListWidgetItem("Word")
+        self.l1.setTextAlignment(Qt.AlignCenter)
+
+        self.l2 = QListWidgetItem("Перевод")
+        self.l2.setTextAlignment(Qt.AlignCenter)
+
+        self.l3 = QListWidgetItem("Транскрипция")
+        self.l3.setTextAlignment(Qt.AlignCenter)
+
+        self.l4 = QListWidgetItem("Пример")
+        self.l4.setTextAlignment(Qt.AlignCenter)
+
+        self.insertItem(0, self.l1)
+        self.insertItem(1, self.l2)
+        self.insertItem(2, self.l3)
+        self.insertItem(3, self.l4)
 
 
+    def mouseMoveEvent(self, e):
+        mimeData = QMimeData()
+        mimeData.setText(self.currentItem().text())
+        drag = QDrag(self)
+        drag.setMimeData(mimeData)
+        dropAction = drag.exec_(Qt.MoveAction)
 
-class Labels(QtWidgets.QFrame):
+
+class CardView(QtWidgets.QFrame):
     def __init__(self):
         super().__init__()
         self.setFixedSize(500, 500)
@@ -93,7 +122,7 @@ class Widget(QtWidgets.QFrame):
         self.left = Left()
         self.box.addWidget(self.left)
 
-        self.labels = Labels()
+        self.labels = CardView()
         self.box.addWidget(self.labels)
 
 

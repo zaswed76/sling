@@ -17,10 +17,22 @@ class DragLabel(QLabel):
 
     def mouseMoveEvent(self, e):
         mimeData = QMimeData()
+        mimeData.setText(self.text())
         drag = QDrag(self)
         drag.setMimeData(mimeData)
         drag.setHotSpot(e.pos() - self.rect().topLeft())
         dropAction = drag.exec_(Qt.MoveAction)
+
+class DelBtn(QPushButton):
+    def __init__(self, icon, text,  parent, *__args):
+        super().__init__(*__args)
+        self.setParent(parent)
+        self.setIcon(QIcon(icon))
+        self.lbText = text
+        self.setFixedSize(25,25)
+        self.setFont(QFont("arial", 12))
+        self.setText("x")
+
 
 class DropLabel(QLabel):
     def __init__(self, *__args):
@@ -28,10 +40,13 @@ class DropLabel(QLabel):
         self.setFont(QFont("arial", 160))
         self.setAlignment(Qt.AlignCenter)
         self.installEventFilter(self)
-        self.btn = QPushButton("x", self)
-        self.btn.setFixedSize(25,25)
-        self.btn.setFont(QFont("arial", 12))
+
+
+
+        self.btn = DelBtn("", self.text(), self)
         self.btn.clicked.connect(self.parent().delLabel)
+        text, self.suffix = self.text().split("_")
+        self.setText(text)
 
 
     def eventFilter(self, obj, event):
