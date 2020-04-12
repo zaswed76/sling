@@ -8,8 +8,12 @@ ViewStack {
     background-color: #c2c2c2;
 }
 
-ChooseDictFrame {
-    background-color: #9c9c9e;
+ChooseDictStack {
+    background-color: #c9c9c9;
+    border-left: 1px solid #5d5d5f;
+    border-right:  1px solid #5d5d5f;
+    border-bottom:  1px solid #5d5d5f;
+    border-top: 1px solid #5d5d5f;
 }
 
 ControlFrame {
@@ -18,4 +22,22 @@ ControlFrame {
 
 TextFrame {
     background-color: #a8a8a8;
+}
+
+QListView {
+    border: 1px solid #cccccc;
+    background: #f3f3f3;
+    color: #252424;
+    font-family: "Segoe UI";
+    font-size: 16pt;
+    outline: 0;
+}
+
+QListView::item:hover {
+    background: #cecece;
+    color: #151414;
+}
+
+QListView::item:selected {
+    background: #6ab3ba;
 }

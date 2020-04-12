@@ -15,6 +15,7 @@ class Word:
         self.cyrillicTranscription = cyrillic_transcription
         self.translation = translation
         self.base = base
+        self.examples = []
 
     def __repr__(self):
         return "W:{}\nI:{}\nS:{}\n".format(self.base, self.image, self.sound)

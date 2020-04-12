@@ -29,26 +29,21 @@ class ToolBar(QToolBar):
         self.main = main
         self.setFixedHeight(42)
         self.addAction(QAction(QIcon(str(paths.ICONS / "dict.png")), "chooseDict", self))
-        # self.dictList = QComboBox(self)
-        # self.dictList.currentIndexChanged.connect(self.currentDictChanged)
-        # self.actionTriggered.connect(self.toolActions)
-        # self.updateDictList()
 
-    # def currentDictChanged(self, text):
-    #     print(self.dictList.currentText())
-    #     print(text)
-    #
-    #
-    # def toolActions(self, action):
-    #     print(action)
-    #
-    # def updateDictList(self):
-    #     self.dictList.addItems(self.main.dictList)
-    #     self.addWidget(self.dictList)
+class ChooseDictStackController:
+    def __init__(self, main, parent):
+        self.parent = parent
+        self.main = main
+
+    def closeChooseDict(self):
+        self.main.centerFrame.showStack("view")
+        self.parent.parentMethod()
+
 
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
+
         self._set_style_sheet("base")
         self.dictSeq = DictSeq(paths.DATA)
         self.resize(600, 600)
@@ -56,13 +51,27 @@ class Main(QMainWindow):
         self.setCentralWidget(self.centerFrame)
         self.__setToolBar()
         self.stackWidgets = {}
+
         self.chooseDictStack = ChooseDictStack(self)
+        self.chooseDictStack.setObjectName("ChooseDictStack")
+        self.controls= {}
+        self.controls["ChooseDictStack"] = ChooseDictStackController(self, self.chooseDictStack)
+
+
         self.viewStack = ViewStack(self)
         self.stackWidgets["chooseDict"] = self.chooseDictStack
         self.stackWidgets["view"] = self.viewStack
         self.centerFrame.setStackWidgets(self.stackWidgets)
         self.centerFrame.initStack()
         self.centerFrame.showStack("view")
+
+
+
+    def connect(self):
+        controll = self.sender()
+        slot = controll.objectName()
+        object = self.controls[controll.parent().objectName()]
+        getattr(object, slot)()
 
     def __setToolBar(self):
         self.toolBar = ToolBar(self)
@@ -85,6 +94,8 @@ class Main(QMainWindow):
         """
         styleSheet = fileInput(str(paths.CSS / sheetName))
         QApplication.instance().setStyleSheet(styleSheet)
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
