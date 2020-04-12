@@ -1,0 +1,13 @@
+
+Editor {
+    background-color: #5d5d5f;
+     font-size: 20pt;
+     font-family: Arial;
+}
+
+QListWidget::item {
+    color: #054077;
+    background-color:transparent;
+    font-size: 26pt;
+    font-family: Arial;
+}

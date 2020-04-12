@@ -3,8 +3,10 @@
 #!/usr/bin/env python3
 
 import sys
-from PyQt5 import QtWidgets, QtCore, QtGui
+
 from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
 def qt_message_handler(mode, context, message):
     if mode == QtInfoMsg:
@@ -23,40 +25,58 @@ def qt_message_handler(mode, context, message):
 
 qInstallMessageHandler(qt_message_handler)
 
-
-class TestListView(QtWidgets.QListWidget):
-
-    def __init__(self, parent):
-        super(TestListView, self).__init__(parent)
-        self.setAcceptDrops(True)
-        self.setIconSize(QtCore.QSize(100, 100))
-        # self.itemClicked.connect(self.on_item_clicked)
-        self.setDragDropMode(QtWidgets.QAbstractItemView.InternalMove)
+from PyQt5.QtWidgets import QApplication, QWidget, QListWidget, QHBoxLayout, QListWidgetItem
+from PyQt5.QtGui import QIcon
+import sys
 
 
-    def dragEnterEvent(self, event):
-        if event.mimeData().hasUrls:
-            event.acceptProposedAction()
-        else:
-            super(TestListView, self).dragEnterEvent(event)
+class Elements(QListWidget):
+    def __init__(self):
+        super().__init__()
+        # self.setAcceptDrops(True)
+        self.setDragEnabled(True)
+        self.setFixedSize(250, 500)
+        self.l1 = QListWidgetItem("Word")
+        self.l1.setFont(QFont("Arial", 24))
+        self.l1.setTextAlignment(Qt.AlignCenter)
+        self.l2 = QListWidgetItem("Перевод")
 
-    def dragMoveEvent(self, event):
-        super(TestListView, self).dragMoveEvent(event)
+        self.l2.setFont(QFont("Arial", 24))
+        self.l2.setTextAlignment(Qt.AlignCenter)
 
-    def dropEvent(self, event):
-        if event.mimeData().hasUrls():
-            links = []
-            for url in event.mimeData().urls():
-                links.append(str(url.toLocalFile()))
-            self.emit(QtCore.SIGNAL("dropped"), links)
-            event.acceptProposedAction()
-        else:
-            super(TestListView,self).dropEvent(event)
+        self.l3 = QListWidgetItem("транскрипция")
+        self.l4 = QListWidgetItem("пример")
+
+        self.insertItem(0, self.l1)
+        self.insertItem(1, self.l2)
+
+
+
+class Editor(QListWidget):
+    def __init__(self):
+        super().__init__()
+        self.setFixedSize(500, 500)
+
+class CardEdit(QFrame):
+    def __init__(self,  *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.box = QHBoxLayout(self)
+        self.elements = Elements()
+        self.editor = Editor()
+        self.box.addWidget(self.elements, stretch=1)
+        self.box.addWidget(self.editor, stretch=4)
+
+
+
+
 
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    # app.setStyleSheet(open('./etc/{0}.qss'.format('style'), "r").read())
-    main = TestListView(None)
-    main.show()
-    sys.exit(app.exec_())
+    App = QApplication(sys.argv)
+    App.setStyleSheet(open(r"D:\user\projects\sling\lingvo\css\base\cardeditor.css", "r").read())
+    window = CardEdit()
+    window.show()
+    sys.exit(App.exec_())
+
+
+
