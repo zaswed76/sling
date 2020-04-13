@@ -11,3 +11,8 @@ QListWidget::item {
     font-size: 26pt;
     font-family: Arial;
 }
+
+
+LbSide {
+    background-color: #6ab3ba;
+}

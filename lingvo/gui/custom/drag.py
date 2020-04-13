@@ -1,3 +1,4 @@
+import datetime
 
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -13,7 +14,7 @@ class DragLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setFont(QFont("arial", 30))
-        self.setAlignment(Qt.AlignCenter)
+        self.setAlignment(Qt.AlignLeft)
 
     def mouseMoveEvent(self, e):
         mimeData = QMimeData()
@@ -61,13 +62,28 @@ class DropLabel(QLabel):
 class DragFrame(QFrame):
     def __init__(self):
         super().__init__()
-
+        self.box = QVBoxLayout(self)
+        self.setStyleSheet('background: grey;')
+        self.setAcceptDrops(True)
+        self.labels = {}
         self.setAcceptDrops(True)
 
     def dragEnterEvent(self, e):
-        print("dragEnterEvent")
         e.accept()
 
     def dropEvent(self, e):
-        print("dropEvent")
+        mime = e.mimeData()
+        text = mime.text()
+        if self.box.count() < 4:
+                suffix = datetime.datetime.now().strftime("_%y%m%d%H%M%S")
+                text += suffix
+                self.labels[text] = DropLabel(text, self)
+                self.labels[text].setFont(QFont("arial", 40))
+                self.box.addWidget(self.labels[text])
         e.accept()
+
+    def delLabel(self):
+        lb = self.sender()
+        key = lb.lbText
+        self.box.removeWidget(self.labels[key])
+        self.labels[key].deleteLater()

@@ -7,6 +7,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui.choosedict import ChooseDictStack
 from gui.view import ViewStack
+from gui.cardeditor import CardEditView
 
 import paths
 from core.dictsequence import DictSeq
@@ -29,6 +30,7 @@ class ToolBar(QToolBar):
         self.main = main
         self.setFixedHeight(42)
         self.addAction(QAction(QIcon(str(paths.ICONS / "dict.png")), "chooseDict", self))
+        self.addAction(QAction(QIcon(str(paths.ICONS / "edit.png")), "cardEditView", self))
 
 class ChooseDictStackController:
     def __init__(self, main, parent):
@@ -51,19 +53,25 @@ class Main(QMainWindow):
         self.setCentralWidget(self.centerFrame)
         self.__setToolBar()
         self.stackWidgets = {}
+        self.controls = {}
 
         self.chooseDictStack = ChooseDictStack(self)
+        self.stackWidgets["chooseDict"] = self.chooseDictStack
         self.chooseDictStack.setObjectName("ChooseDictStack")
-        self.controls= {}
         self.controls["ChooseDictStack"] = ChooseDictStackController(self, self.chooseDictStack)
 
-
         self.viewStack = ViewStack(self)
-        self.stackWidgets["chooseDict"] = self.chooseDictStack
         self.stackWidgets["view"] = self.viewStack
+
+        self.cardEditView = CardEditView(self)
+        self.stackWidgets["cardEditView"] = self.cardEditView
+
         self.centerFrame.setStackWidgets(self.stackWidgets)
         self.centerFrame.initStack()
         self.centerFrame.showStack("view")
+
+
+
 
 
 
@@ -83,6 +91,9 @@ class Main(QMainWindow):
 
     def chooseDictAction(self):
         self.centerFrame.showStack("chooseDict")
+
+    def cardEditViewAction(self):
+        self.centerFrame.showStack("cardEditView")
 
     @property
     def dictList(self):
