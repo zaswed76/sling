@@ -28,7 +28,7 @@ QListView {
     border: 1px solid #cccccc;
     background: #f3f3f3;
     color: #252424;
-    font-family: "Segoe UI";
+    font-family: Helvetica;
     font-size: 16pt;
     outline: 0;
 }
@@ -39,5 +39,5 @@ QListView::item:hover {
 }
 
 QListView::item:selected {
-    background: #6ab3ba;
+    background: #b3d9d8;
 }
