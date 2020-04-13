@@ -16,3 +16,7 @@ QListWidget::item {
 LbSide {
     background-color: #6ab3ba;
 }
+
+LbEx {
+    background-color: #ececec;
+}

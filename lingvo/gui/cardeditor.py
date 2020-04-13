@@ -95,6 +95,10 @@ class View(QtWidgets.QFrame):
 
 class CardEditView(QtWidgets.QFrame):
     def __init__(self, main):
+        """
+        todo examples style
+        :param main:
+        """
         super().__init__()
         self.currentSide = "front"
         self.main = main

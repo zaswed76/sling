@@ -38,9 +38,10 @@ class DelBtn(QPushButton):
 class DropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
-        self.setFont(QFont("arial", 160))
+        # self.setFont(QFont("arial", 160))
         self.setAlignment(Qt.AlignCenter)
         self.installEventFilter(self)
+        self.setStyleSheet("QLabel { color: #2D2D2D }")
 
 
 
@@ -48,6 +49,29 @@ class DropLabel(QLabel):
         self.btn.clicked.connect(self.parent().delLabel)
         text, self.suffix = self.text().split("_")
         self.setText(text)
+        self._tuneText()
+
+    def _tuneText(self):
+        if self.text() == "Пример":
+            self.setText("this is an example in english")
+            self.setFont(QFont("arial", 14, italic=True))
+            self.setStyleSheet("QLabel { color: #144676 }")
+            self.setAlignment(Qt.AlignLeft)
+            self.setContentsMargins(50, 10, 0, 0)
+
+        elif self.text() == "Word":
+            self.setFont(QFont("arial", 56))
+            self.setAlignment(Qt.AlignCenter)
+
+        elif self.text() == "Транскрипция":
+            self.setText("[Транскрипция]")
+            self.setFont(QFont("arial", 30))
+            self.setAlignment(Qt.AlignCenter)
+
+        elif self.text() == "Перевод":
+            self.setFont(QFont("arial", 56))
+            self.setAlignment(Qt.AlignCenter)
+
 
 
     def eventFilter(self, obj, event):
@@ -63,7 +87,8 @@ class DragFrame(QFrame):
     def __init__(self):
         super().__init__()
         self.box = QVBoxLayout(self)
-        self.setStyleSheet('background: grey;')
+        self.setStyleSheet('background-color:: #d9d9d9;')
+
         self.setAcceptDrops(True)
         self.labels = {}
         self.setAcceptDrops(True)
@@ -74,11 +99,12 @@ class DragFrame(QFrame):
     def dropEvent(self, e):
         mime = e.mimeData()
         text = mime.text()
+        # print(mime, "!!!")
         if self.box.count() < 4:
                 suffix = datetime.datetime.now().strftime("_%y%m%d%H%M%S")
                 text += suffix
                 self.labels[text] = DropLabel(text, self)
-                self.labels[text].setFont(QFont("arial", 40))
+                # self.labels[text].setFont(QFont("arial", 40))
                 self.box.addWidget(self.labels[text])
         e.accept()
 
