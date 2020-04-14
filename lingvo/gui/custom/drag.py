@@ -98,20 +98,17 @@ class DropLabel(QLabel):
             self.dropLabelControl.show()  # выполнить  callback2()
         return False
 
-class DragFrame(QFrame):
+class DragFrame(QGraphicsView):
     def __init__(self):
         super().__init__()
-
+        self.scene = QGraphicsScene()
+        self.setScene(self.scene)
+        self.scene.addLine(QLineF(self.rect().topLeft(), self.rect().topRight()))
+        # self.rect = QRect(1, 1, 1, 1)
+        self.setSceneRect(QRectF(self.rect()))
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # sizePolicy.setHorizontalStretch(0)
-        # sizePolicy.setVerticalStretch(0)
-        # sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
         self.setSizePolicy(sizePolicy)
-
         self.box = QVBoxLayout(self)
-        self.setStyleSheet('QFrame{background-color: #D1D1D3;}')
-
-
         self.setAcceptDrops(True)
         self.labels = {}
         self.setAcceptDrops(True)
@@ -142,18 +139,7 @@ class DragFrame(QFrame):
         key = lb.lbText
         self.tuneLabel = TuneLabel(self)
 
-    def paintEvent(self, e):
 
-        qp = QPainter()
-        qp.begin(self)
-        self.drawLines(qp)
-        qp.end()
-
-
-    def drawLines(self, qp):
-        pen = QPen(Qt.gray, 1, Qt.SolidLine)
-        qp.setPen(pen)
-        qp.drawLine(self.rect().topLeft(), self.rect().topRight())
 
 
 

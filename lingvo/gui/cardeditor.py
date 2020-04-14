@@ -110,7 +110,7 @@ class CardEditView(QtWidgets.QFrame):
         self.box.addWidget(self.left)
         self.box.addStretch(1)
         self.lbSide = LbSide(True, self)
-        self.vcbox = QtWidgets.QVBoxLayout(self)
+        self.vcbox = QtWidgets.QVBoxLayout()
         self.vcbox.setSpacing(50)
         self.vcbox.setContentsMargins(1, 1, 1, 1)
         self.cardsStack = QStackedWidget()

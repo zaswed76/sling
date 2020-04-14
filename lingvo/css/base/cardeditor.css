@@ -33,3 +33,7 @@ QPushButton#tuneBtn {
     border-image: url("./resources/icons/base/icon_cog.png");
 
 }
+
+QGraphicsView {
+    border: none;
+}
