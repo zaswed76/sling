@@ -102,10 +102,13 @@ class DragFrame(QGraphicsView):
     def __init__(self):
         super().__init__()
         self.scene = QGraphicsScene()
-        self.setScene(self.scene)
-        self.scene.addLine(QLineF(self.rect().topLeft(), self.rect().topRight()))
-        # self.rect = QRect(1, 1, 1, 1)
-        self.setSceneRect(QRectF(self.rect()))
+        # self.setScene(self.scene)
+        # self.scene.addLine(QLineF(self.rect().topLeft(), self.rect().topRight()))
+        # rcontent = self.contentsRect()
+        # self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        # self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+        # self.setSceneRect(0, 0, rcontent.width(), rcontent.height())
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(sizePolicy)
         self.box = QVBoxLayout(self)
