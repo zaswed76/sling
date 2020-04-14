@@ -8,6 +8,6 @@ import paths
 class ViewStack(QFrame):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setFixedSize(600, 600)
+        # self.setFixedSize(600, 600)
         self.main = main
         self.btnClose = QPushButton("view", self)

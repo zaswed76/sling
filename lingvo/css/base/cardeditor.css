@@ -14,9 +14,22 @@ QListWidget::item {
 
 
 LbSide {
+
     background-color: #6ab3ba;
 }
 
 LbEx {
     background-color: #ececec;
+}
+
+/*кнопки управления надписями в редакторе*/
+
+QPushButton#delBtn {
+    border-image: url("./resources/icons/base/icon_close_alt2.png");
+
+}
+
+QPushButton#tuneBtn {
+    border-image: url("./resources/icons/base/icon_cog.png");
+
 }

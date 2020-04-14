@@ -1,5 +1,6 @@
 import datetime
-
+import paths
+from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -30,7 +31,7 @@ class ControlLabelBtn(QPushButton):
         self.setParent(parent)
         self.setIcon(QIcon(icon))
         self.lbText = text
-        self.setFixedSize(25,25)
+        self.setFixedSize(22,22)
         self.setFont(QFont("arial", 12))
         # self.setText("x")
 
@@ -47,7 +48,7 @@ class DropLabelControl(QFrame):
 
         self.tuneBtn = ControlLabelBtn("", self.parent().text(), self)
         self.tuneBtn.setObjectName("tuneBtn")
-        self.tuneBtn.clicked.connect(self.parent().parent().tuneLabel)
+        self.tuneBtn.clicked.connect(self.parent().parent().showTuneLabel)
         self.box.addWidget(self.delBtn)
         self.box.addWidget(self.tuneBtn)
 
@@ -72,7 +73,7 @@ class DropLabel(QLabel):
             self.setFont(QFont("Helvetica", 14, italic=True))
             self.setStyleSheet("QLabel { color: #144676 }")
             self.setAlignment(Qt.AlignLeft)
-            self.setContentsMargins(50, 10, 0, 0)
+            self.setContentsMargins(70, 10, 0, 0)
 
         elif self.text() == "Word":
             self.setFont(QFont("Helvetical", 56))
@@ -100,6 +101,13 @@ class DropLabel(QLabel):
 class DragFrame(QFrame):
     def __init__(self):
         super().__init__()
+
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # sizePolicy.setHorizontalStretch(0)
+        # sizePolicy.setVerticalStretch(0)
+        # sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
+        self.setSizePolicy(sizePolicy)
+
         self.box = QVBoxLayout(self)
         self.setStyleSheet('QFrame{background-color: #D1D1D3;}')
 
@@ -129,7 +137,44 @@ class DragFrame(QFrame):
         self.box.removeWidget(self.labels[key])
         self.labels[key].deleteLater()
 
-    def tuneLabel(self):
+    def showTuneLabel(self):
         lb = self.sender()
         key = lb.lbText
-        print(key)
+        self.tuneLabel = TuneLabel(self)
+
+    def paintEvent(self, e):
+
+        qp = QPainter()
+        qp.begin(self)
+        self.drawLines(qp)
+        qp.end()
+
+
+    def drawLines(self, qp):
+        pen = QPen(Qt.gray, 1, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(self.rect().topLeft(), self.rect().topRight())
+
+
+
+
+class TuneLabel(QWidget):
+    def __init__(self, p, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.win = uic.loadUi(paths.UIFORM / "tuneEditLabels.ui")
+        self.win.bgBtn.clicked.connect(self.chooseBg)
+        self.win.colorBtn.clicked.connect(self.chooseBg)
+        self.win.fontNameBtn.clicked.connect(self.chooseBg)
+        self.win.fontSizeBtn.clicked.connect(self.chooseBg)
+        self.win.AlignLb.currentIndexChanged.connect(self.chooseBg)
+        self.win.AlignLb.addItems(["слева", "по центру", "справа"])
+        self.hbox = QHBoxLayout(self)
+        self.hbox.addWidget(self.win)
+
+        self.setWindowModality(Qt.ApplicationModal)
+        self.setWindowFlag(Qt.Tool)
+        # self.resize(300, 500)
+        self.show()
+
+    def chooseBg(self):
+        print(self.sender())

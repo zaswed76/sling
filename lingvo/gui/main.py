@@ -48,7 +48,7 @@ class Main(QMainWindow):
 
         self._set_style_sheet("base")
         self.dictSeq = DictSeq(paths.DATA)
-        self.resize(600, 600)
+
         self.centerFrame = CenterFrame(self)
         self.setCentralWidget(self.centerFrame)
         self.__setToolBar()
@@ -64,6 +64,7 @@ class Main(QMainWindow):
         self.stackWidgets["view"] = self.viewStack
 
         self.cardEditView = CardEditView(self)
+
         self.stackWidgets["cardEditView"] = self.cardEditView
 
         self.centerFrame.setStackWidgets(self.stackWidgets)

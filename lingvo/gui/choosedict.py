@@ -44,7 +44,7 @@ class TextFrame(QFrame):
 class ChooseDictStack(QFrame):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setFixedSize(600, 600)
+        # self.setFixedSize(700, 700)
         self.main = main
         self.box = BoxLayout(QBoxLayout.LeftToRight, self)
         self.chooseDictFrame = ChooseDictView(self.main)

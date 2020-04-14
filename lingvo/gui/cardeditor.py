@@ -79,9 +79,9 @@ class View(QtWidgets.QFrame):
         super().__init__()
 
         self.main = main
-        self.setFixedSize(500, 500)
+        self.setFixedSize(510, 510)
         self.box = QtWidgets.QVBoxLayout(self)
-        self.box.setSpacing(1)
+        self.box.setSpacing(0)
         self.box.setContentsMargins(1, 1, 1, 1)
 
         self.t = Top()
@@ -100,6 +100,7 @@ class CardEditView(QtWidgets.QFrame):
         :param main:
         """
         super().__init__()
+        self.setFixedSize(700, 700)
         self.currentSide = "front"
         self.main = main
         self.box = QtWidgets.QHBoxLayout(self)
@@ -107,9 +108,10 @@ class CardEditView(QtWidgets.QFrame):
         self.box.setContentsMargins(1, 1, 1, 1)
         self.left = Left()
         self.box.addWidget(self.left)
+        self.box.addStretch(1)
         self.lbSide = LbSide(True, self)
         self.vcbox = QtWidgets.QVBoxLayout(self)
-        self.vcbox.setSpacing(1)
+        self.vcbox.setSpacing(50)
         self.vcbox.setContentsMargins(1, 1, 1, 1)
         self.cardsStack = QStackedWidget()
         self.vcbox.addStretch(7)
@@ -129,6 +131,7 @@ class CardEditView(QtWidgets.QFrame):
         self.cardsStack.setCurrentWidget(self.sides[self.currentSide])
 
         self.box.addLayout(self.vcbox)
+        self.box.addStretch(1)
 
     def changeSide(self, side):
         self.currentSide = side
@@ -143,6 +146,7 @@ class LbSide(QLabel):
         self.textSide = {True: "front", False: "back"}
         self.setText(self.textSide[self.side])
         self.setFont(QFont("arial", 20))
+        self.setAlignment(Qt.AlignCenter)
 
     def mousePressEvent(self, e):
         self.changeSide()
