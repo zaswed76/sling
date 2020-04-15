@@ -34,6 +34,25 @@ QPushButton#tuneBtn {
 
 }
 
-QGraphicsView {
-    border: none;
+Top {
+    background-color: #d6d6d6;
+
+}
+
+Center{
+    background-color: #d6d6d6;
+    /*border-bottom: 1px solid gray ;*/
+    /*border-top: 1px solid gray ;*/
+    /*border-left: none ;*/
+    /*border-right: 1px solid gray ;*/
+
+}
+
+Bottom {
+    background-color: #d6d6d6;
+
+}
+
+CardEditView {
+    background-color: #ffffff;
 }

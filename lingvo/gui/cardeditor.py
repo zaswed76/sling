@@ -29,18 +29,25 @@ qInstallMessageHandler(qt_message_handler)
 
 
 class Top(DragFrame):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent, object_name, cfg):
+        super().__init__(parent, object_name, cfg)
+
+
+
 
 
 class Center(DragFrame):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent, object_name, cfg):
+        super().__init__(parent, object_name, cfg)
+
+
 
 
 class Bottom(DragFrame):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent, object_name, cfg):
+        super().__init__(parent, object_name, cfg)
+
+
 
 
 class Left(QtWidgets.QListWidget):
@@ -75,18 +82,22 @@ class Left(QtWidgets.QListWidget):
 
 
 class View(QtWidgets.QFrame):
-    def __init__(self, main):
+    def __init__(self, main, cfg, object_name):
         super().__init__()
+        self.setObjectName(object_name)
 
+        self.cfg = cfg
         self.main = main
         self.setFixedSize(510, 510)
-        self.box = QtWidgets.QVBoxLayout(self)
+        self.Mbox = QtWidgets.QHBoxLayout(self)
+        self.box = QtWidgets.QVBoxLayout()
+        self.Mbox.addLayout(self.box)
         self.box.setSpacing(0)
         self.box.setContentsMargins(1, 1, 1, 1)
 
-        self.t = Top()
-        self.c = Center()
-        self.b = Bottom()
+        self.t = Top(self, "top", self.cfg)
+        self.c = Center(self, "center", self.cfg)
+        self.b = Bottom(self, "bottom", self.cfg)
 
         self.box.addWidget(self.t, stretch=5)
         self.box.addWidget(self.c, stretch=5)
@@ -94,12 +105,15 @@ class View(QtWidgets.QFrame):
 
 
 class CardEditView(QtWidgets.QFrame):
-    def __init__(self, main):
+    def __init__(self, main, config=None):
         """
         todo examples style
         :param main:
         """
         super().__init__()
+
+        self.config = config if config is not None else {}
+
         self.setFixedSize(700, 700)
         self.currentSide = "front"
         self.main = main
@@ -120,10 +134,10 @@ class CardEditView(QtWidgets.QFrame):
         self.vcbox.addStretch(10)
 
         self.sides = dict(
-            front=View(self.main),
-            back=View(self.main)
+            front=View(self.main, self.config, "front"),
+            back=View(self.main, self.config, "back")
         )
-        self.sides["back"].setStyleSheet('background: #033367;')
+        self.sides["back"].setStyleSheet('background: #EFEFEF;')
         self.cardsStack.addWidget(self.sides["front"])
 
         self.cardsStack.addWidget(self.sides["back"])

@@ -5,4 +5,14 @@ ui:
     startSize:
     - 600
     - 600
+card:
+    content:
+        front:
+            top: []
+            center: [Пример]
+            bottom: []
+        back:
+            top: [Word]
+            center: [Транскрипция]
+            bottom: [Пример, Пример]
 

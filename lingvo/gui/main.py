@@ -12,6 +12,7 @@ from gui.cardeditor import CardEditView
 import paths
 from core.dictsequence import DictSeq
 from gui.centrallframe import CenterFrame
+import config
 
 
 def fileInput(folder):
@@ -45,6 +46,9 @@ class ChooseDictStackController:
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.cfg = config.Config(paths.CONFIG)
+        self.coreCfg = config.Config(paths.CORECONFIG)
+        print(self.coreCfg.data)
 
         self._set_style_sheet("base")
         self.dictSeq = DictSeq(paths.DATA)
@@ -63,7 +67,7 @@ class Main(QMainWindow):
         self.viewStack = ViewStack(self)
         self.stackWidgets["view"] = self.viewStack
 
-        self.cardEditView = CardEditView(self)
+        self.cardEditView = CardEditView(self, config = self.cfg)
 
         self.stackWidgets["cardEditView"] = self.cardEditView
 
