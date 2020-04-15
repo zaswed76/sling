@@ -31,8 +31,9 @@ class DragLabel(QLabel):
 
 
 class ControlLabelBtn(QPushButton):
-    def __init__(self, icon, text, parent, *__args):
+    def __init__(self, icon, text, parent, type=None,  *__args):
         super().__init__(*__args)
+        self.type = type
         self.setParent(parent)
         self.setIcon(QIcon(icon))
         self.lbText = text
@@ -42,13 +43,15 @@ class ControlLabelBtn(QPushButton):
 
 
 class DropLabelControl(QFrame):
-    def __init__(self, *__args):
+    def __init__(self, parent, type=None, *__args):
         super().__init__(*__args)
+        self.setParent(parent)
+        self.type = type
         self.box = QHBoxLayout(self)
         self.box.setSpacing(4)
         self.box.setContentsMargins(0, 0, 0, 0)
 
-        self.delBtn = ControlLabelBtn("", self.parent().text(), self)
+        self.delBtn = ControlLabelBtn("", self.parent().text(), self, type=self.type)
         self.delBtn.setObjectName("delBtn")
         self.delBtn.clicked.connect(self.parent().parent().delLabel)
 
@@ -80,11 +83,12 @@ class Style:
 class DropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
+        self.type = "QLabel"
         self.setAlignment(Qt.AlignCenter)
         self.installEventFilter(self)
         self.setStyleSheet("QLabel { color: #2D2D2D }")
 
-        self.dropLabelControl = DropLabelControl(self)
+        self.dropLabelControl = DropLabelControl(self, type=self.type)
 
         self.styleTypes = {
             "Пример": Style(text="this is an example in english", font_name="Helvetica", font_size=16,
@@ -92,6 +96,7 @@ class DropLabel(QLabel):
             "Word": Style(text="Word", font_name="Helvetica", font_size=56, text_color="#262626"),
             "Транскрипция": Style(text="[транскрипция]",font_name="Helvetica", font_size=30, text_color="#3F3F3F"),
             "Перевод": Style(text="Перевод",font_name="Helvetica", font_size=56, text_color="#262626"),
+            "input": Style(text="Input",font_name="Helvetica", font_size=56, text_color="#262626")
         }
         self.lbText, self.suffix = self.text().split("_")
         self._tuneText(self.lbText)
@@ -116,8 +121,10 @@ class DropLabel(QLabel):
 
 
 class DragFrame(QFrame):
+
     def __init__(self, parent, object_name, cfg):
         super().__init__()
+        self.WidgetTypes = {"QLabel": self.addLabel, "QLineEdit": self.addQLineEdit}
         self.cfg = cfg
         self.parent = parent
         self.setObjectName(object_name)
@@ -138,28 +145,28 @@ class DragFrame(QFrame):
         side = self.parent.objectName()
         layout = self.objectName()
         content = cfg["card"]["content"][side][layout]
-        for text in content:
-            if self.box.count() < 4:
-                self.addLabel(text)
 
-    def addContentCfg(self, cfg, text):
+        for item in content:
+            text, type = item.split("_")
+            if self.box.count() < 4:
+                self.addQWidget(type, text)
+
+    def addContentCfg(self, cfg, text, type):
         side = self.parent.objectName()
         layout = self.objectName()
-        cfg["card"]["content"][side][layout].append(text)
+        cfg["card"]["content"][side][layout].append("_".join((text, type)))
 
     def delContentCfg(self, cfg, text):
         side = self.parent.objectName()
         layout = self.objectName()
-        print(cfg["card"]["content"][side][layout], text, sep="--")
-
         cfg["card"]["content"][side][layout].remove(text)
 
     def dropEvent(self, e):
         mime = e.mimeData()
-        text = mime.text()
+        text, type = mime.text().split("_")
         if self.box.count() < 4:
-            self.addLabel(text)
-            self.addContentCfg(self.cfg, text)
+            self.addQWidget(type, text)
+            self.addContentCfg(self.cfg, text, type)
         e.accept()
 
     def __getSuffix(self):
@@ -168,19 +175,30 @@ class DragFrame(QFrame):
         random.shuffle(nl)
         return "_" + "".join(nl)
 
+    def addQWidget(self, type, text=None):
+        self.WidgetTypes[type](text)
+
+
     def addLabel(self, text):
         text += self.__getSuffix()
         self.labels[text] = DropLabel(text, self)
+        self.box.addWidget(self.labels[text])
+
+    def addQLineEdit(self, text=None):
+        text += self.__getSuffix()
+        self.labels[text] = QLineEdit(self)
         self.box.addWidget(self.labels[text])
 
 
 
     def delLabel(self):
         lb = self.sender()
-        key = lb.lbText
-        self.delContentCfg(self.cfg, key.split("_")[0])
-        self.box.removeWidget(self.labels[key])
-        self.labels[key].deleteLater()
+        name = lb.lbText
+        print(name)
+        key = "_".join((name.split("_")[0], lb.type))
+        self.delContentCfg(self.cfg, key)
+        self.box.removeWidget(self.labels[name])
+        self.labels[name].deleteLater()
 
     def showTuneLabel(self):
         lb = self.sender()

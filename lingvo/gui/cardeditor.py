@@ -48,34 +48,39 @@ class Bottom(DragFrame):
         super().__init__(parent, object_name, cfg)
 
 
+class DropItem(QListWidgetItem):
+    def __init__(self, type, *__args):
+        super().__init__(*__args)
+        self.type = type
+
 
 
 class Left(QtWidgets.QListWidget):
-    def __init__(self):
+    def __init__(self, main, name, cfg):
         super().__init__()
+        self.cfg = cfg
+        self.name = name
+        self.main = main
         self.setFont(QFont("Arial", 12))
         self.setDragEnabled(True)
         self.setFixedWidth(150)
-        self.l1 = QListWidgetItem("Word")
-        self.l1.setTextAlignment(Qt.AlignLeft)
 
-        self.l2 = QListWidgetItem("Перевод")
-        self.l2.setTextAlignment(Qt.AlignLeft)
+        self.dropItems = self.cfg["card"]["dropItems"]
+        self._setItems(self.dropItems)
 
-        self.l3 = QListWidgetItem("Транскрипция")
-        self.l3.setTextAlignment(Qt.AlignLeft)
 
-        self.l4 = QListWidgetItem("Пример")
-        self.l4.setTextAlignment(Qt.AlignLeft)
+    def _setItems(self, drop_itrms):
+        for id, text in enumerate(drop_itrms):
+            text, type = text.split("_")
+            item = DropItem(type, text)
+            item.setTextAlignment(Qt.AlignLeft)
+            self.insertItem(id, item)
 
-        self.insertItem(0, self.l1)
-        self.insertItem(1, self.l2)
-        self.insertItem(2, self.l3)
-        self.insertItem(3, self.l4)
 
     def mouseMoveEvent(self, e):
         mimeData = QMimeData()
-        mimeData.setText(self.currentItem().text())
+        print(self.currentItem().type, "77777777")
+        mimeData.setText("_".join((self.currentItem().text(), self.currentItem().type)))
         drag = QDrag(self)
         drag.setMimeData(mimeData)
         dropAction = drag.exec_(Qt.MoveAction)
@@ -120,7 +125,7 @@ class CardEditView(QtWidgets.QFrame):
         self.box = QtWidgets.QHBoxLayout(self)
         self.box.setSpacing(1)
         self.box.setContentsMargins(1, 1, 1, 1)
-        self.left = Left()
+        self.left = Left(self.main, "left", self.config)
         self.box.addWidget(self.left)
         self.box.addStretch(1)
         self.lbSide = LbSide(True, self)

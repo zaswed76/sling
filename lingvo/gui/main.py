@@ -115,6 +115,9 @@ class Main(QMainWindow):
         styleSheet = fileInput(str(paths.CSS / sheetName))
         QApplication.instance().setStyleSheet(styleSheet)
 
+    def closeEvent(self, *args, **kwargs):
+        print("555")
+        self.cfg.save()
 
 
 if __name__ == '__main__':

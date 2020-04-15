@@ -1,18 +1,20 @@
 card:
     content:
         back:
-            bottom:
-            - "\u041F\u0435\u0440\u0435\u0432\u043E\u0434"
+            bottom: []
+            center: []
+            top: []
+        front:
+            bottom: []
             center: []
             top:
-            - Word
-        front:
-            bottom:
-            - "\u041F\u0440\u0438\u043C\u0435\u0440"
-            center:
-            - "\u041F\u0440\u0438\u043C\u0435\u0440"
-            top:
-            - "\u041F\u0440\u0438\u043C\u0435\u0440"
+            - input_QLineEdit
+    dropItems:
+    - Word_QLabel
+    - "\u041F\u0435\u0440\u0435\u0432\u043E\u0434_QLabel"
+    - "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u044F_QLabel"
+    - "\u041F\u0440\u0438\u043C\u0435\u0440_QLabel"
+    - input_QLineEdit
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx
