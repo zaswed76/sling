@@ -42,10 +42,10 @@ class TextFrame(QFrame):
         super().__init__(*args, **kwargs)
 
 class ChooseDictStack(QFrame):
-    def __init__(self, main, *args, **kwargs):
+    def __init__(self, main, name=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.setFixedSize(700, 700)
         self.main = main
+        self.setObjectName(name)
         self.box = BoxLayout(QBoxLayout.LeftToRight, self)
         self.chooseDictFrame = ChooseDictView(self.main)
         self.controlFrame = ControlFrame(self.main)
@@ -56,7 +56,6 @@ class ChooseDictStack(QFrame):
 
         top_right = self.rect().topRight()
         n = top_right - QPoint(41, -2)
-        print(n)
         self.closeChooseDictBtn = QPushButton("ok", self)
         self.closeChooseDictBtn.setObjectName("closeChooseDict")
         self.closeChooseDictBtn.clicked.connect(self.main.connect)

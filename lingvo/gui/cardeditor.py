@@ -105,13 +105,13 @@ class View(QtWidgets.QFrame):
 
 
 class CardEditView(QtWidgets.QFrame):
-    def __init__(self, main, config=None):
+    def __init__(self, main, name=None, config=None):
         """
         todo examples style
         :param main:
         """
         super().__init__()
-
+        self.setObjectName(name)
         self.config = config if config is not None else {}
 
         self.setFixedSize(700, 700)

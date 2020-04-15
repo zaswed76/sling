@@ -38,7 +38,7 @@ class ControlLabelBtn(QPushButton):
         self.lbText = text
         self.setFixedSize(22, 22)
         self.setFont(QFont("arial", 12))
-        # self.setText("x")
+
 
 
 class DropLabelControl(QFrame):
@@ -93,8 +93,8 @@ class DropLabel(QLabel):
             "Транскрипция": Style(text="[транскрипция]",font_name="Helvetica", font_size=30, text_color="#3F3F3F"),
             "Перевод": Style(text="Перевод",font_name="Helvetica", font_size=56, text_color="#262626"),
         }
-        lbText, self.suffix = self.text().split("_")
-        self._tuneText(lbText)
+        self.lbText, self.suffix = self.text().split("_")
+        self._tuneText(self.lbText)
 
     def setStyleContent(self, style):
         self.setText(style.text)
@@ -142,11 +142,24 @@ class DragFrame(QFrame):
             if self.box.count() < 4:
                 self.addLabel(text)
 
+    def addContentCfg(self, cfg, text):
+        side = self.parent.objectName()
+        layout = self.objectName()
+        cfg["card"]["content"][side][layout].append(text)
+
+    def delContentCfg(self, cfg, text):
+        side = self.parent.objectName()
+        layout = self.objectName()
+        print(cfg["card"]["content"][side][layout], text, sep="--")
+
+        cfg["card"]["content"][side][layout].remove(text)
+
     def dropEvent(self, e):
         mime = e.mimeData()
         text = mime.text()
         if self.box.count() < 4:
             self.addLabel(text)
+            self.addContentCfg(self.cfg, text)
         e.accept()
 
     def __getSuffix(self):
@@ -160,9 +173,12 @@ class DragFrame(QFrame):
         self.labels[text] = DropLabel(text, self)
         self.box.addWidget(self.labels[text])
 
+
+
     def delLabel(self):
         lb = self.sender()
         key = lb.lbText
+        self.delContentCfg(self.cfg, key.split("_")[0])
         self.box.removeWidget(self.labels[key])
         self.labels[key].deleteLater()
 

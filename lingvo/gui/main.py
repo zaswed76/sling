@@ -48,32 +48,30 @@ class Main(QMainWindow):
         super().__init__()
         self.cfg = config.Config(paths.CONFIG)
         self.coreCfg = config.Config(paths.CORECONFIG)
-        print(self.coreCfg.data)
-
         self._set_style_sheet("base")
         self.dictSeq = DictSeq(paths.DATA)
-
         self.centerFrame = CenterFrame(self)
         self.setCentralWidget(self.centerFrame)
         self.__setToolBar()
         self.stackWidgets = {}
         self.controls = {}
+        self._currentStackWidget = self.cfg["ui"]["currentStackWidget"]
 
-        self.chooseDictStack = ChooseDictStack(self)
+        self.chooseDictStack = ChooseDictStack(self, name="chooseDictStack")
         self.stackWidgets["chooseDict"] = self.chooseDictStack
-        self.chooseDictStack.setObjectName("ChooseDictStack")
-        self.controls["ChooseDictStack"] = ChooseDictStackController(self, self.chooseDictStack)
+        self.controls["chooseDictStack"] = ChooseDictStackController(self, self.chooseDictStack)
 
-        self.viewStack = ViewStack(self)
+        self.viewStack = ViewStack(self, "viewStack")
         self.stackWidgets["view"] = self.viewStack
 
-        self.cardEditView = CardEditView(self, config = self.cfg)
+        self.cardEditView = CardEditView(self, config = self.cfg, name="cardEditView")
 
         self.stackWidgets["cardEditView"] = self.cardEditView
 
         self.centerFrame.setStackWidgets(self.stackWidgets)
         self.centerFrame.initStack()
-        self.centerFrame.showStack("view")
+        self.centerFrame.showStack(self._currentStackWidget)
+        self.centerFrame.stack.currentChanged.connect(self.changeStackWidget)
 
 
 
@@ -90,6 +88,12 @@ class Main(QMainWindow):
         self.toolBar = ToolBar(self)
         self.addToolBar(Qt.TopToolBarArea, self.toolBar)
         self.toolBar.actionTriggered.connect(self.toolActions)
+
+    def changeStackWidget(self, i):
+        if self._currentStackWidget == "cardEditView":
+            self.cfg.save()
+        self._currentStackWidget = self.centerFrame.stack.widget(i).objectName()
+
 
     def toolActions(self, act):
         getattr(self, "{}Action".format(act.text()))()

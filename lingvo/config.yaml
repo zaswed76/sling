@@ -1,18 +1,23 @@
+card:
+    content:
+        back:
+            bottom:
+            - "\u041F\u0435\u0440\u0435\u0432\u043E\u0434"
+            center: []
+            top:
+            - Word
+        front:
+            bottom:
+            - "\u041F\u0440\u0438\u043C\u0435\u0440"
+            center:
+            - "\u041F\u0440\u0438\u043C\u0435\u0440"
+            top:
+            - "\u041F\u0440\u0438\u043C\u0435\u0440"
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx
 ui:
+    currentStackWidget: view
     startSize:
     - 600
     - 600
-card:
-    content:
-        front:
-            top: []
-            center: [Пример]
-            bottom: []
-        back:
-            top: [Word]
-            center: [Транскрипция]
-            bottom: [Пример, Пример]
-

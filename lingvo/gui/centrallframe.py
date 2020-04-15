@@ -20,9 +20,6 @@ class CenterFrame(QFrame):
         self.stack = QStackedWidget()
         self.hbox.addWidget(self.stack, alignment=Qt.AlignCenter)
 
-
-
-
     def setStackWidgets(self, stackWidgets):
         self.stackWidgets.update(stackWidgets)
 
