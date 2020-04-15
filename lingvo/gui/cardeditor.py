@@ -70,6 +70,7 @@ class Left(QtWidgets.QListWidget):
 
 
     def _setItems(self, drop_itrms):
+
         for id, text in enumerate(drop_itrms):
             text, type = text.split("_")
             item = DropItem(type, text)
@@ -79,8 +80,8 @@ class Left(QtWidgets.QListWidget):
 
     def mouseMoveEvent(self, e):
         mimeData = QMimeData()
-        print(self.currentItem().type, "77777777")
-        mimeData.setText("_".join((self.currentItem().text(), self.currentItem().type)))
+        mimeText = "_".join((self.currentItem().text(), self.currentItem().type))
+        mimeData.setText(mimeText)
         drag = QDrag(self)
         drag.setMimeData(mimeData)
         dropAction = drag.exec_(Qt.MoveAction)

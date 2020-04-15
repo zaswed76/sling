@@ -6,15 +6,15 @@ card:
             top: []
         front:
             bottom: []
-            center: []
-            top:
-            - input_QLineEdit
+            center:
+            - input_InputEdit
+            top: []
     dropItems:
-    - Word_QLabel
-    - "\u041F\u0435\u0440\u0435\u0432\u043E\u0434_QLabel"
-    - "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u044F_QLabel"
-    - "\u041F\u0440\u0438\u043C\u0435\u0440_QLabel"
-    - input_QLineEdit
+    - Word_DropLabel
+    - "\u041F\u0435\u0440\u0435\u0432\u043E\u0434_DropLabel"
+    - "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u044F_DropLabel"
+    - "\u041F\u0440\u0438\u043C\u0435\u0440_DropLabel"
+    - input_InputEdit
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx

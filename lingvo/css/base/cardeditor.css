@@ -56,3 +56,10 @@ Bottom {
 CardEditView {
     background-color: #ffffff;
 }
+
+InputEdit {
+    font-size: 18pt;
+    font-family: Helvetica;
+    background-color: #cccccc;
+    color: #152e2e;
+}

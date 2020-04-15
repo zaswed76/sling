@@ -79,16 +79,21 @@ class Style:
     def font(self):
         return QFont(self.fontName, self.fontSize, italic=self.italic)
 
+class InputEdit(QTextEdit):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+        # self.setFixedHeight(50)
+
+
 
 class DropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
-        self.type = "QLabel"
         self.setAlignment(Qt.AlignCenter)
         self.installEventFilter(self)
         self.setStyleSheet("QLabel { color: #2D2D2D }")
 
-        self.dropLabelControl = DropLabelControl(self, type=self.type)
+        self.dropLabelControl = DropLabelControl(self, type=self.__class__.__name__)
 
         self.styleTypes = {
             "Пример": Style(text="this is an example in english", font_name="Helvetica", font_size=16,
@@ -124,7 +129,7 @@ class DragFrame(QFrame):
 
     def __init__(self, parent, object_name, cfg):
         super().__init__()
-        self.WidgetTypes = {"QLabel": self.addLabel, "QLineEdit": self.addQLineEdit}
+        self.WidgetTypes = {"DropLabel": self.addLabel, "InputEdit": self.addQLineEdit}
         self.cfg = cfg
         self.parent = parent
         self.setObjectName(object_name)
@@ -164,6 +169,7 @@ class DragFrame(QFrame):
     def dropEvent(self, e):
         mime = e.mimeData()
         text, type = mime.text().split("_")
+        print(text, type)
         if self.box.count() < 4:
             self.addQWidget(type, text)
             self.addContentCfg(self.cfg, text, type)
@@ -186,8 +192,8 @@ class DragFrame(QFrame):
 
     def addQLineEdit(self, text=None):
         text += self.__getSuffix()
-        self.labels[text] = QLineEdit(self)
-        self.box.addWidget(self.labels[text])
+        self.labels[text] = InputEdit(self)
+        self.box.addWidget(self.labels[text], Qt.AlignCenter)
 
 
 
