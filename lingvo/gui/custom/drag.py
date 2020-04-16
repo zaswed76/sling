@@ -36,7 +36,7 @@ class ControlLabelBtn(QPushButton):
         self.type = type
         self.setParent(parent)
         self.setIcon(QIcon(icon))
-        self.lbText = text
+        self.itemName = text
         self.setFixedSize(22, 22)
         self.setFont(QFont("arial", 12))
 
@@ -50,12 +50,11 @@ class DropLabelControl(QFrame):
         self.box = QHBoxLayout(self)
         self.box.setSpacing(4)
         self.box.setContentsMargins(0, 0, 0, 0)
-
-        self.delBtn = ControlLabelBtn("", self.parent().text(), self, type=self.type)
+        self.delBtn = ControlLabelBtn("", self.parent().key, self, type=self.type)
         self.delBtn.setObjectName("delBtn")
         self.delBtn.clicked.connect(self.parent().parent().delLabel)
 
-        self.tuneBtn = ControlLabelBtn("", self.parent().text(), self)
+        self.tuneBtn = ControlLabelBtn("", self.parent().key, self)
         self.tuneBtn.setObjectName("tuneBtn")
         self.tuneBtn.clicked.connect(self.parent().parent().showTuneLabel)
         self.box.addWidget(self.delBtn)
@@ -80,20 +79,41 @@ class Style:
         return QFont(self.fontName, self.fontSize, italic=self.italic)
 
 class InputEdit(QTextEdit):
-    def __init__(self, *__args):
+
+    def __init__(self, text, parent, *__args):
         super().__init__(*__args)
-        # self.setFixedHeight(50)
+        self.key = text
+        self.setPlainText("")
+        self.setParent(parent)
+        self.itemName, self.suffix = text.split("_")
+        self.installEventFilter(self)
+        self.dropLabelControl = DropLabelControl(self, type=self.__class__.__name__)
 
+    @property
+    def type(self):
+        return self.__class__.__name__
 
+    def eventFilter(self, obj, event):
+
+        if event.type() == 11:  # Если мышь покинула область фиджета
+            self.dropLabelControl.hide()  # выполнить  callback1()
+        elif event.type() == 10:
+            print("999999999999999")# Если мышь над виджетом
+            self.dropLabelControl.show()  # выполнить  callback2()
+        return False
 
 class DropLabel(QLabel):
-    def __init__(self, *__args):
+    def __init__(self, text, parent, *__args):
         super().__init__(*__args)
+        self.setText(text)
+        self.key = text
+        self.setParent(parent)
+        self.itemName, self.suffix = self.text().split("_")
         self.setAlignment(Qt.AlignCenter)
         self.installEventFilter(self)
         self.setStyleSheet("QLabel { color: #2D2D2D }")
 
-        self.dropLabelControl = DropLabelControl(self, type=self.__class__.__name__)
+
 
         self.styleTypes = {
             "Пример": Style(text="this is an example in english", font_name="Helvetica", font_size=16,
@@ -103,8 +123,13 @@ class DropLabel(QLabel):
             "Перевод": Style(text="Перевод",font_name="Helvetica", font_size=56, text_color="#262626"),
             "input": Style(text="Input",font_name="Helvetica", font_size=56, text_color="#262626")
         }
-        self.lbText, self.suffix = self.text().split("_")
-        self._tuneText(self.lbText)
+
+        self.dropLabelControl = DropLabelControl(self, type=self.__class__.__name__)
+        self._tuneText(self.itemName)
+
+    @property
+    def type(self):
+        return self.__class__.__name__
 
     def setStyleContent(self, style):
         self.setText(style.text)
@@ -118,9 +143,11 @@ class DropLabel(QLabel):
             self.setStyleContent(self.styleTypes[lbText])
 
     def eventFilter(self, obj, event):
+
         if event.type() == 11:  # Если мышь покинула область фиджета
             self.dropLabelControl.hide()  # выполнить  callback1()
-        elif event.type() == 10:  # Если мышь над виджетом
+        elif event.type() == 10:
+            print("999999999999999")# Если мышь над виджетом
             self.dropLabelControl.show()  # выполнить  callback2()
         return False
 
@@ -169,7 +196,6 @@ class DragFrame(QFrame):
     def dropEvent(self, e):
         mime = e.mimeData()
         text, type = mime.text().split("_")
-        print(text, type)
         if self.box.count() < 4:
             self.addQWidget(type, text)
             self.addContentCfg(self.cfg, text, type)
@@ -181,7 +207,7 @@ class DragFrame(QFrame):
         random.shuffle(nl)
         return "_" + "".join(nl)
 
-    def addQWidget(self, type, text=None):
+    def addQWidget(self, type, text):
         self.WidgetTypes[type](text)
 
 
@@ -190,25 +216,25 @@ class DragFrame(QFrame):
         self.labels[text] = DropLabel(text, self)
         self.box.addWidget(self.labels[text])
 
-    def addQLineEdit(self, text=None):
+    def addQLineEdit(self, text):
         text += self.__getSuffix()
-        self.labels[text] = InputEdit(self)
+        self.labels[text] = InputEdit(text, self)
         self.box.addWidget(self.labels[text], Qt.AlignCenter)
 
 
 
     def delLabel(self):
-        lb = self.sender()
-        name = lb.lbText
-        print(name)
-        key = "_".join((name.split("_")[0], lb.type))
+        item = self.sender()
+        name = item.itemName
+        print(name, "iiiiiiiiii")
+        key = "_".join((name.split("_")[0], item.type))
         self.delContentCfg(self.cfg, key)
         self.box.removeWidget(self.labels[name])
         self.labels[name].deleteLater()
 
     def showTuneLabel(self):
         lb = self.sender()
-        key = lb.lbText
+        key = lb.itemName
         self.tuneLabel = CustomizeLabelDialog(self)
 
 

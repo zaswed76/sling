@@ -6,8 +6,7 @@ card:
             top: []
         front:
             bottom: []
-            center:
-            - input_InputEdit
+            center: []
             top: []
     dropItems:
     - Word_DropLabel
