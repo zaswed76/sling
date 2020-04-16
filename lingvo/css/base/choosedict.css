@@ -1,0 +1,10 @@
+
+
+QPushButton#closeChooseDict {
+    border-image: url("./resources/icons/base/icon_close.png");
+}
+TextFrame {
+     background-color: #e9e9eb;
+     font-size: 14pt;
+     font-family: Helvetica;
+}

@@ -15,17 +15,16 @@ class DictListModel(QStandardItemModel):
     def __init__(self):
         super().__init__()
 
+    def updateDictList(self, dictList):
+        for i in dictList:
+            self.appendRow(DictItem(i))
+
 class ChooseDictView(QListView):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.main = main
-        self.dictListModel = DictListModel()
-        self.setModel(self.dictListModel)
-        self.updateDictList()
 
-    def updateDictList(self):
-        for i in self.main.dictList:
-            self.dictListModel.appendRow(DictItem(i))
+
 
 
 
@@ -37,9 +36,11 @@ class ControlFrame(QFrame):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-class TextFrame(QFrame):
+class TextFrame(QTextEdit):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.setTextColor(QColor("grey"))
+        self.setWordWrapMode(QTextOption.NoWrap)
 
 class ChooseDictStack(QFrame):
     def __init__(self, main, name=None, *args, **kwargs):
@@ -47,7 +48,15 @@ class ChooseDictStack(QFrame):
         self.main = main
         self.setObjectName(name)
         self.box = BoxLayout(QBoxLayout.LeftToRight, self)
+        self.box.setContentsMargins(0, 0, 0, 0)
+        self.box.setSpacing(0)
+
         self.chooseDictFrame = ChooseDictView(self.main)
+        self.dictListModel = DictListModel()
+        self.chooseDictFrame.setModel(self.dictListModel)
+        self.dictListModel.updateDictList(self.main.dictSeq)
+        self.chooseDictFrame.clicked[QtCore.QModelIndex].connect(self.on_clicked)
+
         self.controlFrame = ControlFrame(self.main)
         self.textFrame = TextFrame(self.main)
         self.box.addWidget(self.chooseDictFrame, stretch=10)
@@ -56,13 +65,23 @@ class ChooseDictStack(QFrame):
 
         top_right = self.rect().topRight()
         n = top_right - QPoint(41, -2)
-        self.closeChooseDictBtn = QPushButton("ok", self)
+        self.closeChooseDictBtn = QPushButton(self)
         self.closeChooseDictBtn.setObjectName("closeChooseDict")
         self.closeChooseDictBtn.clicked.connect(self.main.connect)
-        self.closeChooseDictBtn.setFixedSize(40, 40)
-        self.closeChooseDictBtn.move(n)
+        self.closeChooseDictBtn.setFixedSize(32, 32)
+        self.closeChooseDictBtn.move(self.textFrame.rect().topRight() + QPoint(26, -2))
 
     def parentMethod(self):
         print("parentMethod")
+
+
+    def on_clicked(self, index):
+        tlist = []
+        item = self.dictListModel.itemFromIndex(index)
+        for item in self.main.dictSeq[item.text()].textItems:
+            tlist.append("   ".join(item) + "\n")
+        text = "".join(tlist)
+        self.textFrame.setPlainText(text)
+
 
 

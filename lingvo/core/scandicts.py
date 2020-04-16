@@ -20,7 +20,9 @@ class Reader:
     def readTxt(self, path):
         with open(path, "r") as f:
             for i in f.readlines():
-                self.data.append(i.strip().split())
+                it = i.strip().split()
+                if it:
+                    self.data.append(it)
         return self.data
 
     def readXlsx(self, path):

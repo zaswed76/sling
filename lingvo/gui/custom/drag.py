@@ -98,7 +98,7 @@ class InputEdit(QTextEdit):
         if event.type() == 11:  # Если мышь покинула область фиджета
             self.dropLabelControl.hide()  # выполнить  callback1()
         elif event.type() == 10:
-            print("999999999999999")# Если мышь над виджетом
+            # Если мышь над виджетом
             self.dropLabelControl.show()  # выполнить  callback2()
         return False
 

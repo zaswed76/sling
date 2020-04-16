@@ -1,30 +1,48 @@
 import paths
 from core import scandicts
+from collections.abc import MutableMapping
 
 datadir = paths.DATA
 
-class Word:
-    def __init__(self, base,
-                 translation,
-                 cyrillic_transcription,
-                 transcription="", image=None, sound=None, index=0):
-        self.index = index
-        self.sound = sound
-        self.image = image
-        self.transcription = transcription
-        self.cyrillicTranscription = cyrillic_transcription
-        self.translation = translation
-        self.base = base
+class WordItem:
+    def __init__(self, *args, **kwargs):
+        self.textItems = args
+        self.transcription = "none"
+        self.cyrillicTranscription = "none"
+        self.translation = "none"
+        self.base = "none"
         self.examples = []
+        self.index = kwargs.get("index", 0)
+        self.sound = kwargs.get("sound")
+        self.image = kwargs.get("image")
+        ln = len(args)
+        if ln == 2:
+            self.base, self.translation = args
+        elif ln == 3:
+            self.base, self.cyrillicTranscription, self.translation = args
+        elif ln == 4:
+            self.base, self.translation, *ex = args
+            self.examples.extend(ex)
+        elif ln > 4:
+            self.base, self.cyrillicTranscription, self.translation, *ex = args
+            self.examples.extend(ex)
+            if self.examples[-1].startswith("["):
+                self.transcription = self.examples.pop()
 
     def __repr__(self):
-        return "W:{}\nI:{}\nS:{}\n".format(self.base, self.image, self.sound)
+        return "{} {} cir:{} tr:{} {}".format(self.base,
+                                   self.translation,
+                                   self.cyrillicTranscription,
+                                   self.transcription,
+                                   self.examples)
 
 
 
-class Dict:
+
+
+class Dict(MutableMapping):
     def __init__(self, name, dictpath,  dirname, images, sounds):
-        self.__words = []
+        self.__data = {}
         self.dictpath = dictpath
         self.sounds = sounds
         self.images = images
@@ -32,31 +50,47 @@ class Dict:
         self.name = name
         self.updateWordObjects()
 
-
+    @property
+    def textBase(self):
+        return [x.base for x in self.__data.values()]
 
     @property
-    def words(self):
-        return self.__words
+    def textItems(self):
+        return [x.textItems for x in self.__data.values()]
 
     def updateWordObjects(self):
         for id, line in enumerate(scandicts.Reader().load(self.dictpath)):
-            transcription = line[3] if len(line) > 3 else ""
-            self.__words.append(Word(*line[0:3],
-                                     transcription,
-                                     image=self.images.get(line[0]),
-                                     sound=self.sounds.get(line[0]),
-                                     index=id))
+            self.__data[line[0]] = WordItem(*line,
+                                            image=self.images.get(line[0]),
+                                            sound=self.sounds.get(line[0]),
+                                            index=id
+                                            )
 
+    def __setitem__(self, key, value):
+        self.__data[key] = value
 
+    def __getitem__(self, key):
+        return self.__data[key]
 
+    def __len__(self):
+        return len(self.__data)
 
+    def __delitem__(self, key):
+        del self.__data[key]
+
+    def __iter__(self):
+        return iter(self.__data)
 
     def __repr__(self):
-        return "D:{}".format(self.__words)
+        return "D:{}".format(self.__data)
 
 
-class DictSeq:
+class DictSeq(MutableMapping):
     def __init__(self, folder):
+        """
+        словарь словарей
+        :param folder:
+        """
         self.__data = {}
         self.scan  = scandicts.scan(folder)
         self.init()
@@ -98,10 +132,13 @@ class DictSeq:
 
 
 if __name__ == '__main__':
+    import pprint
     ds = DictSeq(paths.DATA)
-    for d in ds.items():
-        print(d)
-        print("----")
+    for name, slovar in ds.items():
+        print("-----------")
+        print(name)
+        for wordItem in slovar.values():
+            print(wordItem.base, wordItem.image, wordItem.sound, sep=":")
 
 
 
