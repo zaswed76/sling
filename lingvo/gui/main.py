@@ -24,7 +24,6 @@ def fileInput(folder):
     return "".join(ls)
 
 
-
 class ToolBar(QToolBar):
     def __init__(self, main, *__args):
         super().__init__(*__args)
@@ -32,6 +31,7 @@ class ToolBar(QToolBar):
         self.setFixedHeight(42)
         self.addAction(QAction(QIcon(str(paths.ICONS / "dict.png")), "chooseDict", self))
         self.addAction(QAction(QIcon(str(paths.ICONS / "edit.png")), "cardEditView", self))
+
 
 class ChooseDictStackController:
     def __init__(self, main, parent):
@@ -47,8 +47,8 @@ class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.cfg = config.Config(paths.CONFIG)
-        self.coreCfg = config.Config(paths.CORECONFIG)
         self._set_style_sheet("base")
+
         self.dictSeq = DictSeq(paths.DATA)
         self.centerFrame = CenterFrame(self)
         self.setCentralWidget(self.centerFrame)
@@ -64,7 +64,7 @@ class Main(QMainWindow):
         self.viewStack = ViewStack(self, "viewStack")
         self.stackWidgets["view"] = self.viewStack
 
-        self.cardEditView = CardEditView(self, config = self.cfg, name="cardEditView")
+        self.cardEditView = CardEditView(self, config=self.cfg, name="cardEditView")
 
         self.stackWidgets["cardEditView"] = self.cardEditView
 
@@ -72,11 +72,6 @@ class Main(QMainWindow):
         self.centerFrame.initStack()
         self.centerFrame.showStack(self._currentStackWidget)
         self.centerFrame.stack.currentChanged.connect(self.changeStackWidget)
-
-
-
-
-
 
     def connect(self):
         controll = self.sender()
@@ -93,7 +88,6 @@ class Main(QMainWindow):
         if self._currentStackWidget == "cardEditView":
             self.cfg.save()
         self._currentStackWidget = self.centerFrame.stack.widget(i).objectName()
-
 
     def toolActions(self, act):
         getattr(self, "{}Action".format(act.text()))()

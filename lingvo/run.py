@@ -7,7 +7,6 @@ def main():
     app = QApplication(sys.argv)
     main = _main.Main()
     main.show()
-    # print(main.cardEditView.sides["front"].geometry())
     sys.exit(app.exec_())
 
 main()
