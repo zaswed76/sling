@@ -29,13 +29,15 @@ class WordItem:
             if self.examples[-1].startswith("["):
                 self.transcription = self.examples.pop()
 
-    def __repr__(self):
-        return "{} {} cir:{} tr:{} {}".format(self.base,
-                                   self.translation,
-                                   self.cyrillicTranscription,
-                                   self.transcription,
-                                   self.examples)
+    # def __repr__(self):
+    #     return "{} {} cir:{} tr:{} {}".format(self.base,
+    #                                self.translation,
+    #                                self.cyrillicTranscription,
+    #                                self.transcription,
+    #                                self.examples)
 
+    def __repr__(self):
+        return "{}".format(self.base)
 
 
 
