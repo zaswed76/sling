@@ -11,6 +11,7 @@ from gui.cardeditor import CardEditView
 
 import paths
 from core.dictsequence import DictSeq
+from core.cardsmodel import CardsModel
 from gui.centrallframe import CenterFrame
 import config
 
@@ -50,6 +51,7 @@ class Main(QMainWindow):
         self._set_style_sheet("base")
 
         self.dictSeq = DictSeq(paths.DATA)
+
         self.centerFrame = CenterFrame(self)
         self.setCentralWidget(self.centerFrame)
         self.__setToolBar()
@@ -72,6 +74,10 @@ class Main(QMainWindow):
         self.centerFrame.initStack()
         self.centerFrame.showStack(self._currentStackWidget)
         self.centerFrame.stack.currentChanged.connect(self.changeStackWidget)
+
+        selectedDicts = self.chooseDictStack.selectedDicts()
+        print(selectedDicts)
+        self.cardModel = CardsModel(self.dictSeq)
 
     def connect(self):
         controll = self.sender()

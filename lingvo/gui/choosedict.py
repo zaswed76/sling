@@ -27,11 +27,6 @@ class ChooseDictView(QListView):
 
 
 
-
-
-
-
-
 class ControlFrame(QFrame):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -54,6 +49,7 @@ class ChooseDictStack(QFrame):
         self.chooseDictFrame = ChooseDictView(self.main)
         self.dictListModel = DictListModel()
         self.chooseDictFrame.setModel(self.dictListModel)
+
         self.dictListModel.updateDictList(self.main.dictSeq)
         self.chooseDictFrame.clicked[QtCore.QModelIndex].connect(self.on_clicked)
 
@@ -82,6 +78,16 @@ class ChooseDictStack(QFrame):
             tlist.append("   ".join(item) + "\n")
         text = "".join(tlist)
         self.textFrame.setPlainText(text)
+
+
+    def selectedDicts(self) -> list([str, str]):
+        selected = []
+        for index in range(self.dictListModel.rowCount()):
+            item = self.dictListModel.item(index)
+            if item.checkState():
+                selected.append(item.text())
+        return selected
+
 
 
 

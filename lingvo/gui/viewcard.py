@@ -68,3 +68,12 @@ class ViewCardStack(QFrame):
         self.cardsStack.addWidget(self.sides["back"])
 
 
+class CardItem:
+    def __init__(self):
+        pass
+
+
+
+
+
+
