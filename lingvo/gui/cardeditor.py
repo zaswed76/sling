@@ -33,14 +33,9 @@ class Top(DragFrame):
         super().__init__(parent, object_name, cfg)
 
 
-
-
-
 class Center(DragFrame):
     def __init__(self, parent, object_name, cfg):
         super().__init__(parent, object_name, cfg)
-
-
 
 
 class Bottom(DragFrame):
@@ -87,24 +82,25 @@ class Left(QtWidgets.QListWidget):
         dropAction = drag.exec_(Qt.MoveAction)
 
 
-class View(QtWidgets.QFrame):
+class CardModelView(QtWidgets.QFrame):
     def __init__(self, main, cfg, object_name):
         super().__init__()
         self.setObjectName(object_name)
 
         self.cfg = cfg
         self.main = main
-        self.setFixedSize(510, 510)
+
         self.Mbox = QtWidgets.QHBoxLayout(self)
         self.box = QtWidgets.QVBoxLayout()
         self.Mbox.addLayout(self.box)
         self.box.setSpacing(0)
         self.box.setContentsMargins(1, 1, 1, 1)
+        self._initSections()
 
+    def _initSections(self):
         self.t = Top(self, "top", self.cfg)
         self.c = Center(self, "center", self.cfg)
         self.b = Bottom(self, "bottom", self.cfg)
-
         self.box.addWidget(self.t, stretch=5)
         self.box.addWidget(self.c, stretch=5)
         self.box.addWidget(self.b, stretch=5)
@@ -140,10 +136,12 @@ class CardEditView(QtWidgets.QFrame):
         self.vcbox.addStretch(10)
 
         self.sides = dict(
-            front=View(self.main, self.config, "front"),
-            back=View(self.main, self.config, "back")
+            front=CardModelView(self.main, self.config, "front"),
+            back=CardModelView(self.main, self.config, "back")
         )
+        self.sides["front"].setFixedSize(510, 510)
         self.sides["back"].setStyleSheet('background: #EFEFEF;')
+        self.sides["back"].setFixedSize(510, 510)
         self.cardsStack.addWidget(self.sides["front"])
 
         self.cardsStack.addWidget(self.sides["back"])

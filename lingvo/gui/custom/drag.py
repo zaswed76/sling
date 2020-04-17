@@ -165,7 +165,6 @@ class DragFrame(QFrame):
         self.box = QVBoxLayout(self)
         self.setAcceptDrops(True)
         self.labels = {}
-        self.setAcceptDrops(True)
         shadow = QGraphicsDropShadowEffect(blurRadius=12, xOffset=3, yOffset=3)
         self.setGraphicsEffect(shadow)
         self.setContent(self.cfg)

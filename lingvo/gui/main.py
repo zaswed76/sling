@@ -6,7 +6,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui.choosedict import ChooseDictStack
-from gui.view import ViewStack
+from gui.viewcard import ViewCardStack
 from gui.cardeditor import CardEditView
 
 import paths
@@ -61,8 +61,8 @@ class Main(QMainWindow):
         self.stackWidgets["chooseDict"] = self.chooseDictStack
         self.controls["chooseDictStack"] = ChooseDictStackController(self, self.chooseDictStack)
 
-        self.viewStack = ViewStack(self, "viewStack")
-        self.stackWidgets["view"] = self.viewStack
+        self.viewCardStack = ViewCardStack(self, "viewStack", "viewCardStack")
+        self.stackWidgets["view"] = self.viewCardStack
 
         self.cardEditView = CardEditView(self, config=self.cfg, name="cardEditView")
 
