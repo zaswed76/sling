@@ -16,6 +16,7 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
+    - slovar1
     - slovar2
 core:
     cycle: true

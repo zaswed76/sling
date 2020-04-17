@@ -75,9 +75,11 @@ class Main(QMainWindow):
         self.centerFrame.showStack(self._currentStackWidget)
         self.centerFrame.stack.currentChanged.connect(self.changeStackWidget)
 
-        self.chooseDictStack.checkedItemsToNames(self.cfg["choosedict"]["checkedDicts"])
+        self.chooseDictStack.setCheckedItemsToNames(self.cfg["choosedict"]["checkedDicts"])
 
-        self.cardModel = CardsModel(self.dictSeq)
+        self.cardModel = CardsModel(self.dictSeq, self.chooseDictStack)
+        self.cardModel.updateWorkData()
+        print(self.cardModel.workData)
 
     def connect(self):
         controll = self.sender()
@@ -94,6 +96,7 @@ class Main(QMainWindow):
         if self._currentStackWidget == "cardEditView":
             self.cfg.save()
         self._currentStackWidget = self.centerFrame.stack.widget(i).objectName()
+        self.cardModel.updateWorkData()
 
     def toolActions(self, act):
         getattr(self, "{}Action".format(act.text()))()

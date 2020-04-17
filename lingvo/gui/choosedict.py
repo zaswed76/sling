@@ -54,7 +54,7 @@ class ChooseDictStack(QFrame):
         self.chooseDictFrame.setModel(self.dictListModel)
 
         self.dictListModel.updateDictList(self.main.dictSeq)
-        self.chooseDictFrame.clicked[QtCore.QModelIndex].connect(self.on_clicked)
+        self.chooseDictFrame.clicked[QtCore.QModelIndex].connect(self.itemDictChange)
 
         self.controlFrame = ControlFrame(self.main)
         self.textFrame = TextFrame(self.main)
@@ -74,9 +74,11 @@ class ChooseDictStack(QFrame):
         print("parentMethod")
 
 
-    def on_clicked(self, index):
+    def itemDictChange(self, index):
+        self.cfg["choosedict"]["checkedDicts"] = self.checkedDicts()
         tlist = []
         item = self.dictListModel.itemFromIndex(index)
+
         for item in self.main.dictSeq[item.text()].textItems:
             tlist.append("   ".join(item) + "\n")
         text = "".join(tlist)
@@ -89,7 +91,7 @@ class ChooseDictStack(QFrame):
         return items
 
 
-    def checkedItemsToNames(self, args):
+    def setCheckedItemsToNames(self, args):
         for index in range(self.dictListModel.rowCount()):
             item = self.dictListModel.item(index)
             text = item.text()
