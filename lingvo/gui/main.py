@@ -59,7 +59,7 @@ class Main(QMainWindow):
         self.controls = {}
         self._currentStackWidget = self.cfg["ui"]["currentStackWidget"]
 
-        self.chooseDictStack = ChooseDictStack(self, name="chooseDictStack")
+        self.chooseDictStack = ChooseDictStack(self, name="chooseDictStack", config=self.cfg)
         self.stackWidgets["chooseDict"] = self.chooseDictStack
         self.controls["chooseDictStack"] = ChooseDictStackController(self, self.chooseDictStack)
 
@@ -75,8 +75,8 @@ class Main(QMainWindow):
         self.centerFrame.showStack(self._currentStackWidget)
         self.centerFrame.stack.currentChanged.connect(self.changeStackWidget)
 
-        selectedDicts = self.chooseDictStack.selectedDicts()
-        print(selectedDicts)
+        self.chooseDictStack.checkedItemsToNames(self.cfg["choosedict"]["checkedDicts"])
+
         self.cardModel = CardsModel(self.dictSeq)
 
     def connect(self):

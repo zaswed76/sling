@@ -38,8 +38,11 @@ class TextFrame(QTextEdit):
         self.setWordWrapMode(QTextOption.NoWrap)
 
 class ChooseDictStack(QFrame):
-    def __init__(self, main, name=None, *args, **kwargs):
+    def __init__(self, main, name=None, config=None, *args, **kwargs):
+
+
         super().__init__(*args, **kwargs)
+        self.cfg = config
         self.main = main
         self.setObjectName(name)
         self.box = BoxLayout(QBoxLayout.LeftToRight, self)
@@ -79,8 +82,21 @@ class ChooseDictStack(QFrame):
         text = "".join(tlist)
         self.textFrame.setPlainText(text)
 
+    def dictsItems(self) -> list([str, str]):
+        items = []
+        for index in range(self.dictListModel.rowCount()):
+            items.append(self.dictListModel.item(index).text())
+        return items
 
-    def selectedDicts(self) -> list([str, str]):
+
+    def checkedItemsToNames(self, args):
+        for index in range(self.dictListModel.rowCount()):
+            item = self.dictListModel.item(index)
+            text = item.text()
+            if text in args:
+                item.setCheckState(Qt.Checked)
+
+    def checkedDicts(self) -> list([str, str]):
         selected = []
         for index in range(self.dictListModel.rowCount()):
             item = self.dictListModel.item(index)
