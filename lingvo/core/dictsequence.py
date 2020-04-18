@@ -11,7 +11,8 @@ class WordItem:
         self.cyrillicTranscription = "none"
         self.translation = "none"
         self.base = "none"
-        self.examples = []
+        self.example = "none"
+        self.example2 = "none"
         self.index = kwargs.get("index", 0)
         self.sound = kwargs.get("sound")
         self.image = kwargs.get("image")
@@ -22,12 +23,12 @@ class WordItem:
             self.base, self.cyrillicTranscription, self.translation = args
         elif ln == 4:
             self.base, self.translation, *ex = args
-            self.examples.extend(ex)
-        elif ln > 4:
-            self.base, self.cyrillicTranscription, self.translation, *ex = args
-            self.examples.extend(ex)
-            if self.examples[-1].startswith("["):
-                self.transcription = self.examples.pop()
+            self.example, self.example2 = ex
+        elif ln == 5:
+            self.base, self.cyrillicTranscription, self.translation, self.example, self.example2 = args
+        elif ln == 6:
+            self.base, self.cyrillicTranscription, self.translation, self.example, self.example2, self.transcription = args
+
 
     # def __repr__(self):
     #     return "{} {} cir:{} tr:{} {}".format(self.base,

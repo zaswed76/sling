@@ -5,22 +5,21 @@ card:
             center: []
             top: []
         front:
-            bottom:
-            - cyrillicTranscription_DropLabel
+            bottom: []
             center:
-            - translation_DropLabel
-            - cyrillicTranscription_DropLabel
+            - example_DropLabel
             top:
             - Word_DropLabel
     dropItems:
     - Word_DropLabel
     - translation_DropLabel
     - cyrillicTranscription_DropLabel
-    - examples_DropLabel
+    - example_DropLabel
+    - example2_DropLabel
     - input_InputEdit
 choosedict:
     checkedDicts:
-    - slovar2
+    - slovar1
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx

@@ -16,6 +16,9 @@ class DropLabel(QLabel):
     def __repr__(self):
         return "DropLabel"
 
+    def setExamles(self, examles):
+        self.setText(examles)
+
 
 class Section(QFrame):
     def __init__(self, *args, **kwargs):
@@ -39,9 +42,15 @@ class Section(QFrame):
         return {"DropLabel": self.addLabel}
 
     def setContent(self, _contents):
-        # print(self.getWidgets(), _contents , sep=" -> ")
-        for w, ct in zip(self.getWidgets(), _contents):
-            w.setText(ct[0])
+        for n, (w, ct) in enumerate(zip(self.getWidgets(), _contents)):
+            __text = ct[0]
+            if isinstance(__text, str):
+                w.setText(__text)
+            elif isinstance(__text, list):
+                if __text:
+
+                    w.setExamles(__text[n])
+                    print(w, __text)
 
     def setWidget(self, widget_type):
 
@@ -103,7 +112,8 @@ class ViewCardStack(QFrame):
         self.contentTeg = dict(translation="translation",
                                Word="base",
                                cyrillicTranscription="cyrillicTranscription",
-                               examples="examples")
+                               example="example",
+                               example2="example2")
         self.setObjectName(object_name)
         self.config = cfg
         self.setObjectName(name)
@@ -128,9 +138,8 @@ class ViewCardStack(QFrame):
         lst = []
         for _ls in cont:
             tx, tp = _ls
-            # print(tx, "tx")
             lst.append([getattr(item_word, self.contentTeg[tx]), tp])
-        print(lst)
+
         return lst
 
     def setItemWord(self, item_word):
@@ -141,6 +150,7 @@ class ViewCardStack(QFrame):
         for section, content in front.items():
             if content:
                 sectionsWidget = self.sides["front"].sections[section]
+
                 contents = [x.split("_") for x in content]
 
                 sectionsWidget.setContent(self.unpack(contents, item_word))
