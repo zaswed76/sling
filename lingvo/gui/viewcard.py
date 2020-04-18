@@ -11,6 +11,10 @@ from gui.custom import customwidgets
 class DropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
+        self.setObjectName("viewCardStack")
+
+    def __repr__(self):
+        return "DropLabel"
 
 
 class Section(QFrame):
@@ -35,10 +39,12 @@ class Section(QFrame):
         return {"DropLabel": self.addLabel}
 
     def setContent(self, _contents):
+        # print(self.getWidgets(), _contents , sep=" -> ")
         for w, ct in zip(self.getWidgets(), _contents):
-            w.setText(ct)
+            w.setText(ct[0])
 
     def setWidget(self, widget_type):
+
         self.typeTegs[widget_type]()
 
     def addLabel(self):
@@ -94,8 +100,10 @@ class CardView(QFrame):
 class ViewCardStack(QFrame):
     def __init__(self, main, cfg, object_name, name=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.contentTeg = dict(Перевод="translation", Word="base", Транскрипция="cyrillicTranscription",
-                               Пример="examples")
+        self.contentTeg = dict(translation="translation",
+                               Word="base",
+                               cyrillicTranscription="cyrillicTranscription",
+                               examples="examples")
         self.setObjectName(object_name)
         self.config = cfg
         self.setObjectName(name)
@@ -116,6 +124,15 @@ class ViewCardStack(QFrame):
         self.cardsStack.addWidget(self.sides["front"])
         self.cardsStack.addWidget(self.sides["back"])
 
+    def unpack(self, cont, item_word):
+        lst = []
+        for _ls in cont:
+            tx, tp = _ls
+            # print(tx, "tx")
+            lst.append([getattr(item_word, self.contentTeg[tx]), tp])
+        print(lst)
+        return lst
+
     def setItemWord(self, item_word):
         if item_word is None:
             return
@@ -125,9 +142,10 @@ class ViewCardStack(QFrame):
             if content:
                 sectionsWidget = self.sides["front"].sections[section]
                 contents = [x.split("_") for x in content]
-                for _content, widget_type in contents:
-                    _contents.append(getattr(item_word, self.contentTeg[_content]))
-                    sectionsWidget.setContent(_contents)
+
+                sectionsWidget.setContent(self.unpack(contents, item_word))
+
+
 
     def initCard(self):
         """

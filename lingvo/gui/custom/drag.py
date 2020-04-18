@@ -116,11 +116,11 @@ class DropLabel(QLabel):
 
 
         self.styleTypes = {
-            "Пример": Style(text="this is an example in english", font_name="Helvetica", font_size=16,
+            "examples": Style(text="this is an example in english", font_name="Helvetica", font_size=16,
                             text_color="#144676", italic=True),
             "Word": Style(text="Word", font_name="Helvetica", font_size=56, text_color="#262626"),
-            "Транскрипция": Style(text="[транскрипция]",font_name="Helvetica", font_size=30, text_color="#3F3F3F"),
-            "Перевод": Style(text="Перевод",font_name="Helvetica", font_size=56, text_color="#262626"),
+            "cyrillicTranscription": Style(text="[транскрипция]",font_name="Helvetica", font_size=30, text_color="#3F3F3F"),
+            "translation": Style(text="Перевод",font_name="Helvetica", font_size=56, text_color="#262626"),
             "input": Style(text="Input",font_name="Helvetica", font_size=56, text_color="#262626")
         }
 

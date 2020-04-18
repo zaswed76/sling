@@ -1,7 +1,6 @@
 
-a = [1, 2]
+lb = ['lb', 'lb']
+ct = [['Word', 'DropLabel'], ['cyrillicTranscription', 'DropLabel']]
 
-b = ['a', 'b']
-
-for x, y, in zip(a, b):
+for x, y, in zip(lb, ct):
     print(x, y)
