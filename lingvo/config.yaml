@@ -8,6 +8,7 @@ card:
             bottom: []
             center:
             - "\u041F\u0435\u0440\u0435\u0432\u043E\u0434_DropLabel"
+            - Word_DropLabel
             top: []
     dropItems:
     - Word_DropLabel
@@ -17,7 +18,7 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
-    - slovar2
+    - slovar1
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx

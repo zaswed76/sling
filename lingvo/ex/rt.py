@@ -1,8 +1,7 @@
 
-lst = ['a', 'b']
-d = dict(a=1, b=2, c=3)
+a = [1, 2]
 
-td = {k:v for k, v in d.items() if k in lst}
-print(td)
+b = ['a', 'b']
 
-
+for x, y, in zip(a, b):
+    print(x, y)

@@ -1,4 +1,5 @@
-
+import datetime
+import random
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -24,19 +25,32 @@ class Section(QFrame):
         shadow = QGraphicsDropShadowEffect(blurRadius=12, xOffset=3, yOffset=3)
         self.setGraphicsEffect(shadow)
 
+    def getWidgets(self):
+        w = []
+        for i in range(self.box.count()):
+            w.append(self.box.itemAt(i).widget())
+        return w
     @property
     def typeTegs(self):
         return {"DropLabel": self.addLabel}
 
-    def setContent(self, text_content):
-        self.labels["text_content"].setText(text_content)
+    def setContent(self, _contents):
+        for w, ct in zip(self.getWidgets(), _contents):
+            w.setText(ct)
 
     def setWidget(self, widget_type):
         self.typeTegs[widget_type]()
 
     def addLabel(self):
-        self.labels["text_content"] = DropLabel()
-        self.box.addWidget(self.labels["text_content"])
+        name = "lb"+self.__getSuffix()
+        self.labels[name] = DropLabel()
+        self.box.addWidget(self.labels[name])
+
+    def __getSuffix(self):
+        n = str((datetime.datetime.now().strftime("%y%m%d%H%M%S")) + str(random.randint(0, 99999999999)))
+        nl = [x for x in n]
+        random.shuffle(nl)
+        return "_" + "".join(nl)
 
 class Top(Section):
     def __init__(self, parent, object_name, cfg, *args, **kwargs):
@@ -103,15 +117,17 @@ class ViewCardStack(QFrame):
         self.cardsStack.addWidget(self.sides["back"])
 
     def setItemWord(self, item_word):
-
+        if item_word is None:
+            return
+        _contents = []
         front = self.config["card"]["content"]["front"]
         for section, content in front.items():
             if content:
                 sectionsWidget = self.sides["front"].sections[section]
                 contents = [x.split("_") for x in content]
                 for _content, widget_type in contents:
-                    text_content = getattr(item_word, self.contentTeg[_content])
-                    sectionsWidget.setContent(text_content)
+                    _contents.append(getattr(item_word, self.contentTeg[_content]))
+                    sectionsWidget.setContent(_contents)
 
     def initCard(self):
         """
