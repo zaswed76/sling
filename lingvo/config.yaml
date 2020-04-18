@@ -6,7 +6,8 @@ card:
             top: []
         front:
             bottom: []
-            center: []
+            center:
+            - "\u041F\u0435\u0440\u0435\u0432\u043E\u0434_DropLabel"
             top: []
     dropItems:
     - Word_DropLabel
@@ -16,7 +17,6 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
-    - slovar1
     - slovar2
 core:
     cycle: true

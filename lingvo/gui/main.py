@@ -63,7 +63,7 @@ class Main(QMainWindow):
         self.stackWidgets["chooseDict"] = self.chooseDictStack
         self.controls["chooseDictStack"] = ChooseDictStackController(self, self.chooseDictStack)
 
-        self.viewCardStack = ViewCardStack(self, "viewStack", "viewCardStack")
+        self.viewCardStack = ViewCardStack(self, self.cfg, "viewStack", "viewCardStack")
         self.stackWidgets["view"] = self.viewCardStack
 
         self.cardEditView = CardEditView(self, config=self.cfg, name="cardEditView")
@@ -79,7 +79,8 @@ class Main(QMainWindow):
 
         self.cardModel = CardsModel(self.dictSeq, self.chooseDictStack)
         self.cardModel.updateWorkData()
-        print(self.cardModel.workData)
+        self.viewCardStack.initCard()
+
 
     def connect(self):
         controll = self.sender()
@@ -119,8 +120,14 @@ class Main(QMainWindow):
         QApplication.instance().setStyleSheet(styleSheet)
 
     def closeEvent(self, *args, **kwargs):
-        print("555")
         self.cfg.save()
+
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Right:
+            self.viewCardStack.setItemWord(self.cardModel.nextItem())
+        elif e.key() == Qt.Key_Left:
+            print(self.cardModel.prevItem())
+
 
 
 if __name__ == '__main__':

@@ -146,8 +146,7 @@ class DropLabel(QLabel):
 
         if event.type() == 11:  # Если мышь покинула область фиджета
             self.dropLabelControl.hide()  # выполнить  callback1()
-        elif event.type() == 10:
-            print("999999999999999")# Если мышь над виджетом
+        elif event.type() == 10:# Если мышь над виджетом
             self.dropLabelControl.show()  # выполнить  callback2()
         return False
 
@@ -225,7 +224,6 @@ class DragFrame(QFrame):
     def delLabel(self):
         item = self.sender()
         name = item.itemName
-        print(name, "iiiiiiiiii")
         key = "_".join((name.split("_")[0], item.type))
         self.delContentCfg(self.cfg, key)
         self.box.removeWidget(self.labels[name])

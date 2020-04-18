@@ -7,7 +7,9 @@ class CardsModel:
         self.checkedDicts = []
         self.dictSeq = dict_seq
         self._workData = {}
-        self._workList = []
+        self._workList = list()
+        self._cursor = -1
+
 
     @property
     def workData(self):
@@ -19,12 +21,28 @@ class CardsModel:
 
     def updateWorkData(self):
         self.checkedDicts = self.chooseDict.checkedDicts()
+        # print(self.checkedDicts)
         self._workData = {k:v for k, v in self.dictSeq.items() if k in self.checkedDicts}
         self._workList.clear()
-        self._workList = itertools.chain(*[list(x) for x in self._workData.values()])
+        for d in self._workData.values():
+            for it in d.values():
+                # print(it, type(it))
+                self._workList.append(it)
+        # self._workList.extend(list(itertools.chain(*[list(x) for x in self._workData.values()])))
 
     def nextItem(self):
-        pass
+        if self._cursor < len(self._workList)-1:
+            self._cursor += 1
+            return self._workList[self._cursor]
+
+    def prevItem(self):
+        if self._cursor > 0:
+            self._cursor -=1
+
+            return self._workList[self._cursor]
+
+    def reset(self):
+        self._cursor = -1
 
 if __name__ == '__main__':
     import paths
