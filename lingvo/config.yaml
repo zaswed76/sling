@@ -7,9 +7,8 @@ card:
         front:
             bottom: []
             center:
-            - example_DropLabel
-            top:
-            - Word_DropLabel
+            - example2_DropLabel
+            top: []
     dropItems:
     - Word_DropLabel
     - translation_DropLabel

@@ -20,6 +20,7 @@ class CardsModel:
         return self._workList
 
     def updateWorkData(self):
+        self.reset()
         self.checkedDicts = self.chooseDict.checkedDicts()
         # print(self.checkedDicts)
         self._workData = {k:v for k, v in self.dictSeq.items() if k in self.checkedDicts}

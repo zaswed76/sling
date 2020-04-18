@@ -98,6 +98,8 @@ class Main(QMainWindow):
             self.cfg.save()
         self._currentStackWidget = self.centerFrame.stack.widget(i).objectName()
         self.cardModel.updateWorkData()
+        self.viewCardStack.initCard()
+        print(self.viewCardStack.sides["front"].sections["top"].box.count())
 
     def toolActions(self, act):
         getattr(self, "{}Action".format(act.text()))()

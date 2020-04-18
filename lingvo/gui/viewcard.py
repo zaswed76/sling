@@ -32,6 +32,18 @@ class Section(QFrame):
         shadow = QGraphicsDropShadowEffect(blurRadius=12, xOffset=3, yOffset=3)
         self.setGraphicsEffect(shadow)
 
+    def clear(self):
+
+        for n, i in self.labels.items():
+            # Todo тут какойто пипец
+            try:
+                 self.box.removeWidget(i)
+                 self.labels[n].deleteLater()
+            except RuntimeError:
+                pass
+
+
+
     def getWidgets(self):
         w = []
         for i in range(self.box.count()):
@@ -161,6 +173,8 @@ class ViewCardStack(QFrame):
         """
         добавить нужные виджеты в секции
         """
+        for s in self.sides["front"].sections.values():
+            s.clear()
         front = self.config["card"]["content"]["front"]
         for section, content in front.items():
             if content:

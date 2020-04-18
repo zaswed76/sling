@@ -12,7 +12,7 @@ ViewCardStack {
 
 DropLabel#viewCardStack {
 
-    background-color: white;
+    background-color: #acfbec;
     qproperty-alignment: AlignCenter;
     qproperty-wordWrap: true;
     font-family: Helvetica;
