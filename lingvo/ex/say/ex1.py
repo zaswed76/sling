@@ -5,7 +5,3 @@
 #     tts.save('tts_output{}.mp3'.format(str(i)))
 
 
-import pyttsx3;
-engine = pyttsx3.init();
-engine.say("This my cat");
-engine.runAndWait() ;

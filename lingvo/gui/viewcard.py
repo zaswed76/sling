@@ -184,14 +184,13 @@ class ViewCardStack(QFrame):
         """
         for s in self.sides["front"].sections.values():
             s.clear()
-        # for self.config["card"]["content"]
-        front = self.config["card"]["content"]["front"]
-        for section, content in front.items():
-            if content:
-                sectionsWidget = self.sides["front"].sections[section]
-                contents = [x.split("_") for x in content]
-                for _content, widget_type in contents:
-                    sectionsWidget.setWidget(widget_type)
+        for name, side in  self.config["card"]["content"].items():
+            for section, content in side.items():
+                if content:
+                    sectionsWidget = self.sides[name].sections[section]
+                    contents = [x.split("_") for x in content]
+                    for _content, widget_type in contents:
+                        sectionsWidget.setWidget(widget_type)
 
 class CardItem:
     def __init__(self):
