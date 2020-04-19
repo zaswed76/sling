@@ -126,11 +126,13 @@ class Main(QMainWindow):
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
+            self.viewCardStack.setSideIndex(0)
             self.viewCardStack.setItemWord(self.cardModel.nextItem())
         elif e.key() == Qt.Key_Left:
-            print(self.cardModel.prevItem())
-
-
+            pass
+            # print(self.cardModel.prevItem())
+        elif e.key() == Qt.Key_Space:
+            self.viewCardStack.turnSide()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

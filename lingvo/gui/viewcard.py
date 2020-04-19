@@ -126,6 +126,7 @@ class ViewCardStack(QFrame):
                                cyrillicTranscription="cyrillicTranscription",
                                example="example",
                                example2="example2")
+        self.currentSide = 0
         self.setObjectName(object_name)
         self.config = cfg
         self.setObjectName(name)
@@ -145,13 +146,21 @@ class ViewCardStack(QFrame):
         self.sides["back"].setStyleSheet('background: #EFEFEF;')
         self.cardsStack.addWidget(self.sides["front"])
         self.cardsStack.addWidget(self.sides["back"])
+        self.cardsStack.setCurrentIndex(0)
+
+    def turnSide(self):
+        self.currentSide = not self.currentSide
+        self.cardsStack.setCurrentIndex(self.currentSide)
+
+    def setSideIndex(self, i):
+        self.cardsStack.setCurrentIndex(i)
+
 
     def unpack(self, cont, item_word):
         lst = []
         for _ls in cont:
             tx, tp = _ls
             lst.append([getattr(item_word, self.contentTeg[tx]), tp])
-
         return lst
 
     def setItemWord(self, item_word):
@@ -175,6 +184,7 @@ class ViewCardStack(QFrame):
         """
         for s in self.sides["front"].sections.values():
             s.clear()
+        # for self.config["card"]["content"]
         front = self.config["card"]["content"]["front"]
         for section, content in front.items():
             if content:

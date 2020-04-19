@@ -2,12 +2,13 @@ card:
     content:
         back:
             bottom: []
-            center: []
+            center:
+            - translation_DropLabel
             top: []
         front:
             bottom: []
             center:
-            - example2_DropLabel
+            - Word_DropLabel
             top: []
     dropItems:
     - Word_DropLabel
