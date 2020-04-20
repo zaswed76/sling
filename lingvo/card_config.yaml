@@ -1,0 +1,21 @@
+cardModel:
+    content:
+        back:
+            bottom: []
+            center: []
+            top: []
+        front:
+            bottom: []
+            center: []
+            top: []
+dropItemsTypeList:
+- [Word, DropLabel]
+- [translation, DropLabel]
+- [cyrillicTranscription, DropLabel]
+- [example, DropLabel]
+- [example2, DropLabel]
+- [input, InputEdit]
+- [IconAndText, ClassWidget, ./resources/icons/base/icon_gift_alt.png]
+- [OnlyIcon, ClassWidget, ./resources/icons/base/icon_gift_alt.png, contentOption: onlyIcon]
+- [IconAndText, ClassWidget, ./resources/icons/base/icon_gift_alt.png, contentOption: iconAndText]
+- [ExampleText, ClassWidget]

@@ -1,0 +1,8 @@
+
+
+QListWidget::item {
+    color: #054077;
+    background-color:transparent;
+    font-size: 26pt;
+    font-family: Arial;
+}
