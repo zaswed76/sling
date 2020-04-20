@@ -7,8 +7,7 @@ card:
         front:
             bottom: []
             center: []
-            top:
-            - Word_22050510028028864300324_DropLabel
+            top: []
     dropItems:
     - Word_DropLabel
     - translation_DropLabel
@@ -26,7 +25,10 @@ currentStyle: base
 customizeLabel:
     Word: AAAAAAAAAAAAA
     Word_22050510028028864300324: AAAAAAAAAAAAA
+    example: AAAAAAAAAAAAA
+    example2: AAAAAAAAAAAAA
     lb1: lb1
+    translation: AAAAAAAAAAAAA
 ui:
     currentStackWidget: view
     startSize:
