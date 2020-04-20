@@ -10,11 +10,6 @@ ViewCardStack {
     background-color: #cfcfd1;
 }
 
-DropLabel#viewCardStack {
 
-    background-color: #acfbec;
-    qproperty-alignment: AlignCenter;
-    qproperty-wordWrap: true;
-    font-family: Helvetica;
-    font-size: 56pt;
-}
+
+

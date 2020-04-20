@@ -1,14 +1,16 @@
 card:
     content:
         back:
-            bottom: []
+            bottom:
+            - example_DropLabel
             center:
-            - translation_DropLabel
-            top: []
+            - cyrillicTranscription_DropLabel
+            top:
+            - Word_DropLabel
         front:
             bottom: []
             center:
-            - Word_DropLabel
+            - translation_DropLabel
             top: []
     dropItems:
     - Word_DropLabel
@@ -23,6 +25,7 @@ choosedict:
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx
+currentStyle: base
 ui:
     currentStackWidget: view
     startSize:

@@ -11,7 +11,7 @@ from gui.custom import customwidgets
 class DropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
-        self.setObjectName("viewCardStack")
+
 
     def __repr__(self):
         return "DropLabel"
@@ -21,16 +21,20 @@ class DropLabel(QLabel):
 
 
 class Section(QFrame):
-    def __init__(self, *args, **kwargs):
-
-        super().__init__(*args, **kwargs)
-
+    def __init__(self, parent, name, side, config, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.cfg = config
         self.box = customwidgets.BoxLayout(QBoxLayout.TopToBottom, self)
         self.labels = {}
+        self.setObjectName("{}".format(name))
 
 
         shadow = QGraphicsDropShadowEffect(blurRadius=12, xOffset=3, yOffset=3)
         self.setGraphicsEffect(shadow)
+
+        sfile = str(paths.CSS / self.cfg["currentStyle"] / "{}_card.css".format(side))
+        style = open(sfile, "r").read()
+        self.setStyleSheet(style)
 
     def clear(self):
 
@@ -64,13 +68,13 @@ class Section(QFrame):
                     w.setExamles(__text[n])
                     print(w, __text)
 
-    def setWidget(self, widget_type):
+    def setWidget(self, widget_type, side=None, section=None):
+        self.typeTegs[widget_type](side, section)
 
-        self.typeTegs[widget_type]()
-
-    def addLabel(self):
+    def addLabel(self, side=None, section=None):
         name = "lb"+self.__getSuffix()
         self.labels[name] = DropLabel()
+        self.labels[name].setObjectName("{}_card".format(section))
         self.box.addWidget(self.labels[name])
 
     def __getSuffix(self):
@@ -80,26 +84,28 @@ class Section(QFrame):
         return "_" + "".join(nl)
 
 class Top(Section):
-    def __init__(self, parent, object_name, cfg, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
+    def __init__(self, parent, name, side, config, *args, **kwargs):
+        super().__init__(parent, name, side, config, *args, **kwargs)
+
 
 
 
 class Center(Section):
-    def __init__(self, parent, object_name, cfg, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
+    def __init__(self, parent, name, side, config, *args, **kwargs):
+        super().__init__(parent, name, side, config, *args, **kwargs)
 
 
 
 class Bottom(Section):
-    def __init__(self, parent, object_name, cfg, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
+    def __init__(self, parent, name, side, config, *args, **kwargs):
+        super().__init__(parent, name, side, config, *args, **kwargs)
 
 class CardView(QFrame):
     def __init__(self, main, cfg, object_name, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
-
+        self.setObjectName(object_name)
+        self.side = self.objectName()
         self.cfg = cfg
         self.sections = {}
         self.box = customwidgets.BoxLayout(QBoxLayout.TopToBottom, self)
@@ -109,9 +115,9 @@ class CardView(QFrame):
 
 
     def _initSections(self):
-        self.sections["top"] = Top(self, "top", self.cfg)
-        self.sections["center"] = Center(self, "center", self.cfg)
-        self.sections["bottom"] = Bottom(self, "bottom", self.cfg)
+        self.sections["top"] = Top(self, "top", self.side, config=self.cfg)
+        self.sections["center"] = Center(self, "center", self.side, config=self.cfg)
+        self.sections["bottom"] = Bottom(self, "bottom", self.side, config=self.cfg)
         self.box.addWidget(self.sections["top"], stretch=5)
         self.box.addWidget(self.sections["center"], stretch=5)
         self.box.addWidget(self.sections["bottom"], stretch=5)
@@ -167,14 +173,15 @@ class ViewCardStack(QFrame):
         if item_word is None:
             return
         _contents = []
-        front = self.config["card"]["content"]["front"]
-        for section, content in front.items():
-            if content:
-                sectionsWidget = self.sides["front"].sections[section]
+        for name, side in  self.config["card"]["content"].items():
 
-                contents = [x.split("_") for x in content]
+            for section, content in side.items():
+                if content:
+                    sectionsWidget = self.sides[name].sections[section]
 
-                sectionsWidget.setContent(self.unpack(contents, item_word))
+                    contents = [x.split("_") for x in content]
+
+                    sectionsWidget.setContent(self.unpack(contents, item_word))
 
 
 
@@ -184,13 +191,17 @@ class ViewCardStack(QFrame):
         """
         for s in self.sides["front"].sections.values():
             s.clear()
+        for s in self.sides["back"].sections.values():
+            s.clear()
         for name, side in  self.config["card"]["content"].items():
+
             for section, content in side.items():
                 if content:
                     sectionsWidget = self.sides[name].sections[section]
+
                     contents = [x.split("_") for x in content]
                     for _content, widget_type in contents:
-                        sectionsWidget.setWidget(widget_type)
+                        sectionsWidget.setWidget(widget_type, name, section)
 
 class CardItem:
     def __init__(self):

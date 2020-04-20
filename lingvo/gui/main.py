@@ -48,7 +48,7 @@ class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.cfg = config.Config(paths.CONFIG)
-        self._set_style_sheet("base")
+        self._set_style_sheet(self.cfg["currentStyle"])
 
         self.dictSeq = DictSeq(paths.DATA)
 
@@ -139,3 +139,4 @@ if __name__ == '__main__':
     main = Main()
     main.show()
     sys.exit(app.exec_())
+#
