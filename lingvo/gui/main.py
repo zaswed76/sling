@@ -79,7 +79,7 @@ class Main(QMainWindow):
 
         self.cardModel = CardsModel(self.dictSeq, self.chooseDictStack)
         self.cardModel.updateWorkData()
-        self.viewCardStack.initCard()
+        # self.viewCardStack.initCard()
 
 
     def connect(self):
@@ -98,8 +98,8 @@ class Main(QMainWindow):
             self.cfg.save()
         self._currentStackWidget = self.centerFrame.stack.widget(i).objectName()
         self.cardModel.updateWorkData()
-        self.viewCardStack.initCard()
-        print(self.viewCardStack.sides["front"].sections["top"].box.count())
+        # self.viewCardStack.initCard()
+
 
     def toolActions(self, act):
         getattr(self, "{}Action".format(act.text()))()

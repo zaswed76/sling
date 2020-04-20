@@ -227,7 +227,7 @@ class DragFrame(QFrame):
         if self.box.count() < 4:
             name = self.addQWidget(type, text)
             print(name, "!!!!!!!")
-            self.addContentCfg(self.cfg, text, type)
+
         e.accept()
 
     def __getSuffix(self):
@@ -237,13 +237,14 @@ class DragFrame(QFrame):
         return "_" + "".join(nl)
 
     def addQWidget(self, type, text):
-        return self.WidgetTypes[type](text)
+        return self.WidgetTypes[type](text, type)
 
 
-    def addLabel(self, text):
+    def addLabel(self, text, type):
         text += self.__getSuffix()
         self.labels[text] = DropLabel(text, self)
         self.box.addWidget(self.labels[text])
+        self.addContentCfg(self.cfg, text, type)
         return text
 
     def addQLineEdit(self, text):

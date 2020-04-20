@@ -112,7 +112,7 @@ class CardView(QFrame):
         self.cfg = cfg
         self.sections = {}
         self.box = customwidgets.BoxLayout(QBoxLayout.TopToBottom, self)
-        self._initSections()
+        # self._initSections()
 
 
 

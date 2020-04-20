@@ -8,7 +8,7 @@ card:
             bottom: []
             center: []
             top:
-            - Word_DropLabel
+            - Word_22050510028028864300324_DropLabel
     dropItems:
     - Word_DropLabel
     - translation_DropLabel
@@ -25,6 +25,7 @@ core:
 currentStyle: base
 customizeLabel:
     Word: AAAAAAAAAAAAA
+    Word_22050510028028864300324: AAAAAAAAAAAAA
     lb1: lb1
 ui:
     currentStackWidget: view
