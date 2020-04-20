@@ -11,6 +11,7 @@ class DictItem(QStandardItem):
         self.setCheckable(True)
 
 
+
 class DictListModel(QStandardItemModel):
     def __init__(self):
         super().__init__()

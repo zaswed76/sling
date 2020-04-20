@@ -111,7 +111,8 @@ class DropLabel(QLabel):
         self.itemName, self.suffix = self.text().split("_")
         self.setAlignment(Qt.AlignCenter)
         self.installEventFilter(self)
-        self.setStyleSheet("QLabel { color: #2D2D2D }")
+
+
 
 
 
@@ -128,6 +129,7 @@ class DropLabel(QLabel):
 
         self.dropLabelControl = DropLabelControl(self, type=self.__class__.__name__)
         self._tuneText(self.itemName)
+        # self.addBtn("", "")
 
     @property
     def type(self):
@@ -153,11 +155,32 @@ class DropLabel(QLabel):
         return False
 
 
+
+    def addBtn(self, text, type):
+        self.sbtn = ImageBtn(text, self)
+        width_btn = self.sbtn.width()
+        rect = self.rect()
+        center = rect.center()
+        right = rect.right()
+        center.setX(right-100)
+        self.sbtn.setIcon(QIcon(str(paths.ICONS / "base" / "{}.png".format(text))))
+        self.sbtn.move(center)
+        self.sbtn.show()
+
+
+class ImageBtn(QPushButton):
+    def __init__(self, name, *__args):
+        super().__init__(*__args)
+
+
+
+
 class DragFrame(QFrame):
 
     def __init__(self, parent, object_name, cfg):
         super().__init__()
-        self.WidgetTypes = {"DropLabel": self.addLabel, "InputEdit": self.addQLineEdit}
+        self.WidgetTypes = {"DropLabel": self.addLabel, "InputEdit": self.addQLineEdit,
+                            "ImageBtn" : self.addImageBtn}
         self.cfg = cfg
         self.parent = parent
         self.setObjectName(object_name)
@@ -187,6 +210,9 @@ class DragFrame(QFrame):
         side = self.parent.objectName()
         layout = self.objectName()
         cfg["card"]["content"][side][layout].append("_".join((text, type)))
+        print("side:{} layout:{} text:{} type:{}".format(side, layout, text, type))
+        self.cfg["customizeLabel"][text] = "AAAAAAAAAAAAA"
+
 
     def delContentCfg(self, cfg, text):
         side = self.parent.objectName()
@@ -196,8 +222,11 @@ class DragFrame(QFrame):
     def dropEvent(self, e):
         mime = e.mimeData()
         text, type = mime.text().split("_")
+        if text == "sound":
+            return
         if self.box.count() < 4:
-            self.addQWidget(type, text)
+            name = self.addQWidget(type, text)
+            print(name, "!!!!!!!")
             self.addContentCfg(self.cfg, text, type)
         e.accept()
 
@@ -208,19 +237,22 @@ class DragFrame(QFrame):
         return "_" + "".join(nl)
 
     def addQWidget(self, type, text):
-        self.WidgetTypes[type](text)
+        return self.WidgetTypes[type](text)
 
 
     def addLabel(self, text):
         text += self.__getSuffix()
         self.labels[text] = DropLabel(text, self)
         self.box.addWidget(self.labels[text])
+        return text
 
     def addQLineEdit(self, text):
         text += self.__getSuffix()
         self.labels[text] = InputEdit(text, self)
         self.box.addWidget(self.labels[text], Qt.AlignCenter)
 
+    def addImageBtn(self, text):
+        print("addImageBtn")
 
 
     def delLabel(self):
@@ -234,19 +266,17 @@ class DragFrame(QFrame):
     def showTuneLabel(self):
         lb = self.sender()
         key = lb.itemName
-        self.tuneLabel = CustomizeLabelDialog(self)
+        self.tuneLabel = CustomizeLabelDialog(self, self.cfg)
 
 
 class CustomizeLabelDialog(QWidget):
-    def __init__(self, p, *args, **kwargs):
+    def __init__(self, p, cfg, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.cfg = cfg
+        self.parentItem = self.sender().parent().parent()
+        print(p.objectName(), self.parentItem, self.cfg["customizeLabel"])
         self.win = uic.loadUi(paths.UIFORM / "tuneEditLabels.ui")
-        self.win.bgBtn.clicked.connect(self.chooseBg)
-        self.win.colorBtn.clicked.connect(self.chooseBg)
-        self.win.fontNameBtn.clicked.connect(self.chooseBg)
-        self.win.fontSizeBtn.clicked.connect(self.chooseBg)
-        self.win.AlignLb.currentIndexChanged.connect(self.chooseBg)
-        self.win.AlignLb.addItems(["слева", "по центру", "справа"])
+        self.win.setFixedSize(250, 180)
         self.hbox = QHBoxLayout(self)
         self.hbox.addWidget(self.win)
         self.setWindowModality(Qt.ApplicationModal)

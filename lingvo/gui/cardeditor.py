@@ -6,6 +6,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+import paths
 from gui.custom.drag import *
 
 
@@ -50,6 +51,7 @@ class DropItem(QListWidgetItem):
 
 
 
+
 class Left(QtWidgets.QListWidget):
     def __init__(self, main, name, cfg):
         super().__init__()
@@ -69,6 +71,9 @@ class Left(QtWidgets.QListWidget):
         for id, text in enumerate(drop_itrms):
             text, type = text.split("_")
             item = DropItem(type, text)
+
+            if type == "ImageBtn":
+                item.setIcon(QIcon(str(paths.ICONS / self.cfg["currentStyle"] / "{}.png".format(text))))
             item.setTextAlignment(Qt.AlignLeft)
             self.insertItem(id, item)
 

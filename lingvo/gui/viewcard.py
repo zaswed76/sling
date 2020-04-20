@@ -55,7 +55,7 @@ class Section(QFrame):
         return w
     @property
     def typeTegs(self):
-        return {"DropLabel": self.addLabel}
+        return {"DropLabel": self.addLabel, "ImageBtn": self.addImageBtn}
 
     def setContent(self, _contents):
         for n, (w, ct) in enumerate(zip(self.getWidgets(), _contents)):
@@ -76,6 +76,9 @@ class Section(QFrame):
         self.labels[name] = DropLabel()
         self.labels[name].setObjectName("{}_card".format(section))
         self.box.addWidget(self.labels[name])
+
+    def addImageBtn(self,side=None, section=None):
+        print("addImageBtn")
 
     def __getSuffix(self):
         n = str((datetime.datetime.now().strftime("%y%m%d%H%M%S")) + str(random.randint(0, 99999999999)))
