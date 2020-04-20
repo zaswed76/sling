@@ -72,12 +72,13 @@ class CardModelView(QFrame):
         self.box.addWidget(self.b, stretch=5)
 
 
-class CardEditModel(QStackedWidget):
-    def __init__(self):
+class Card(QStackedWidget):
+    def __init__(self, cardModel):
         """
         визуальная модель карточки
         """
         super().__init__()
+        self.cardModel = cardModel
         self.setFixedSize(510, 510)
 
 
@@ -107,24 +108,12 @@ class CardEditView(QFrame):
         self.vcbox = QVBoxLayout()
         self.vcbox.setSpacing(50)
         self.vcbox.setContentsMargins(1, 1, 1, 1)
-        self.cardView = CardEditModel()
+        self.card = Card(self.cardModel)
 
         self.vcbox.addStretch(7)
         self.vcbox.addWidget(self.lbSide)
-        self.vcbox.addWidget(self.cardView)
+        self.vcbox.addWidget(self.card)
         self.vcbox.addStretch(10)
-
-        # self.sides = dict(
-        #     front=CardModelView(self.main, self.config, "front"),
-        #     back=CardModelView(self.main, self.config, "back")
-        # )
-        # self.sides["front"].setFixedSize(510, 510)
-        # self.sides["back"].setStyleSheet('background: #EFEFEF;')
-        # self.sides["back"].setFixedSize(510, 510)
-        # self.cardsStack.addWidget(self.sides["front"])
-        # self.cardsStack.addWidget(self.sides["back"])
-        # self.cardsStack.setCurrentWidget(self.sides[self.currentSide])
-
         self.box.addLayout(self.vcbox)
         self.box.addStretch(1)
 
@@ -138,7 +127,7 @@ class CardEditView(QFrame):
 
     def changeSide(self, side):
         self.currentSide = side
-        self.cardView.setCurrentWidget(self.sides[self.currentSide])
+        self.cardEditView.setCurrentWidget(self.sides[self.currentSide])
 
 
 class LbSide(QLabel):

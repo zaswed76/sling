@@ -11,7 +11,7 @@ import paths
 from core.cardModel import CardModel
 from core.dictsequence import DictSeq
 from core.dictsmodel import DictsModel
-from gui.cardeditorpkg.cardeditor import CardEditView
+from gui.cardeditorpkg.cardeditorwidget import CardEditView
 from gui.centrallframe import CenterStackFrame
 from gui.choosedict import ChooseDictStack
 from gui.viewcard import ViewCard
