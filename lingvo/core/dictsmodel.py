@@ -1,10 +1,14 @@
 import itertools
 
 
-class CardsModel:
-    def __init__(self, dict_seq, choose_dict):
-        self.chooseDict = choose_dict
-        self.checkedDicts = []
+class DictsModel:
+    def __init__(self, dict_seq):
+        """
+        класс предоставляет api для работы со списком  объектов WordItem
+        :param dict_seq: dictsmodel.DictSeq
+        """
+
+
         self.dictSeq = dict_seq
         self._workData = {}
         self._workList = list()
@@ -19,17 +23,14 @@ class CardsModel:
     def workList(self):
         return self._workList
 
-    def updateWorkData(self):
+    def updateWorkData(self, checkedDicts):
         self.reset()
-        self.checkedDicts = self.chooseDict.checkedDicts()
-        # print(self.checkedDicts)
-        self._workData = {k:v for k, v in self.dictSeq.items() if k in self.checkedDicts}
+        self._workData = {k:v for k, v in self.dictSeq.items() if k in checkedDicts}
         self._workList.clear()
         for d in self._workData.values():
             for it in d.values():
-                # print(it, type(it))
                 self._workList.append(it)
-        # self._workList.extend(list(itertools.chain(*[list(x) for x in self._workData.values()])))
+
 
     def nextItem(self):
         if self._cursor < len(self._workList)-1:
@@ -39,7 +40,6 @@ class CardsModel:
     def prevItem(self):
         if self._cursor > 0:
             self._cursor -=1
-
             return self._workList[self._cursor]
 
     def reset(self):
@@ -49,4 +49,4 @@ if __name__ == '__main__':
     import paths
     from core.dictsequence import DictSeq
     dictSeq = DictSeq(paths.DATA)
-    cardModel = CardsModel(dictSeq)
+    cardModel = DictsModel(dictSeq)

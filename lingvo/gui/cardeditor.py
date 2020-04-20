@@ -112,12 +112,14 @@ class CardModelView(QtWidgets.QFrame):
 
 
 class CardEditView(QtWidgets.QFrame):
-    def __init__(self, main, name=None, config=None):
+    def __init__(self, main, name=None, config=None, *args, **kwargs):
         """
         todo examples style
         :param main:
         """
-        super().__init__()
+
+        super().__init__(*args, **kwargs)
+        self.__cardModel = None
         self.setObjectName(name)
         self.config = config if config is not None else {}
 
@@ -155,6 +157,10 @@ class CardEditView(QtWidgets.QFrame):
 
         self.box.addLayout(self.vcbox)
         self.box.addStretch(1)
+
+    def setCardModel(self, cardModel):
+        print("CardEditView setCardModel")
+        self.__cardModel = cardModel
 
     def changeSide(self, side):
         self.currentSide = side

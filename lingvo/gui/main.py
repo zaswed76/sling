@@ -5,14 +5,18 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from gui.choosedict import ChooseDictStack
-from gui.viewcard import ViewCardStack
-from gui.cardeditor import CardEditView
 
 import paths
+from gui.choosedict import ChooseDictStack
+from gui.viewcard import ViewCard
+from gui.cardeditor import CardEditView
+from gui.centrallframe import CenterStackFrame
+
+
+from core.cardModel import CardModel
 from core.dictsequence import DictSeq
-from core.cardsmodel import CardsModel
-from gui.centrallframe import CenterFrame
+from core.dictsmodel import DictsModel
+
 import config
 
 
@@ -40,7 +44,7 @@ class ChooseDictStackController:
         self.main = main
 
     def closeChooseDict(self):
-        self.main.centerFrame.showStack("view")
+        self.main.centerStackFrame.showStack("view")
         self.parent.parentMethod()
 
 
@@ -48,37 +52,44 @@ class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.cfg = config.Config(paths.CONFIG)
+
         self._set_style_sheet(self.cfg["currentStyle"])
 
         self.dictSeq = DictSeq(paths.DATA)
-
-        self.centerFrame = CenterFrame(self)
-        self.setCentralWidget(self.centerFrame)
+       # здесь хранятся все стеки (окна)
+        self.centerStackFrame = CenterStackFrame(self)
+        self.setCentralWidget(self.centerStackFrame)
         self.__setToolBar()
         self.stackWidgets = {}
         self.controls = {}
         self._currentStackWidget = self.cfg["ui"]["currentStackWidget"]
 
+        self.cardCfg = config.Config(paths.CARD_CONFIG)
+        self.cardModel = CardModel(self.cardCfg)
+
+       # выбираем словарь
         self.chooseDictStack = ChooseDictStack(self, name="chooseDictStack", config=self.cfg)
         self.stackWidgets["chooseDict"] = self.chooseDictStack
         self.controls["chooseDictStack"] = ChooseDictStackController(self, self.chooseDictStack)
+       # работаем с карточками
+        self.viewCardStack = ViewCard(self, self.cfg, "viewStack", "viewCardStack")
+        self.viewCardStack.setCardModel(self.cardModel)
 
-        self.viewCardStack = ViewCardStack(self, self.cfg, "viewStack", "viewCardStack")
         self.stackWidgets["view"] = self.viewCardStack
-
+       # редактируем карточки
         self.cardEditView = CardEditView(self, config=self.cfg, name="cardEditView")
-
+        self.cardEditView.setCardModel(self.cardModel)
         self.stackWidgets["cardEditView"] = self.cardEditView
 
-        self.centerFrame.setStackWidgets(self.stackWidgets)
-        self.centerFrame.initStack()
-        self.centerFrame.showStack(self._currentStackWidget)
-        self.centerFrame.stack.currentChanged.connect(self.changeStackWidget)
+        self.centerStackFrame.setStackWidgets(self.stackWidgets)
+        self.centerStackFrame.initStack()
+        self.centerStackFrame.showStack(self._currentStackWidget)
+        self.centerStackFrame.stack.currentChanged.connect(self.changeStackWidget)
 
         self.chooseDictStack.setCheckedItemsToNames(self.cfg["choosedict"]["checkedDicts"])
 
-        self.cardModel = CardsModel(self.dictSeq, self.chooseDictStack)
-        self.cardModel.updateWorkData()
+        self.dictsModel = DictsModel(self.dictSeq)
+        self.dictsModel.updateWorkData(self.chooseDictStack.checkedDicts())
         # self.viewCardStack.initCard()
 
 
@@ -96,8 +107,8 @@ class Main(QMainWindow):
     def changeStackWidget(self, i):
         if self._currentStackWidget == "cardEditView":
             self.cfg.save()
-        self._currentStackWidget = self.centerFrame.stack.widget(i).objectName()
-        self.cardModel.updateWorkData()
+        self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
+        self.dictsModel.updateWorkData(self.chooseDictStack.checkedDicts())
         # self.viewCardStack.initCard()
 
 
@@ -105,10 +116,10 @@ class Main(QMainWindow):
         getattr(self, "{}Action".format(act.text()))()
 
     def chooseDictAction(self):
-        self.centerFrame.showStack("chooseDict")
+        self.centerStackFrame.showStack("chooseDict")
 
     def cardEditViewAction(self):
-        self.centerFrame.showStack("cardEditView")
+        self.centerStackFrame.showStack("cardEditView")
 
     @property
     def dictList(self):
@@ -127,7 +138,7 @@ class Main(QMainWindow):
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
             self.viewCardStack.setSideIndex(0)
-            self.viewCardStack.setItemWord(self.cardModel.nextItem())
+            self.viewCardStack.setItemWord(self.dictsModel.nextItem())
         elif e.key() == Qt.Key_Left:
             pass
             # print(self.cardModel.prevItem())

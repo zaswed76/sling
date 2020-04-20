@@ -10,7 +10,7 @@ import paths
 
 
 
-class CenterFrame(QFrame):
+class CenterStackFrame(QFrame):
     def __init__(self, main):
         super().__init__()
         self.stackWidgets = {}
@@ -26,7 +26,6 @@ class CenterFrame(QFrame):
     def initStack(self):
         for w in self.stackWidgets.values():
             self.stack.addWidget(w)
-
 
     def showStack(self, window):
         self.stack.setCurrentWidget(self.stackWidgets[window])

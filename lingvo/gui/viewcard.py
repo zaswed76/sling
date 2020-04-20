@@ -127,9 +127,10 @@ class CardView(QFrame):
 
 
 
-class ViewCardStack(QFrame):
+class ViewCard(QFrame):
     def __init__(self, main, cfg, object_name, name=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.__cardModel = None
         self.contentTeg = dict(translation="translation",
                                Word="base",
                                cyrillicTranscription="cyrillicTranscription",
@@ -156,6 +157,10 @@ class ViewCardStack(QFrame):
         self.cardsStack.addWidget(self.sides["front"])
         self.cardsStack.addWidget(self.sides["back"])
         self.cardsStack.setCurrentIndex(0)
+
+    def setCardModel(self, cardModel):
+        print("ViewCardStack setCardModel")
+        self.__cardModel = cardModel
 
     def turnSide(self):
         self.currentSide = not self.currentSide
