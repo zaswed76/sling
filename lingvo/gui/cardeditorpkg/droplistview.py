@@ -7,19 +7,23 @@ from os.path import isfile
 
 
 class DropItem(QListWidgetItem):
-    def __init__(self, text, typeWidget, icon=None, contentOption=None, *__args):
-        super().__init__(*__args)
-        if contentOption is not None:
+    def __init__(self, text, typeWidget, icon=None, contentOption="iconAndText", *__args):
+        """
 
-            self.contentOption = contentOption["contentOption"]
-        else:
-            self.contentOption = "iconAndText"
-        # print(contentOption, "!!!!!!!!!!!!!!")
+        :param text: str
+        :param typeWidget: usertypeWidget
+        :param icon: str path
+        :param contentOption: onlyIcon or iconAndText or None
+        :param __args:
+        """
+        super().__init__(*__args)
+        self.contentOption = contentOption
+
+
+
         self.typeWidget = typeWidget
         self.setTextAlignment(Qt.AlignLeft)
         self.setText(text)
-
-
 
         if icon and isfile(icon):
             if self.contentOption == 'onlyIcon':
@@ -28,15 +32,14 @@ class DropItem(QListWidgetItem):
 
 
 class DropListWidget(QListWidget):
-    def __init__(self, dropItems, parent, name):
+    def __init__(self, dropItemsTypeList, parent, name):
         """
-
-        :param dropItems: list(str, str)
-        dropItem -> text_ClassWidget
-        формат строки обязателен вначале идёт текст видимый в QListWidget
-        и через разделитель < _ > тип пользовательского виджета
-        :param parent:
-        :param name:
+        :param dropItems: list(dropItem: list, dropItem: list ...)
+        dropItem example1 -> [ExampleText, ClassWidget]
+        dropItem example2 -> [IconAndText, ClassWidget, ./resources/icons/base/icon_gift_alt.png]
+        dropItem example3 -> [OnlyIcon, ClassWidget, ./resources/icons/base/icon_gift_alt.png, onlyIcon]
+        :param parent: QWidget
+        :param name: str ObjectName
         """
         super().__init__(parent)
         self.setObjectName(name)
@@ -45,8 +48,8 @@ class DropListWidget(QListWidget):
         self.setDragEnabled(True)
         self.setFixedWidth(150)
 
-        self.dropItems = dropItems
-        self._setItems(self.dropItems)
+        self.dropItemsTypeList = dropItemsTypeList
+        self._setItems(self.dropItemsTypeList)
 
 
     def _setItems(self, drop_items):

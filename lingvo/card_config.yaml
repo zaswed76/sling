@@ -8,6 +8,8 @@ cardModel:
             bottom: []
             center: []
             top: []
+
+
 dropItemsTypeList:
 - [Word, DropLabel]
 - [translation, DropLabel]
@@ -15,7 +17,5 @@ dropItemsTypeList:
 - [example, DropLabel]
 - [example2, DropLabel]
 - [input, InputEdit]
-- [IconAndText, ClassWidget, ./resources/icons/base/icon_gift_alt.png]
-- [OnlyIcon, ClassWidget, ./resources/icons/base/icon_gift_alt.png, contentOption: onlyIcon]
-- [IconAndText, ClassWidget, ./resources/icons/base/icon_gift_alt.png, contentOption: iconAndText]
-- [ExampleText, ClassWidget]
+- [OnlyIcon, ClassWidget, ./resources/icons/base/icon_gift_alt.png, onlyIcon]
+
