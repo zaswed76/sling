@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 
 import config
 import paths
-from core.cardModel import CardModel
+from core.cardModel import CardModel, PConfig, DropBox, DragItem, DragItemStyle
 from core.dictsequence import DictSeq
 from core.dictsmodel import DictsModel
 from gui.cardeditorpkg.cardeditorwidget import CardEditView
@@ -80,8 +80,16 @@ class Main(QMainWindow):
         self.controls = {}
         self._currentStackWidget = self.cfg["ui"]["currentStackWidget"]
 
-        self.cardCfg = config.Config(paths.CARD_CONFIG)
-        self.cardModel = CardModel(self.cardCfg)
+        # загружаем модель
+        self.cfgpObject = PConfig(paths.PICKLE_CONFIG)
+        self.cardModel = self.getCardModel()
+        # настраиваем
+        # sections1 = [DropBox(s) for s in ["top", "center", "bottom"]]
+        # sections2 = [DropBox(s) for s in ["top", "center", "bottom"]]
+        # self.cardModel.setSections(CardModel.USideFront, sections1)
+        # self.cardModel.setSections(CardModel.USideBack, sections2)
+
+
 
         # выбираем словарь
         self.chooseDictStack = ChooseDictStack(self, name="chooseDictStack",
@@ -98,6 +106,8 @@ class Main(QMainWindow):
         self.cardEditView = CardEditView(self, config=self.cfg, name="cardEditView",
                                          cardModel=self.cardModel)
 
+        self.cardEditView.setDragList(config.Config(paths.CARD_CONFIG)["dropItemsTypeList"])
+
         self.stackWidgets["cardEditView"] = self.cardEditView
 
         self.centerStackFrame.setStackWidgets(self.stackWidgets)
@@ -111,6 +121,10 @@ class Main(QMainWindow):
         self.dictsModel = DictsModel(self.dictSeq)
         self.dictsModel.updateWorkData(self.chooseDictStack.checkedDicts())
         # self.viewCardStack.initCard()
+
+    def getCardModel(self) -> CardModel:
+        return self.cfgpObject.load()
+
 
     def connect(self):
         controll = self.sender()
@@ -152,6 +166,7 @@ class Main(QMainWindow):
 
     def closeEvent(self, *args, **kwargs):
         self.cfg.save()
+        self.cfgpObject.save(self.cardModel)
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right:

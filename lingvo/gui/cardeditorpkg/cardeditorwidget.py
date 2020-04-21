@@ -13,12 +13,6 @@ from gui.cardeditorpkg.dropframe import DropFrame
 
 
 
-
-
-
-
-
-
 class Card(QStackedWidget):
     def __init__(self, cardModel):
         """
@@ -35,6 +29,10 @@ class Card(QStackedWidget):
         self.addWidget(self.frontSide)
         self.addWidget(self.backSide)
         self.setCurrentIndex(self.currentSideIndex)
+        self.updateContent()
+
+    def updateContent(self, *__args):
+        print("")
 
 
 
@@ -74,8 +72,7 @@ class CardEditView(QFrame):
         self.box = QHBoxLayout(self)
         self.box.setSpacing(1)
         self.box.setContentsMargins(1, 1, 1, 1)
-        self.dropListWidget = DropListWidget(self.cardModel.cardCfg.data["dropItemsTypeList"],
-                                             self.main, "dropListWidget")
+        self.dropListWidget = DropListWidget(self.main, "dropListWidget")
 
         self.box.addWidget(self.dropListWidget)
         self.box.addStretch(1)
@@ -94,6 +91,10 @@ class CardEditView(QFrame):
         self.vcbox.addStretch(10)
         self.box.addLayout(self.vcbox)
         self.box.addStretch(1)
+
+    def setDragList(self, dragList):
+        self.dropListWidget.setItems(dragList)
+
 
     @property
     def cardModel(self):

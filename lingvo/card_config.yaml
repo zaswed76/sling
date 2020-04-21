@@ -1,15 +1,3 @@
-cardModel:
-    content:
-        back:
-            bottom: []
-            center: []
-            top: []
-        front:
-            bottom: []
-            center: []
-            top: []
-
-
 dropItemsTypeList:
 - [Word, DropLabel]
 - [translation, DropLabel]

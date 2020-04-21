@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 
 from gui import main as _main
+from core.cardModel import *
 
 def main():
     app = QApplication(sys.argv)

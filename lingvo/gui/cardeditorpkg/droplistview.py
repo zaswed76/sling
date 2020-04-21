@@ -32,7 +32,7 @@ class DropItem(QListWidgetItem):
 
 
 class DropListWidget(QListWidget):
-    def __init__(self, dropItemsTypeList, parent, name):
+    def __init__(self, parent, name):
         """
         :param dropItems: list(dropItem: list, dropItem: list ...)
         dropItem example1 -> [ExampleText, ClassWidget]
@@ -48,13 +48,8 @@ class DropListWidget(QListWidget):
         self.setDragEnabled(True)
         self.setFixedWidth(150)
 
-        self.dropItemsTypeList = dropItemsTypeList
-        self._setItems(self.dropItemsTypeList)
-
-
-    def _setItems(self, drop_items):
+    def setItems(self, drop_items):
         for id, (text, type, *args) in enumerate(drop_items):
-
             option = args[1] if len(args)== 2 else None
             icon = args[0] if args else None
             self.insertItem(id, DropItem(text, type, icon=icon, contentOption=option))

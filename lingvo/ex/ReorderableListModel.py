@@ -132,7 +132,7 @@ class ReorderableListModel(QtCore.QAbstractListModel):
             else:
                 return False
 
-        encoded_data = data.data('application/vnd.treeviewdragdrop.list')
+        encoded_data = data.data
         stream = QtCore.QDataStream(encoded_data, QtCore.QIODevice.ReadOnly)
 
         new_items = []
