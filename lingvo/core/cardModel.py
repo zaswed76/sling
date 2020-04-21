@@ -1,6 +1,6 @@
 import pickle
 from collections import UserList
-
+from PyQt5.QtCore import pyqtSignal, QObject
 
 class PConfig:
     def __init__(self, path):
@@ -73,6 +73,7 @@ class CardModel:
     USectionCenter = "center"
     USectionBottom = "bottom"
 
+
     def __init__(self):
         """
         модель карточки имеет две стороны front и back
@@ -82,6 +83,7 @@ class CardModel:
         self.front = Side("front")
         self.back = Side("back")
         self.sides = {"front": self.front, "back": self.back}
+
 
     def insertItem(self, side, i_section, dragItem):
         self.sides[side][i_section].append(dragItem)

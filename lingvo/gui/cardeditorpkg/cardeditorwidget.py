@@ -56,13 +56,14 @@ class Card(QStackedWidget):
 
 
 class CardEditView(QFrame):
-    def __init__(self, main, name=None, config=None, cardModel=None, *args, **kwargs):
+    def __init__(self, main, name=None, config=None,*args, **kwargs):
         """
         todo examples style
         :param main:
         """
+
         super().__init__(*args, **kwargs)
-        self.__cardModel = cardModel
+        self.__cardModel = None
         self.setObjectName(name)
         self.config = config if config is not None else {}
 
@@ -92,16 +93,22 @@ class CardEditView(QFrame):
         self.box.addLayout(self.vcbox)
         self.box.addStretch(1)
 
+    def updateContent(self):
+        print("edit", self.cardModel)
+
+
+    def setCardModel(self, cardModel):
+        self.__cardModel = cardModel
+        self.updateContent()
+
+
     def setDragList(self, dragList):
         self.dropListWidget.setItems(dragList)
-
 
     @property
     def cardModel(self):
         return self.__cardModel
 
-    def setCardModel(self, cardModel):
-        self.__cardModel = cardModel
 
     def changeSideCard(self):
         self.card.changeSide()

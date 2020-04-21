@@ -103,8 +103,9 @@ class Main(QMainWindow):
 
         self.stackWidgets["view"] = self.viewCardStack
         # редактируем карточки
-        self.cardEditView = CardEditView(self, config=self.cfg, name="cardEditView",
-                                         cardModel=self.cardModel)
+        self.cardEditView = CardEditView(self, config=self.cfg, name="cardEditView")
+        self.cardEditView.setCardModel(self.cardModel)
+
 
         self.cardEditView.setDragList(config.Config(paths.CARD_CONFIG)["dropItemsTypeList"])
 

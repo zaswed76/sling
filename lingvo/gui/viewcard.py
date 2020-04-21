@@ -158,9 +158,14 @@ class ViewCard(QFrame):
         self.cardsStack.addWidget(self.sides["back"])
         self.cardsStack.setCurrentIndex(0)
 
+    def updateContent(self):
+        print("view", self.__cardModel)
+
+
     def setCardModel(self, cardModel):
-        print("ViewCardStack setCardModel")
         self.__cardModel = cardModel
+        self.updateContent()
+
 
     def turnSide(self):
         self.currentSide = not self.currentSide
