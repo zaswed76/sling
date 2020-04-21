@@ -56,7 +56,7 @@ class DropBox(UserList):
         self.name = name
 
     def __repr__(self):
-        return "{}:{}".format(self.__class__.__name__, self.__dict__)
+        return "{}".format( self.__class__.__dict__)
 
 class Side(UserList):
     def __init__(self, name):
@@ -64,7 +64,7 @@ class Side(UserList):
         self.name = name
 
     def __repr__(self):
-        return str(self.__class__.__name__ + str(self.__dict__))
+        return str(self.__class__.__name__)
 
 class CardModel:
     USideFront = "front"
@@ -74,7 +74,7 @@ class CardModel:
     USectionBottom = "bottom"
 
 
-    def __init__(self):
+    def __init__(self, content_path):
         """
         модель карточки имеет две стороны front и back
         :param card_cfg:
@@ -83,7 +83,12 @@ class CardModel:
         self.front = Side("front")
         self.back = Side("back")
         self.sides = {"front": self.front, "back": self.back}
+        self.contentCfg = PConfig(content_path)
+        self.contentCfg.load()
 
+    def updateContent(self):
+        for n, s in self.contentCfg.data.items():
+            self.setSections(n, s)
 
     def insertItem(self, side, i_section, dragItem):
         self.sides[side][i_section].append(dragItem)
@@ -95,14 +100,23 @@ class CardModel:
         self.sides[side].extend(sections_list)
 
     def __repr__(self):
-        return str(self.__class__.__name__ + str(self.sides))
+        return str(self.sides)
+
+    def saveContent(self):
+        self.contentCfg.save(self.sides)
+
 
 
 
 
 if __name__ == '__main__':
     import paths
-    card = CardModel()
+
+    card = CardModel(paths.PICKLE_CONFIG)
+    card.updateContent()
+
+    print(card.front[0].name)
+    print(card.back[1].name)
     # sections = [DropBox(s) for s in ["top", "center", "bottom"]]
     # card.setSections(CardModel.USideFront, sections)
     # card.insertItem(CardModel.USideFront, 1, DragItem("QLabel"))
@@ -110,9 +124,15 @@ if __name__ == '__main__':
     # print(card.front)
     # print(card.back)
     # # card.update()
+    # f_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
     #
-    cfg = PConfig(paths.PICKLE_CONFIG)
-    # cfg.load()
-    # print(cfg.data)
-    cfg.save(card)
+    # b_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
+    # contents = dict(front=f_sections, back=b_sections)
+    #
+    # for c in contents.values():
+    #     print(c)
+    # cfg = PConfig(paths.PICKLE_CONFIG)
+    # # cfg.load()
+    # # print(cfg.data)
+    # cfg.save(contents)
 

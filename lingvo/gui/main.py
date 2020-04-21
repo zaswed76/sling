@@ -81,13 +81,12 @@ class Main(QMainWindow):
         self._currentStackWidget = self.cfg["ui"]["currentStackWidget"]
 
         # загружаем модель
-        self.cfgpObject = PConfig(paths.PICKLE_CONFIG)
-        self.cardModel = self.getCardModel()
-        # настраиваем
-        # sections1 = [DropBox(s) for s in ["top", "center", "bottom"]]
-        # sections2 = [DropBox(s) for s in ["top", "center", "bottom"]]
-        # self.cardModel.setSections(CardModel.USideFront, sections1)
-        # self.cardModel.setSections(CardModel.USideBack, sections2)
+
+        self.cardModel = CardModel(paths.PICKLE_CONFIG)
+        self.cardModel.updateContent()
+        print(self.cardModel)
+
+
 
 
 
@@ -167,7 +166,7 @@ class Main(QMainWindow):
 
     def closeEvent(self, *args, **kwargs):
         self.cfg.save()
-        self.cfgpObject.save(self.cardModel)
+        self.cardModel.saveContent()
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
