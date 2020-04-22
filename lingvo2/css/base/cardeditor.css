@@ -1,0 +1,65 @@
+
+Editor {
+    background-color: #5d5d5f;
+     font-size: 20pt;
+     font-family: Arial;
+}
+
+
+
+
+LbSide {
+
+    background-color: #6ab3ba;
+}
+
+LbEx {
+    background-color: #ececec;
+}
+
+/*кнопки управления надписями в редакторе*/
+
+QPushButton#delBtn {
+    border-image: url("./resources/icons/base/icon_close_alt2.png");
+
+}
+
+QPushButton#tuneBtn {
+    border-image: url("./resources/icons/base/icon_cog.png");
+
+}
+
+Top {
+    background-color: #d6d6d6;
+
+}
+
+Center{
+    background-color: #d6d6d6;
+    /*border-bottom: 1px solid gray ;*/
+    /*border-top: 1px solid gray ;*/
+    /*border-left: none ;*/
+    /*border-right: 1px solid gray ;*/
+
+}
+
+Bottom {
+    background-color: #d6d6d6;
+
+}
+
+CardEditView {
+    background-color: #ffffff;
+}
+
+InputEdit {
+    font-size: 18pt;
+    font-family: Helvetica;
+    background-color: #cccccc;
+    color: #152e2e;
+}
+
+/*ImageBtn {*/
+    /*border: none;*/
+
+/*}*/

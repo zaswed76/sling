@@ -1,0 +1,37 @@
+card:
+    content:
+        back:
+            bottom: []
+            center: []
+            top: []
+        front:
+            bottom: []
+            center: []
+            top: []
+    dropItems:
+    - Word_DropLabel
+    - translation_DropLabel
+    - cyrillicTranscription_DropLabel
+    - example_DropLabel
+    - example2_DropLabel
+    - input_InputEdit
+choosedict:
+    checkedDicts:
+    - slovar1
+    - slovar2
+core:
+    cycle: true
+    lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx
+currentStyle: base
+customizeLabel:
+    Word: AAAAAAAAAAAAA
+    Word_22050510028028864300324: AAAAAAAAAAAAA
+    example: AAAAAAAAAAAAA
+    example2: AAAAAAAAAAAAA
+    lb1: lb1
+    translation: AAAAAAAAAAAAA
+ui:
+    currentStackWidget: view
+    startSize:
+    - 600
+    - 600

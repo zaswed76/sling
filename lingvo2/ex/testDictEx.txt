@@ -1,0 +1,3 @@
+blue;блю;голубой
+red;ред;красный;этот цветок красный;this flower is red
+black;блэк;чёрный;I write with a black pen;я пишу чёрной, ручкой;she has black hair;у неё черные волосы

@@ -12,7 +12,6 @@ from PyQt5.QtGui import *
 
 class DropFrame(QFrame):
     def __init__(self, objectName, *args, **kwargs):
-
         super().__init__(*args, **kwargs)
         self.setObjectName(objectName)
         self.setAcceptDrops(True)

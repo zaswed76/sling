@@ -32,9 +32,7 @@ class Card(QStackedWidget):
         self.updateContent()
 
     def updateContent(self, *__args):
-        print("")
-
-
+        print("єтот медод надо переопределить")
 
     @property
     def currentSideIndex(self):
@@ -117,7 +115,6 @@ class CardEditView(QFrame):
 
 class ChangeSideCardBtn(QPushButton):
     def __init__(self, *__args):
-
         super().__init__(*__args)
         self.setFont(QFont("arial", 20))
 

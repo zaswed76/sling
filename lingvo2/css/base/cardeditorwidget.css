@@ -1,0 +1,12 @@
+
+Card {
+    background-color: #b3d9d8;
+}
+
+DropFrame#frontSide {
+    background-color: #00A000;
+}
+
+DropFrame#backSide {
+    background-color: #417bb1;
+}

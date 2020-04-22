@@ -83,8 +83,8 @@ class Main(QMainWindow):
         # загружаем модель
 
         self.cardModel = CardModel(paths.PICKLE_CONFIG)
-        self.cardModel.updateContent()
-        print(self.cardModel)
+        self.cardModel.updateSignal.connect(self.updateViews)
+
 
 
         # выбираем словарь
@@ -118,6 +118,11 @@ class Main(QMainWindow):
         self.dictsModel = DictsModel(self.dictSeq)
         self.dictsModel.updateWorkData(self.chooseDictStack.checkedDicts())
         # self.viewCardStack.initCard()
+
+    def updateViews(self):
+        self.cardEditView.updateContent()
+        self.viewCardStack.updateContent()
+
 
     def getCardModel(self) -> CardModel:
         return self.cfgpObject.load()
