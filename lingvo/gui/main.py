@@ -87,9 +87,6 @@ class Main(QMainWindow):
         print(self.cardModel)
 
 
-
-
-
         # выбираем словарь
         self.chooseDictStack = ChooseDictStack(self, name="chooseDictStack",
                                                config=self.cfg)
