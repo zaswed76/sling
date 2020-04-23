@@ -76,8 +76,6 @@ class Main(QMainWindow):
 
         self.dictSeq = DictSeq(paths.DATA)
 
-
-
         # здесь хранятся все стеки (окна)
         self.centerStackFrame = CenterStackFrame(self)
         self.setCentralWidget(self.centerStackFrame)
@@ -104,12 +102,15 @@ class Main(QMainWindow):
 
         # работаем с карточками
         self.viewCard = viewcard.ViewCard()
+        self.viewCard.setCardModel(self.cardModel)
 
 
         # редактируем карточки
         self.editDropList = editdrop_listview.DropListWidget(None, "editDropList")
         self.editDropList.setItems(config.Config(paths.CARD_CONFIG)["dropItemsTypeList"])
         self.viewEditCard = editcard.EditCard()
+        self.viewEditCard.setCardModel(self.cardModel)
+        # self.viewEditCard.setC
         self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard)
 
 

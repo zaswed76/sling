@@ -87,27 +87,32 @@ class CardModel(QObject):
 
         self.front = self.content["front"]
         self.back = self.content["back"]
-        self.sides = {"front": self.front, "back": self.back}
+        self._sides = {"front": self.front, "back": self.back}
 
+    @property
+    def sides(self):
+        return self._sides
 
     def insertItem(self, side, i_section, dragItem):
-        self.sides[side][i_section].append(dragItem)
+        self._sides[side][i_section].append(dragItem)
 
     def appendSection(self, side, section):
-        self.sides[side].append(section)
+        self._sides[side].append(section)
 
     def setSections(self, side, sections_list):
-        self.sides[side].extend(sections_list)
+        self._sides[side].extend(sections_list)
 
     def __repr__(self):
-        return str(self.sides)
+        return str(self._sides)
 
     def saveContent(self):
-        self.contentCfg.save(self.sides)
+        self.contentCfg.save(self._sides)
 
 
 def save():
     f_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
+    f_sections[1].append(DragItem("DropLabel", text="Word"))
+    f_sections[1].append(DragItem("DropLabel", text="Word2"))
     b_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
     contents = dict(front=f_sections, back=b_sections)
     cfg = PConfig(paths.PICKLE_CONFIG)
@@ -122,10 +127,10 @@ def load():
 
 if __name__ == '__main__':
     import paths
-    # save()
+    save()
 
 
-    load()
+    # load()
     # card.saveContent()
     # sections = [DropBox(s) for s in ["top", "center", "bottom"]]
     # card.setSections(CardModel.USideFront, sections)

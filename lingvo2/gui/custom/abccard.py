@@ -3,8 +3,42 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-class DropLayout(QFrame):
-    def __init__(self, objectName, *args, **kwargs):
+class AbcDropLabel(QLabel):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+        self.setAlignment(Qt.AlignCenter)
+        self.installEventFilter(self)
+
+class AbcBoxLayout(QBoxLayout):
+    def __init__(self, QBoxLayout_Direction, parent=None, **kwargs):
+        """
+
+        :param direction: Q
+        :param parent:
+        :param kwargs:
+        """
+
+        super().__init__(QBoxLayout_Direction, parent)
+        self.setDirection(QBoxLayout_Direction)
+        self.setParent(parent)
+        contentMargin = kwargs.get("content_margin", (0, 0, 0, 0))
+        spacing = kwargs.get("spacing", 0)
+        self.setContentsMargins(*contentMargin)
+        self.setSpacing(spacing)
+
+class AbcVBoxLayout(QVBoxLayout):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.setParent(parent)
+        self.setContentsMargins(0, 0, 0, 0)
+        self.setSpacing(0)
+
+
+
+
+
+class AbcDropLayout(QFrame):
+    def __init__(self, objectName, QBoxLayout_Direction,  *args, **kwargs):
         """
         виджет-контейнер в который можно перетащить другие виджеты
         :param objectName:
@@ -13,19 +47,41 @@ class DropLayout(QFrame):
         """
         super().__init__(*args, **kwargs)
         self.setObjectName(objectName)
-        self.setAcceptDrops(True)
-        self.box = None
 
-    def setLayout(self, QLayout):
-        self.box = QLayout
+        self.box = AbcBoxLayout(QBoxLayout_Direction, self)
+        self.setToolTip(self.objectName())
+        self.setAcceptDrops(True)
+
+    def setContentLayout(self, QLayout):
+        self.box = QLayout(self)
 
     def dragEnterEvent(self, e):
+        pass
         e.accept()
 
     def dropEvent(self, e):
+        pass
         mime = e.mimeData()
         text = mime.text()
+        print(text)
         e.accept()
+
+    def addComponent(self, component):
+        self.box.addWidget(component)
+
+class AbcSide(QFrame):
+    def __init__(self, layout: QBoxLayout, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+        self.box = layout
+
+    def addWidget(self, widget):
+        self.box.addWidget(widget)
+
+    def setWidgets(self, widgets_list):
+        for w in widgets_list:
+            # print(w)
+            self.addWidget(w)
 
 
 class AbcViewCard(QStackedWidget):
@@ -48,11 +104,16 @@ class AbcViewCard(QStackedWidget):
             self.setSide(name, widget)
 
     def updateContent(self):
-        print("view", self.__cardModel)
+        pass
+        # print("view", self.__cardModel)
 
     def setCardModel(self, cardModel):
         self.__cardModel = cardModel
         self.updateContent()
+
+    @property
+    def cardModel(self):
+        return self.__cardModel
 
     @property
     def currentSideIndex(self):

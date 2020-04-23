@@ -4,23 +4,29 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui.custom.abccard import AbcViewCard
+#
+# class ViewCard(QFrame):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#
+#         self.setFixedSize(730, 730)
+#         self.setStyleSheet("background-color: white")
+#         self.box = QHBoxLayout(self)
+#         self.card = Card()
+#         self.box.addWidget(self.card)
 
-class ViewCard(QFrame):
+
+
+class ViewCard(AbcViewCard):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setFixedSize(790, 788)
-        self.setStyleSheet("background-color: white")
-        self.box = QHBoxLayout(self)
-        self.card = Card()
-        self.box.addWidget(self.card)
-
-
-class Card(AbcViewCard):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.setFixedSize(730, 730)
         self.setStyleSheet("background-color: lightgrey")
+        self.setToolTip("DropLayout")
 
+    def updateContent(self):
+        pass
+        # print("ViewCard", self.cardModel)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

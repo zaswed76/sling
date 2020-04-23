@@ -59,7 +59,7 @@ class DropListWidget(QListWidget):
         mimeData = QMimeData()
         item = self.currentItem()
         mimeText = "_".join((item.text(), item.typeWidget))
-        print(mimeText)
+        # print(mimeText)
         mimeData.setText(mimeText)
         drag = QDrag(self)
         drag.setMimeData(mimeData)
