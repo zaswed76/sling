@@ -4,6 +4,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui.custom.abccard import *
+from gui.custom import dropcomponents
 
 class DropLabel(AbcDropLabel):
     def __init__(self, *__args):
@@ -12,10 +13,22 @@ class DropLabel(AbcDropLabel):
 
 
 class DropLayout(AbcDropLayout):
-    def __init__(self, objectName, *args, **kwargs):
-        super().__init__(objectName, *args, **kwargs)
+    def __init__(self, objectName, QBoxLayout_Direction, cardModel, side, index ,*args, **kwargs):
+        super().__init__(objectName, QBoxLayout_Direction, cardModel, side, *args, index , **kwargs)
         self.setStyleSheet("background-color: white")
 
+    def dropEvent(self, e):
+        pass
+        mime = e.mimeData()
+        component = mime.text()
+        text, widgetType = component.split("_")
+        self.cardModel.sides["front"][self.index].appendDragItem(widgetType, text=text)
+        print(self.cardModel.sides["front"][self.index])
+        # print(self.objectName(), self.parent)
+        qwidget = getattr(dropcomponents, widgetType)
+        self.addComponent(qwidget(text))
+
+        e.accept()
 
 
 class Side(AbcSide):
@@ -43,11 +56,18 @@ class EditCard(AbcViewCard):
 
     def updateContent(self):
        for sideName, side in self.cardModel.sides.items():
-           for dropBox in side:
-               self.drops[dropBox.name] = DropLayout(dropBox.name, QBoxLayout.TopToBottom)
-               self.sides[sideName].addWidget(self.drops[dropBox.name])
-               for comp in dropBox:
-                   self.drops[dropBox.name].addComponent(DropLabel(comp.text))
+           for index, dropBox in enumerate(side):
+                self.drops[dropBox.name] = DropLayout(dropBox.name, QBoxLayout.TopToBottom, self.cardModel, sideName, index)
+                self.sides[sideName].addWidget(self.drops[dropBox.name])
+                self.addComponent(dropBox)
+
+
+    def addComponent(self, dropBox):
+        for comp in dropBox:
+            text = comp.text
+            widgetType = comp.qwidgetType
+            qwidget = getattr(dropcomponents, widgetType)
+            self.drops[dropBox.name].addComponent(qwidget(text))
 
 
 

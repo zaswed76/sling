@@ -31,7 +31,7 @@ customizeLabel:
     lb1: lb1
     translation: AAAAAAAAAAAAA
 ui:
-    currentStackWidget: view
+    currentStackWidget: cardEditView
     startSize:
     - 600
     - 600

@@ -38,7 +38,7 @@ class AbcVBoxLayout(QVBoxLayout):
 
 
 class AbcDropLayout(QFrame):
-    def __init__(self, objectName, QBoxLayout_Direction,  *args, **kwargs):
+    def __init__(self, objectName, QBoxLayout_Direction,  cardModel, side, index , *args, **kwargs):
         """
         виджет-контейнер в который можно перетащить другие виджеты
         :param objectName:
@@ -46,6 +46,9 @@ class AbcDropLayout(QFrame):
         :param kwargs:
         """
         super().__init__(*args, **kwargs)
+        self.index = index
+        self.side = side
+        self.cardModel = cardModel
         self.setObjectName(objectName)
 
         self.box = AbcBoxLayout(QBoxLayout_Direction, self)

@@ -43,7 +43,7 @@ class DragItem:
         self.style = style
 
     def __repr__(self):
-        return "{}: {}".format(self.__class__.__name__, self.qwidgetType)
+        return "{}".format(self.qwidgetType)
 
 class DropBox(UserList):
     def __init__(self, name, **kwargs):
@@ -55,8 +55,13 @@ class DropBox(UserList):
         super().__init__()
         self.name = name
 
+    def appendDragItem(self, item, **args):
+        text = args.get("text")
+        style = args.get("style")
+        self.append(DragItem(item, text=text, style=style))
+
     def __repr__(self):
-        return "{}:{}".format(self.__class__.__name__, self.name)
+        return "{}:{}".format(self.__class__.__name__, self.__dict__)
 
 class Side(UserList):
     def __init__(self, name):
@@ -64,7 +69,7 @@ class Side(UserList):
         self.name = name
 
     def __repr__(self):
-        return str(self.name)
+        return self.name
 
 class CardModel(QObject):
     USideFront = "front"
@@ -111,8 +116,8 @@ class CardModel(QObject):
 
 def save():
     f_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
-    f_sections[1].append(DragItem("DropLabel", text="Word"))
-    f_sections[1].append(DragItem("DropLabel", text="Word2"))
+    f_sections[1].appendDragItem("DropLabel", text="Word")
+    f_sections[1].appendDragItem("DropLabel", text="Word")
     b_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
     contents = dict(front=f_sections, back=b_sections)
     cfg = PConfig(paths.PICKLE_CONFIG)
