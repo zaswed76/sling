@@ -6,8 +6,7 @@ from PyQt5.QtWidgets import *
 class AbcDropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
-        self.setAlignment(Qt.AlignCenter)
-        self.installEventFilter(self)
+
 
 class AbcBoxLayout(QBoxLayout):
     def __init__(self, QBoxLayout_Direction, parent=None, **kwargs):

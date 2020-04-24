@@ -67,8 +67,8 @@ class EditCard(AbcViewCard):
         for comp in dropBox:
             text = comp.text
             widgetType = comp.qwidgetType
-            qwidget = getattr(dropcomponents, widgetType)(text)
-            print(id(qwidget))
+            qwidget = dropcomponents.DropWidgetItem(widgetType, text)
+
             self.drops[dropBox.name].addComponent(qwidget)
 
 

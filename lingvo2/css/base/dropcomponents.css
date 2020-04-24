@@ -44,3 +44,7 @@ ControlsDropLabel {
     border: none;
     padding: 3px 0px 3px 0px;
 }
+
+SoundBtn {
+    border-image: url("./resources/icons/base/icon_close.png");
+}

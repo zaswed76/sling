@@ -28,7 +28,7 @@ class DragItemStyle:
         self.font = font
 
 
-class DragItem:
+class DropItem:
     def __init__(self, qwidgetType, text=None, style=None, **kwargs):
         """
         объект который вставляют
@@ -59,7 +59,7 @@ class DropBox(UserList):
     def appendDragItem(self, item, **args):
         text = args.get("text")
         style = args.get("style")
-        self.append(DragItem(item, text=text, style=style))
+        self.append(DropItem(item, text=text, style=style))
 
     def __repr__(self):
         return "{}:{}".format(self.__class__.__name__, self.__dict__)

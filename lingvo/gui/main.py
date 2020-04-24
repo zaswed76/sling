@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 
 import config
 import paths
-from core.cardModel import CardModel, PConfig, DropBox, DragItem, DragItemStyle
+from core.cardModel import CardModel, PConfig, DropBox, DropItem, DragItemStyle
 from core.dictsequence import DictSeq
 from core.dictsmodel import DictsModel
 from gui.cardeditorpkg.cardeditorwidget import CardEditView
