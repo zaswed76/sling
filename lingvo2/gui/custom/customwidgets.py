@@ -29,6 +29,9 @@ class BoxLayout(QtWidgets.QBoxLayout):
         self.setContentsMargins(*contentMargin)
         self.setSpacing(spacing)
 
+
+
+
 class Widget(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()

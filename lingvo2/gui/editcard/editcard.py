@@ -6,16 +6,18 @@ from PyQt5.QtWidgets import *
 from gui.custom.abccard import *
 from gui.custom import dropcomponents
 
-class DropLabel(AbcDropLabel):
-    def __init__(self, *__args):
-        super().__init__(*__args)
+
+
+
+
+
 
 
 
 class DropLayout(AbcDropLayout):
     def __init__(self, objectName, QBoxLayout_Direction, cardModel, side, index ,*args, **kwargs):
         super().__init__(objectName, QBoxLayout_Direction, cardModel, side, *args, index , **kwargs)
-        self.setStyleSheet("background-color: white")
+
 
     def dropEvent(self, e):
         pass
@@ -23,8 +25,6 @@ class DropLayout(AbcDropLayout):
         component = mime.text()
         text, widgetType = component.split("_")
         self.cardModel.sides["front"][self.index].appendDragItem(widgetType, text=text)
-        print(self.cardModel.sides["front"][self.index])
-        # print(self.objectName(), self.parent)
         qwidget = getattr(dropcomponents, widgetType)
         self.addComponent(qwidget(text))
 
@@ -45,7 +45,7 @@ class EditCard(AbcViewCard):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setFixedSize(600, 600)
-        self.setStyleSheet("background-color: lightgrey")
+        # self.setStyleSheet("background-color: lightgrey")
         self.drops = {}
 
         self.sides["front"] = Side(AbcVBoxLayout)
@@ -62,12 +62,14 @@ class EditCard(AbcViewCard):
                 self.addComponent(dropBox)
 
 
+
     def addComponent(self, dropBox):
         for comp in dropBox:
             text = comp.text
             widgetType = comp.qwidgetType
-            qwidget = getattr(dropcomponents, widgetType)
-            self.drops[dropBox.name].addComponent(qwidget(text))
+            qwidget = getattr(dropcomponents, widgetType)(text)
+            print(id(qwidget))
+            self.drops[dropBox.name].addComponent(qwidget)
 
 
 

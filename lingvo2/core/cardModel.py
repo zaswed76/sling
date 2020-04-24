@@ -41,6 +41,7 @@ class DragItem:
         self.qwidgetType = qwidgetType
         self.text = text
         self.style = style
+        self.soundBtn = True
 
     def __repr__(self):
         return "{}".format(self.qwidgetType)

@@ -19,7 +19,7 @@ class CenterStackFrame(QFrame):
         self.hbox.setContentsMargins(0, 0, 0, 0)
         self.stack = QStackedWidget()
         self.hbox.addWidget(self.stack, alignment=Qt.AlignCenter)
-        self.setStyleSheet("background-color: white")
+
 
     def setStackWidgets(self, stackWidgets):
         self.stackWidgets.update(stackWidgets)

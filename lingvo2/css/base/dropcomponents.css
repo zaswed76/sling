@@ -1,0 +1,46 @@
+
+
+AbcDropLabel#Word {
+    font-size: 44px;
+    qproperty-alignment: AlignCenter;
+
+}
+
+AbcDropLabel#cyrillicTrans {
+    font-size: 30px;
+    color: #343436;
+}
+
+
+AbcDropLabel#translation {
+    font-size: 30px;
+    color: #054494;
+}
+
+AbcDropLabel#example {
+    font-size: 20px;
+    color: #6e6e6e;
+    qproperty-alignment: AlignLeft;
+    padding: 10px 0px 0px 15px;
+}
+
+DropLabel#example2 {
+    font-size: 20px;
+    color: #6e6e6e;
+}
+
+CloseDropLabelBtn {
+    border: none;
+    padding: 0px 0px 0px 0px;
+
+}
+
+TuneDropLabelBtn {
+    border: none;
+    padding: 0px 0px 0px 0px;
+}
+
+ControlsDropLabel {
+    border: none;
+    padding: 3px 0px 3px 0px;
+}

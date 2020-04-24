@@ -30,7 +30,7 @@ class EditCardWidget(QFrame):
 
         self.box_0.addLayout(self.box_right)
         self.box_0.addStretch(1)
-        self.setStyleSheet("background-color: #ECECEC")
+        # self.setStyleSheet("background-color: #ECECEC")
 
 
 

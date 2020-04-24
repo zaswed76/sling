@@ -26,6 +26,11 @@ class AbcBoxLayout(QBoxLayout):
         self.setContentsMargins(*contentMargin)
         self.setSpacing(spacing)
 
+    def addWidgets(self, QWidgets_list, *args, **kwargs):
+        for QWidget in QWidgets_list:
+            self.addWidget(QWidget, *args, **kwargs)
+
+
 class AbcVBoxLayout(QVBoxLayout):
     def __init__(self, parent):
         super().__init__(parent)
@@ -50,6 +55,7 @@ class AbcDropLayout(QFrame):
         self.side = side
         self.cardModel = cardModel
         self.setObjectName(objectName)
+        self.components = {}
 
         self.box = AbcBoxLayout(QBoxLayout_Direction, self)
         self.setToolTip(self.objectName())
@@ -70,7 +76,16 @@ class AbcDropLayout(QFrame):
         e.accept()
 
     def addComponent(self, component):
-        self.box.addWidget(component)
+        self.components[id(component)] = component
+        self.box.addWidget(self.components[id(component)])
+
+    def removeComponent(self ,id):
+        print(id)
+        self.box.removeWidget(self.components[id])
+        self.components[id].deleteLater()
+        # print(component, "component")
+        # for i in range(self.box.count()):
+        #     print(self.box.takeAt(i), "1111")
 
 class AbcSide(QFrame):
     def __init__(self, layout: QBoxLayout, *args, **kwargs):
