@@ -21,6 +21,7 @@ class EditCardWidget(QFrame):
         self.box_right.setContentsMargins(0, 0, 0, 0)
         self.box_right.setSpacing(0)
         self.turnSideBtn = QPushButton("Turn")
+        self.turnSideBtn.clicked.connect(viewCard.changeSide)
 
         self.box_right.addWidget(self.turnSideBtn)
         self.box_right.addWidget(viewCard)

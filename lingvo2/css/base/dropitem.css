@@ -1,0 +1,28 @@
+TuneDropLabelBtn {
+    border: none;
+
+    width: 18px;
+    height: 18px;
+    image: url(":/cfgShadow.png");
+}
+
+CloseDropLabelBtn {
+    border: none;
+    width: 18px;
+    height: 18px;
+    image: url(":/closeAround.png");
+
+}
+
+ControlsDropLabel {
+    border: 1px solid #cecece;
+    border-radius: 8px;
+    max-width: 48px;
+    max-height: 24px;
+    padding: 0px 0px 0px 0px;
+
+}
+
+SoundBtn {
+    border: none;
+}

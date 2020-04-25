@@ -9,15 +9,15 @@ def load():
 
 def save():
     f_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
-    f_sections[1].appendDragItem("DropLabel", text="Word")
-    f_sections[1].appendDragItem("DropLabel", text="Word")
+    # f_sections[1].appendDragItem("DropLabel", text="Word")
+    # f_sections[1].appendDragItem("DropLabel", text="Word")
     b_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
     contents = dict(front=f_sections, back=b_sections)
     cfg = PConfig(paths.PICKLE_CONFIG)
     cfg.save(contents)
 
 if __name__ == '__main__':
-    _SAVE = 1
+    _SAVE = 0
     if _SAVE:
         save()
     else:

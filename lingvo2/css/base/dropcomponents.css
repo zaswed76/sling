@@ -1,6 +1,6 @@
 
 
-AbcDropLabel#Word {
+AbcDropLabel {
     font-size: 44px;
     qproperty-alignment: AlignCenter;
 
@@ -29,22 +29,5 @@ DropLabel#example2 {
     color: #6e6e6e;
 }
 
-CloseDropLabelBtn {
-    border: none;
-    padding: 0px 0px 0px 0px;
 
-}
 
-TuneDropLabelBtn {
-    border: none;
-    padding: 0px 0px 0px 0px;
-}
-
-ControlsDropLabel {
-    border: none;
-    padding: 3px 0px 3px 0px;
-}
-
-SoundBtn {
-    border-image: url("./resources/icons/base/icon_close.png");
-}

@@ -29,7 +29,7 @@ class DragItemStyle:
 
 
 class DropItem:
-    def __init__(self, qwidgetType, text=None, style=None, **kwargs):
+    def __init__(self, qwidgetType, text=None, style=None, idO=None, **kwargs):
         """
         объект который вставляют
 
@@ -41,10 +41,14 @@ class DropItem:
         self.qwidgetType = qwidgetType
         self.text = text
         self.style = style
-        self.soundBtn = True
+        self.soundBtn = False
+        if idO is None:
+            self.idO = id(self)
+        else:
+            self.idO = idO
 
     def __repr__(self):
-        return "{}".format(self.qwidgetType)
+        return "{}-{}".format(self.qwidgetType, self.idO)
 
 class DropBox(UserList):
     def __init__(self, name, **kwargs):
@@ -58,8 +62,8 @@ class DropBox(UserList):
 
     def appendDragItem(self, item, **args):
         text = args.get("text")
-        style = args.get("style")
-        self.append(DropItem(item, text=text, style=style))
+        id = args.get("id")
+        self.append(DropItem(item, text=text, id=id))
 
     def __repr__(self):
         return "{}:{}".format(self.__class__.__name__, self.__dict__)
@@ -101,6 +105,9 @@ class CardModel(QObject):
 
     def insertItem(self, side, i_section, dragItem):
         self._sides[side][i_section].append(dragItem)
+
+    def removeItem(self, side, i_section, dragItem):
+        self._sides[side][i_section].remove(dragItem)
 
     def appendSection(self, side, section):
         self._sides[side].append(section)

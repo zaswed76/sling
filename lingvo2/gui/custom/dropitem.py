@@ -8,17 +8,19 @@ from abccard import *
 class SoundBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
-        self.setFlat(False)
+
+
+
 
 class CloseDropLabelBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
-        self.setIcon(QIcon("./resources/icons/base/closeComponent.png"))
+
 
 class TuneDropLabelBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
-        self.setIcon(QIcon("./resources/icons/base/icon_cog.png"))
+
 
 class ControlsDropLabel(QFrame):
     def __init__(self, *args, **kwargs):
@@ -29,8 +31,17 @@ class ControlsDropLabel(QFrame):
         self.box.addWidgets([self.closeDropLabelBtn, self.tuneDropLabelBtn])
 
 class DropWidgetItem(QFrame):
-    def __init__(self, widget_tipe, text=None, *args, **kwargs):
+    def __init__(self, widget_tipe, text=None, sound=False, *args, **kwargs):
+        """
+        этот виджет добавляем в контейнер AbcDropLayout
+        :param widget_tipe:
+        :param text:
+        :param args:
+        :param kwargs:
+        """
         super().__init__(*args, **kwargs)
+        self.widgetType = widget_tipe
+        self.text = text
         self.installEventFilter(self)
         self.box = QHBoxLayout(self)
         self.box.setContentsMargins(0, 0, 0, 0)
@@ -39,16 +50,23 @@ class DropWidgetItem(QFrame):
         if text: self.component.setText(text)
         self.box.addWidget(self.component)
         self.soundBtn = SoundBtn(self.component)
+        self.enabledIcon(sound)
         self.controlsDropLabel = ControlsDropLabel(self)
         self.controlsDropLabel.closeDropLabelBtn.clicked.connect(self.removeComponent)
         self.controlsDropLabel.tuneDropLabelBtn.clicked.connect(self.tuneComponent)
         self.controlsDropLabel.hide()
 
+    def enabledIcon(self, enabled):
+        if enabled:
+            self.soundBtn.setIcon(QIcon(":/volume.png"))
+        else:
+            self.soundBtn.setIcon(QIcon())
+
     def removeComponent(self):
         conteiner = self.sender().parent().parent().parent()
         widget = self.sender().parent().parent()
         idWidget = id(widget)
-        print(conteiner, widget)
+        print(conteiner, widget, idWidget,  "!!!!!")
         # conteiner.removeComponent(idWidget)
 
 
@@ -63,9 +81,10 @@ class DropWidgetItem(QFrame):
         rect = self.component.rect()
         center = rect.center()
         right = rect.right()
-        center.setX(right-75)
+        center.setX(right-175)
         center.setY(int(center.y()-25/2))
         self.soundBtn.move(center)
+        self.controlsDropLabel.move(rect.topLeft() + QPoint(5, 5))
 
     def eventFilter(self, obj, event):
         if event.type() == 11:  # Если мышь покинула область фиджета
@@ -73,6 +92,9 @@ class DropWidgetItem(QFrame):
         elif event.type() == 10:# Если мышь над виджетом
             self.controlsDropLabel.show()  # выполнить  callback2()
         return False
+
+    def __repr__(self):
+        return "DropWidgetItem"
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -7,6 +7,9 @@ class AbcDropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
 
+    def __repr__(self):
+        return "AbcDropLabel"
+
 
 class AbcBoxLayout(QBoxLayout):
     def __init__(self, QBoxLayout_Direction, parent=None, **kwargs):
@@ -45,6 +48,7 @@ class AbcDropLayout(QFrame):
     def __init__(self, objectName, QBoxLayout_Direction,  cardModel, side, index , *args, **kwargs):
         """
         виджет-контейнер в который можно перетащить другие виджеты
+        top center, bottom
         :param objectName:
         :param args:
         :param kwargs:
@@ -54,7 +58,7 @@ class AbcDropLayout(QFrame):
         self.side = side
         self.cardModel = cardModel
         self.setObjectName(objectName)
-        self.components = {}
+        self.__components = {}
 
         self.box = AbcBoxLayout(QBoxLayout_Direction, self)
         self.setToolTip(self.objectName())
@@ -64,32 +68,37 @@ class AbcDropLayout(QFrame):
         self.box = QLayout(self)
 
     def dragEnterEvent(self, e):
-        pass
         e.accept()
 
     def dropEvent(self, e):
-        pass
         mime = e.mimeData()
         text = mime.text()
-        print(text)
         e.accept()
 
-    def addComponent(self, component):
-        self.components[id(component)] = component
-        self.box.addWidget(self.components[id(component)])
+    def addComponent(self, qwidget):
+        self.__components[id(qwidget)] = qwidget
+        self.box.addWidget(self.__components[id(qwidget)])
+        self.cardModel.sides[self.side][self.index].appendDragItem(qwidget.widgetType, text=qwidget.text, idO=id(qwidget))
 
     def removeComponent(self ,id):
-        print(id)
-        self.box.removeWidget(self.components[id])
-        self.components[id].deleteLater()
-        # print(component, "component")
-        # for i in range(self.box.count()):
-        #     print(self.box.takeAt(i), "1111")
+        self.box.removeWidget(self.__components[id])
+        self.__components[id].deleteLater()
+        # self.cardModel.
+
+    @property
+    def components(self):
+        lst = []
+        for i in range(self.box.count()):
+            lst.append(self.box.itemAt(i).widget())
+        return lst
+
+    def __repr__(self):
+        return "AbcDropLayout"
 
 class AbcSide(QFrame):
-    def __init__(self, layout: QBoxLayout, *args, **kwargs):
-
+    def __init__(self, layout: QBoxLayout, objectName=None,  *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.setObjectName(objectName)
         self.box = layout
 
     def addWidget(self, widget):
@@ -97,9 +106,17 @@ class AbcSide(QFrame):
 
     def setWidgets(self, widgets_list):
         for w in widgets_list:
-            # print(w)
             self.addWidget(w)
 
+    @property
+    def layouts(self):
+        lst = []
+        for i in range(self.box.count()):
+            lst.append(self.box.itemAt(i).widget())
+        return lst
+
+    def __repr__(self):
+        return str(self.layouts)
 
 class AbcViewCard(QStackedWidget):
     def __init__(self, *args, **kwargs):
@@ -147,7 +164,8 @@ class AbcViewCard(QStackedWidget):
         self.currentSideIndex = not self.currentSideIndex
         self.setCurrentIndex(self.currentSideIndex)
 
-
+    def __repr__(self):
+        return "AbcViewCard"
 
 
 if __name__ == '__main__':

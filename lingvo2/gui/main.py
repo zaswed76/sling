@@ -52,9 +52,9 @@ class ToolBar(QToolBar):
         self.main = main
         self.setFixedHeight(42)
         self.addAction(
-            QAction(QIcon(str(paths.ICONS / "dict.png")), "chooseDict", self))
+            QAction(QIcon(":/dict.png"), "chooseDict", self))
         self.addAction(
-            QAction(QIcon(str(paths.ICONS / "edit.png")), "cardEditView", self))
+            QAction(QIcon(":/edit.png"), "cardEditView", self))
 
 
 class ChooseDictStackController:
