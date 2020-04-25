@@ -28,8 +28,8 @@ class DropLayout(AbcDropLayout):
         mime = e.mimeData()
         component = mime.text()
         text, widgetType = component.split("_")
-        qwidget = dropitem.DropWidgetItem(widgetType, text, sound=True)
-        # self.cardModel.sides[sideName][self.index].appendDragItem(widgetType, text=text, idO=id(qwidget))
+        qwidget = dropitem.DropWidgetItem(widgetType, text, idO=None, sound=True)
+        self.cardModel.sides[sideName][self.index].appendDragItem(qwidget.idO, widgetType, text=text)
         self.addComponent(qwidget)
         e.accept()
 
@@ -60,29 +60,28 @@ class EditCard(AbcViewCard):
         self.setSides(self.sides.values())
 
     def updateContent(self):
+
         for sideName, side in self.cardModel.sides.items():
-            for index, dropBoxLayout in enumerate(side):
-                self.dropsLayouts[dropBoxLayout.name] = DropLayout(dropBoxLayout.name, QBoxLayout.TopToBottom, self.cardModel, sideName, index)
+            for index, dropLayoutModel in enumerate(side):
+                self.dropsLayouts[dropLayoutModel.name] = DropLayout(dropLayoutModel.name, QBoxLayout.TopToBottom, self.cardModel, sideName, index)
                 # контейнер на сторону
-                self.sides[sideName].addWidget(self.dropsLayouts[dropBoxLayout.name])
+                self.sides[sideName].addWidget(self.dropsLayouts[dropLayoutModel.name])
                 # компоненты в каждый контейнер если есть
-                self.addComponent(dropBoxLayout)
-        for lay in self.sides["front"].layouts:
-            print(lay.components)
+                self.addComponents(dropLayoutModel)
+        # for l in self.sides["front"].layouts:
+        #     print(l.components)
 
 
 
 
-    def addComponent(self, dropBox):
 
-        print(dropBox)
-        for comp in dropBox:
+    def addComponents(self, dropLayoutModel):
+        for comp in dropLayoutModel:
             text = comp.text
             widgetType = comp.qwidgetType
-            print(widgetType, text , "!!!!")
-            qwidget = dropitem.DropWidgetItem(widgetType, text, sound=True)
-            # todo recursion
-            self.dropsLayouts[dropBox.name].addComponent(qwidget)
+            idO = comp.idO
+            qwidget = dropitem.DropWidgetItem(widgetType, text, idO=idO,  sound=True)
+            self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
 
 

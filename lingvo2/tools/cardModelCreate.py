@@ -17,7 +17,7 @@ def save():
     cfg.save(contents)
 
 if __name__ == '__main__':
-    _SAVE = 0
+    _SAVE = 1
     if _SAVE:
         save()
     else:

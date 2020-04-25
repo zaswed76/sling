@@ -31,7 +31,7 @@ class ControlsDropLabel(QFrame):
         self.box.addWidgets([self.closeDropLabelBtn, self.tuneDropLabelBtn])
 
 class DropWidgetItem(QFrame):
-    def __init__(self, widget_tipe, text=None, sound=False, *args, **kwargs):
+    def __init__(self, widget_tipe, text=None, sound=False, idO=None, *args, **kwargs):
         """
         этот виджет добавляем в контейнер AbcDropLayout
         :param widget_tipe:
@@ -40,6 +40,12 @@ class DropWidgetItem(QFrame):
         :param kwargs:
         """
         super().__init__(*args, **kwargs)
+
+        if idO is None:
+            self.idO = id(self)
+        else:
+            self.idO = idO
+
         self.widgetType = widget_tipe
         self.text = text
         self.installEventFilter(self)
@@ -66,8 +72,8 @@ class DropWidgetItem(QFrame):
         conteiner = self.sender().parent().parent().parent()
         widget = self.sender().parent().parent()
         idWidget = id(widget)
-        print(conteiner, widget, idWidget,  "!!!!!")
-        # conteiner.removeComponent(idWidget)
+        conteiner.cardModel.removeItemToIdO(conteiner.side, conteiner.index, widget.idO)
+        conteiner.removeComponent(idWidget)
 
 
     def tuneComponent(self):
@@ -94,7 +100,7 @@ class DropWidgetItem(QFrame):
         return False
 
     def __repr__(self):
-        return "DropWidgetItem"
+        return "{}-{}".format(self.__class__.__name__, self.idO)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

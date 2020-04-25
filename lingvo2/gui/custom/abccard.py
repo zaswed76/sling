@@ -78,7 +78,7 @@ class AbcDropLayout(QFrame):
     def addComponent(self, qwidget):
         self.__components[id(qwidget)] = qwidget
         self.box.addWidget(self.__components[id(qwidget)])
-        self.cardModel.sides[self.side][self.index].appendDragItem(qwidget.widgetType, text=qwidget.text, idO=id(qwidget))
+
 
     def removeComponent(self ,id):
         self.box.removeWidget(self.__components[id])
