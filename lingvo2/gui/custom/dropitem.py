@@ -2,13 +2,19 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import dropcomponents
-from abccard import *
+from . import dropcomponents
+from . abccard import *
+
+class TuneDropWidgetItem(QFrame):
+    def __init__(self):
+        super().__init__()
+        self.setWindowModality(Qt.ApplicationModal)
+        self.setWindowFlag(Qt.Tool)
+
 
 class SoundBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
-
 
 
 
@@ -31,7 +37,7 @@ class ControlsDropLabel(QFrame):
         self.box.addWidgets([self.closeDropLabelBtn, self.tuneDropLabelBtn])
 
 class DropWidgetItem(QFrame):
-    def __init__(self, widget_tipe, text=None, sound=False, idO=None, *args, **kwargs):
+    def __init__(self, widget_tipe, text=None, soundBtn=False, idO=None, *args, **kwargs):
         """
         этот виджет добавляем в контейнер AbcDropLayout
         :param widget_tipe:
@@ -39,8 +45,8 @@ class DropWidgetItem(QFrame):
         :param args:
         :param kwargs:
         """
-        super().__init__(*args, **kwargs)
 
+        super().__init__(*args, **kwargs)
         if idO is None:
             self.idO = id(self)
         else:
@@ -56,13 +62,14 @@ class DropWidgetItem(QFrame):
         if text: self.component.setText(text)
         self.box.addWidget(self.component)
         self.soundBtn = SoundBtn(self.component)
-        self.enabledIcon(sound)
+        self.enabledIcon(soundBtn)
         self.controlsDropLabel = ControlsDropLabel(self)
         self.controlsDropLabel.closeDropLabelBtn.clicked.connect(self.removeComponent)
         self.controlsDropLabel.tuneDropLabelBtn.clicked.connect(self.tuneComponent)
         self.controlsDropLabel.hide()
 
     def enabledIcon(self, enabled):
+        print(enabled, "sound")
         if enabled:
             self.soundBtn.setIcon(QIcon(":/volume.png"))
         else:
@@ -80,7 +87,9 @@ class DropWidgetItem(QFrame):
         conteiner = self.sender().parent().parent().parent()
         widget = self.sender().parent().parent()
         idWidget = id(widget)
-        print(conteiner, widget)
+        print(conteiner.side, conteiner.index, widget.idO)
+        self.tuneDropWidgetItemDialog = TuneDropWidgetItem()
+        self.tuneDropWidgetItemDialog.show()
         # print(conteiner, idWidget, widget, sep=" - ")
 
     def resizeEvent(self, e):

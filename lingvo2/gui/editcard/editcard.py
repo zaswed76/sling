@@ -28,7 +28,7 @@ class DropLayout(AbcDropLayout):
         mime = e.mimeData()
         component = mime.text()
         text, widgetType = component.split("_")
-        qwidget = dropitem.DropWidgetItem(widgetType, text, idO=None, sound=True)
+        qwidget = dropitem.DropWidgetItem(widgetType, text, idO=None, soundBtn=self.cardModel.soundBtnDefault)
         self.cardModel.sides[sideName][self.index].appendDragItem(qwidget.idO, widgetType, text=text)
         self.addComponent(qwidget)
         e.accept()
@@ -80,7 +80,7 @@ class EditCard(AbcViewCard):
             text = comp.text
             widgetType = comp.qwidgetType
             idO = comp.idO
-            qwidget = dropitem.DropWidgetItem(widgetType, text, idO=idO,  sound=True)
+            qwidget = dropitem.DropWidgetItem(widgetType, text, idO=idO,  soundBtn=comp.soundBtn)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
 

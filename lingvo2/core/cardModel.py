@@ -41,7 +41,7 @@ class DropItem:
         self.qwidgetType = qwidgetType
         self.text = text
         self.style = style
-        self.soundBtn = False
+        self.soundBtn = kwargs.get("soundBtn", False)
         self.idO = idO
 
 
@@ -61,7 +61,8 @@ class DropBox(UserList):
 
     def appendDragItem(self, idO, item, **args):
         text = args.get("text")
-        self.append(DropItem(idO, item, text=text))
+        soundBtn = args.get("soundBtn", False)
+        self.append(DropItem(idO, item, text=text, soundBtn=soundBtn))
 
     def removeDragItem(self, idO, **args):
         for i in self:
@@ -103,6 +104,7 @@ class CardModel(QObject):
         self.front = self.content["front"]
         self.back = self.content["back"]
         self._sides = {"front": self.front, "back": self.back}
+        self.soundBtnDefault = True
 
     @property
     def sides(self):
