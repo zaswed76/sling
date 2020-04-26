@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import *
 from gui.custom.abccard import AbcViewCard
 from gui.custom.dropcomponents import *
 from gui.custom.dropitem import *
+from gui.viewcard.widgetitem import WidgetItem
+from gui.viewcard.components import ViewLayout
 
 class ViewFrame(QFrame):
     def __init__(self, viewCard, *args, **kwargs):
@@ -17,16 +19,18 @@ class ViewFrame(QFrame):
 
 
 class ViewCard(AbcViewCard):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, dictsModel, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.dictsModel = dictsModel
         self.setFixedSize(730, 730)
-        self.setToolTip("ViewCard")
+        print(self.dictsModel.nextItem())
+
+
 
     def updateContent(self):
-        print("RRRRRRRRRRRRRR")
         for sideName, side in self.cardModel.sides.items():
             for index, dropLayoutModel in enumerate(side):
-                self.dropsLayouts[dropLayoutModel.name] = DropLayout(dropLayoutModel.name,
+                self.dropsLayouts[dropLayoutModel.name] = ViewLayout(dropLayoutModel.name,
                                                                      QBoxLayout.TopToBottom,
                                                                      self.cardModel,
                                                                      sideName,
@@ -36,12 +40,14 @@ class ViewCard(AbcViewCard):
                 # компоненты в каждый контейнер если есть
                 self.addComponents(dropLayoutModel)
 
+
     def addComponents(self, dropLayoutModel):
         for comp in dropLayoutModel:
             text = comp.text
             widgetType = comp.qwidgetType
             idO = comp.idO
-            qwidget = DropWidgetItem(widgetType, text=text, idO=idO,  soundBtn=comp.soundBtn)
+            comp.soundBtn = self.cardModel.soundBtnDefault
+            qwidget = WidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
 

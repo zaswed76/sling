@@ -29,10 +29,12 @@ class EditCard(AbcViewCard):
 
     def addComponents(self, dropLayoutModel):
         for comp in dropLayoutModel:
+            # todo тут принудительно присвоили свойство soundBtn = self.cardModel.soundBtnDefault
+            comp.soundBtn = self.cardModel.soundBtnDefault
             text = comp.text
             widgetType = comp.qwidgetType
             idO = comp.idO
-            qwidget = DropWidgetItem(widgetType, text=text, idO=idO,  soundBtn=comp.soundBtn)
+            qwidget = DropWidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
     def __repr__(self):

@@ -26,6 +26,7 @@ class DictsModel:
     def updateWorkData(self, checkedDicts):
         self.reset()
         self._workData = {k:v for k, v in self.dictSeq.items() if k in checkedDicts}
+
         self._workList.clear()
         for d in self._workData.values():
             for it in d.values():

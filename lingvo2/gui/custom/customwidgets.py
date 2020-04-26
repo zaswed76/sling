@@ -1,25 +1,22 @@
 #!/usr/bin/env python3
 
 import sys
-from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
 
 
 
-#!/usr/bin/env python3
-
-import sys
-from PyQt5 import QtWidgets, QtCore
 
 
-
-class ToolTypeFrame(QtWidgets.QFrame):
+class ToolTypeFrame(QFrame):
     def __init__(self, name, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setObjectName(name)
         self.setToolTip("{}".format(self.__class__))
 
 
-class BoxLayout(QtWidgets.QBoxLayout):
+class BoxLayout(QBoxLayout):
     def __init__(self, direction, parent=None, **kwargs):
         super().__init__(direction, parent)
         self.setDirection(direction)
@@ -32,19 +29,11 @@ class BoxLayout(QtWidgets.QBoxLayout):
 
 
 
-class Widget(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
-        self.resize(500, 500)
-        self.box = BoxLayout(QtWidgets.QBoxLayout.BottomToTop, self)
-        self.box.addWidget(QtWidgets.QPushButton("1"))
-        self.box.addWidget(QtWidgets.QPushButton("2"))
-        self.box.addWidget(QtWidgets.QPushButton("3"))
-        self.box.addWidget(QtWidgets.QPushButton("4"))
+
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     # app.setStyleSheet(open('./etc/{0}.qss'.format('style'), "r").read())
-    main = Widget()
+    main = ChangeSideCardBtn()
     main.show()
     sys.exit(app.exec_())

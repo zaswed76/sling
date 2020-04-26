@@ -4,8 +4,12 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from functools import partial
 
-
+class ChangeSideCardBtn(QPushButton):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+        self.setFont(QFont("arial", 20))
 
 class EditCardWidget(QFrame):
     def __init__(self, editDropList, viewCard, *args, **kwargs):
@@ -20,8 +24,8 @@ class EditCardWidget(QFrame):
 
         self.box_right.setContentsMargins(0, 0, 0, 0)
         self.box_right.setSpacing(0)
-        self.turnSideBtn = QPushButton("Turn")
-        self.turnSideBtn.clicked.connect(viewCard.changeSide)
+        self.turnSideBtn = ChangeSideCardBtn(viewCard.currentSideName)
+        self.turnSideBtn.clicked.connect(partial(self.changeSide, viewCard))
 
         self.box_right.addWidget(self.turnSideBtn)
         self.box_right.addWidget(viewCard)
@@ -29,8 +33,9 @@ class EditCardWidget(QFrame):
         self.box_0.addLayout(self.box_right)
         self.box_0.addStretch(1)
 
-
-
+    def changeSide(self, viewCard):
+        side = viewCard.changeSide()
+        self.turnSideBtn.setText(side)
 
 
 if __name__ == '__main__':

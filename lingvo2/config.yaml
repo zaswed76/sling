@@ -18,7 +18,6 @@ card:
 choosedict:
     checkedDicts:
     - slovar1
-    - slovar2
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx

@@ -41,7 +41,6 @@ class ToolBar(QToolBar):
 
         self.addAction(
             QAction(QIcon(":/house.png"), "cardView", self))
-
         self.addAction(
             QAction(QIcon(":/dict.png"), "chooseDict", self))
         self.addAction(
@@ -89,14 +88,15 @@ class Main(QMainWindow):
                                                                      self.chooseDict)
 
         self.dictsModel = DictsModel(self.dictSeq)
-        self.dictsModel.updateWorkData(self.chooseDict.checkedDicts())
+
+        self.dictsModel.updateWorkData(self.cfg["choosedict"]['checkedDicts'])
+
 
         # работаем с карточками
 
-        self.viewCard = viewcard.ViewCard()
+        self.viewCard = viewcard.ViewCard(self.dictsModel)
         self.viewCard.setCardModel(self.cardModel)
         self.viewFrame = viewcard.ViewFrame(self.viewCard)
-
 
         # редактируем карточки
         self.editDropList = editdrop_listview.DropListWidget(None, "editDropList")
@@ -116,8 +116,6 @@ class Main(QMainWindow):
 
         self.chooseDict.setCheckedItemsToNames(
             self.cfg["choosedict"]["checkedDicts"])
-
-
 
     def updateViews(self):
         self.viewCardEditWidget.updateContent()
@@ -143,6 +141,7 @@ class Main(QMainWindow):
         if self._currentStackWidget == "cardEditView":
             self.cfg.save()
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
+        print(self.chooseDict.checkedDicts(), '!!!!!')
         self.dictsModel.updateWorkData(self.chooseDict.checkedDicts())
 
 

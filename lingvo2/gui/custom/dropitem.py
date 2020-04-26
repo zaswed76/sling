@@ -6,8 +6,8 @@ from gui.custom import dropcomponents
 from gui.custom.abccard import *
 
 
-class DropWidgetItem(QFrame):
-    def __init__(self, widget_tipe, text=None, soundBtn=False, idO=None, *args, **kwargs):
+class DropWidgetItem(AbcDropWidgetItem):
+    def __init__(self, widget_tipe, text=None, soundBtnFlag=False, idO=None, *args, **kwargs):
         """
         этот виджет добавляем в контейнер AbcDropLayout
         :param widget_tipe:
@@ -15,41 +15,20 @@ class DropWidgetItem(QFrame):
         :param args:
         :param kwargs:
         """
-        super().__init__(*args, **kwargs)
-        if idO is None:
-            self.idO = id(self)
-        else:
-            self.idO = idO
 
-        self.widgetType = widget_tipe
-        self.text = text
+        super().__init__(widget_tipe, text, idO, soundBtnFlag, *args, **kwargs)
         self.installEventFilter(self)
-        self.box = QHBoxLayout(self)
-        self.box.setContentsMargins(0, 0, 0, 0)
-        self.box.setSpacing(0)
-        self.component = getattr(dropcomponents, widget_tipe)()
-        if text: self.component.setText(text)
-        self.box.addWidget(self.component)
-        self.soundBtn = SoundBtn(self.component)
-        self.enabledIcon(soundBtn)
         self.controlsDropLabel = ControlsDropLabel(self)
         self.controlsDropLabel.closeDropLabelBtn.clicked.connect(self.removeComponent)
         self.controlsDropLabel.tuneDropLabelBtn.clicked.connect(self.tuneComponent)
         self.controlsDropLabel.hide()
 
-    def enabledIcon(self, enabled):
-        if enabled:
-            self.soundBtn.setIcon(QIcon(":/volume.png"))
-        else:
-            self.soundBtn.setIcon(QIcon())
-
     def removeComponent(self):
         conteiner = self.sender().parent().parent().parent()
         widget = self.sender().parent().parent()
-        idWidget = id(widget)
-        conteiner.cardModel.removeItemToIdO(conteiner.side, conteiner.index, widget.idO)
-        conteiner.removeComponent(idWidget)
-
+        idOWidget = widget.idO
+        conteiner.cardModel.removeItemToIdO(conteiner.side, conteiner.index, idOWidget)
+        conteiner.removeComponent(idOWidget)
 
     def tuneComponent(self):
         conteiner = self.sender().parent().parent().parent()
@@ -58,14 +37,9 @@ class DropWidgetItem(QFrame):
         # self.tuneDropWidgetItemDialog = TuneDropWidgetItem()
         # self.tuneDropWidgetItemDialog.show()
 
-
     def resizeEvent(self, e):
+        super(DropWidgetItem, self).resizeEvent(e)
         rect = self.component.rect()
-        center = rect.center()
-        right = rect.right()
-        center.setX(right-175)
-        center.setY(int(center.y()-25/2))
-        self.soundBtn.move(center)
         self.controlsDropLabel.move(rect.topLeft() + QPoint(5, 5))
 
     def eventFilter(self, obj, event):

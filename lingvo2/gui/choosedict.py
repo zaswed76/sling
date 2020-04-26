@@ -55,7 +55,7 @@ class ChooseDictStack(QFrame):
         self.chooseDictFrame.setModel(self.dictListModel)
 
         self.dictListModel.updateDictList(self.main.dictSeq)
-        self.chooseDictFrame.clicked[QtCore.QModelIndex].connect(self.itemDictChange)
+        self.chooseDictFrame.clicked[QModelIndex].connect(self.itemDictChange)
 
         self.controlFrame = ControlFrame(self.main)
         self.textFrame = TextFrame(self.main)
