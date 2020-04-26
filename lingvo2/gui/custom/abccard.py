@@ -1,15 +1,36 @@
 import sys
-
+from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from tools.handler import qt_message_handler
+qInstallMessageHandler(qt_message_handler)
 
-class AbcDropLabel(QLabel):
+
+class TuneDropWidgetItem(QFrame):
+    def __init__(self):
+        super().__init__()
+        self.setWindowModality(Qt.ApplicationModal)
+        self.setWindowFlag(Qt.Tool)
+
+class SoundBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
 
-    def __repr__(self):
-        return "AbcDropLabel"
+class CloseDropLabelBtn(QPushButton):
+    def __init__(self, *__args):
+        super().__init__(*__args)
 
+class TuneDropLabelBtn(QPushButton):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+
+class ControlsDropLabel(QFrame):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.box = AbcBoxLayout(QBoxLayout.LeftToRight, parent=self)
+        self.closeDropLabelBtn = CloseDropLabelBtn(self)
+        self.tuneDropLabelBtn = TuneDropLabelBtn(self)
+        self.box.addWidgets([self.closeDropLabelBtn, self.tuneDropLabelBtn])
 
 class AbcBoxLayout(QBoxLayout):
     def __init__(self, QBoxLayout_Direction, parent=None, **kwargs):
@@ -32,7 +53,6 @@ class AbcBoxLayout(QBoxLayout):
         for QWidget in QWidgets_list:
             self.addWidget(QWidget, *args, **kwargs)
 
-
 class AbcVBoxLayout(QVBoxLayout):
     def __init__(self, parent):
         super().__init__(parent)
@@ -40,12 +60,8 @@ class AbcVBoxLayout(QVBoxLayout):
         self.setContentsMargins(0, 0, 0, 0)
         self.setSpacing(0)
 
-
-
-
-
 class AbcDropLayout(QFrame):
-    def __init__(self, objectName, QBoxLayout_Direction,  cardModel, side, index , *args, **kwargs):
+    def __init__(self, objectName, QBoxLayout_Direction, cardModel, side, index, *args, **kwargs):
         """
         виджет-контейнер в который можно перетащить другие виджеты
         top center, bottom
@@ -60,46 +76,28 @@ class AbcDropLayout(QFrame):
         self.setObjectName(objectName)
         self.__components = {}
 
-        self.box = AbcBoxLayout(QBoxLayout_Direction, self)
+        self.box = AbcBoxLayout(QBoxLayout_Direction)
         self.setToolTip(self.objectName())
         self.setAcceptDrops(True)
 
-    def setContentLayout(self, QLayout):
-        self.box = QLayout(self)
-
-    def dragEnterEvent(self, e):
-        e.accept()
-
-    def dropEvent(self, e):
-        mime = e.mimeData()
-        text = mime.text()
-        e.accept()
-
-    def addComponent(self, qwidget):
-        self.__components[id(qwidget)] = qwidget
-        self.box.addWidget(self.__components[id(qwidget)])
 
 
-    def removeComponent(self ,id):
-        self.box.removeWidget(self.__components[id])
-        self.__components[id].deleteLater()
-        # self.cardModel.
 
-    @property
-    def components(self):
-        lst = []
-        for i in range(self.box.count()):
-            lst.append(self.box.itemAt(i).widget())
-        return lst
+class AbcDropLabel(QLabel):
+    def __init__(self, *__args):
+        super().__init__(*__args)
 
     def __repr__(self):
-        return "AbcDropLayout"
+        return "AbcDropLabel"
 
 class AbcSide(QFrame):
-    def __init__(self, layout: QBoxLayout, objectName=None,  *args, **kwargs):
+    def __init__(self, layout: QBoxLayout, objectName=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setObjectName(objectName)
         self.box = layout
+
+    def setSpacing(self, s):
+        self.box.setSpacing(s)
 
     def addWidget(self, widget):
         self.box.addWidget(widget)
@@ -118,6 +116,55 @@ class AbcSide(QFrame):
     def __repr__(self):
         return str(self.layouts)
 
+class AbcDropWidgetItem(QFrame):
+    def __init__(self, widget_tipe, text=None, idO=None, soundBtn=False, *args, **kwargs):
+        """
+        этот виджет добавляем в контейнер AbcDropLayout
+        :param widget_tipe:
+        :param text:
+        :param args:
+        :param kwargs:
+        """
+
+        super().__init__(*args, **kwargs)
+        if idO is None:
+            self.idO = id(self)
+        else:
+            self.idO = idO
+
+        self.widgetType = widget_tipe
+        self.text = text
+        self.installEventFilter(self)
+        self.box = QHBoxLayout(self)
+        self.box.setContentsMargins(0, 0, 0, 0)
+        self.box.setSpacing(0)
+        self.resize(100, 100)
+
+    # def enabledIcon(self, enabled):
+    #     if enabled:
+    #         self.soundBtn.setIcon(QIcon(":/volume.png"))
+    #     else:
+    #         self.soundBtn.setIcon(QIcon())
+
+    # def resizeEvent(self, e):
+    #     rect = self.component.rect()
+    #     center = rect.center()
+    #     right = rect.right()
+    #     center.setX(right-175)
+    #     center.setY(int(center.y()-25/2))
+    #     self.soundBtn.move(center)
+    #     self.controlsDropLabel.move(rect.topLeft() + QPoint(5, 5))
+
+    # def eventFilter(self, obj, event):
+    #     if event.type() == 11:  # Если мышь покинула область фиджета
+    #         self.controlsDropLabel.hide()  # выполнить  callback1()
+    #     elif event.type() == 10:# Если мышь над виджетом
+    #         self.controlsDropLabel.show()  # выполнить  callback2()
+    #     return False
+
+    def __repr__(self):
+        return "{}-{}".format(self.__class__.__name__, self.idO)
+
 class AbcViewCard(QStackedWidget):
     def __init__(self, *args, **kwargs):
         """
@@ -129,6 +176,18 @@ class AbcViewCard(QStackedWidget):
         self.sideNames = ('front', 'back')
         self.sides = {}
 
+    def updateContent(self):
+        pass
+
+    #
+    # def addComponents(self, dropLayoutModel):
+    #     for comp in dropLayoutModel:
+    #         text = comp.text
+    #         widgetType = comp.qwidgetType
+    #         idO = comp.idO
+    #         qwidget = AbcDropWidgetItem(widgetType, text, idO=idO, soundBtn=comp.soundBtn)
+    #         self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
+
     def setSide(self, side_name, widget):
         self.sides[side_name] = widget
         self.addWidget(self.sides[side_name])
@@ -136,10 +195,6 @@ class AbcViewCard(QStackedWidget):
     def setSides(self, widgets_list):
         for name, widget in zip(self.sideNames, widgets_list):
             self.setSide(name, widget)
-
-    def updateContent(self):
-        pass
-        # print("view", self.__cardModel)
 
     def setCardModel(self, cardModel):
         self.__cardModel = cardModel
@@ -168,20 +223,29 @@ class AbcViewCard(QStackedWidget):
         return "AbcViewCard"
 
 
+
 if __name__ == '__main__':
-
-    def keyPressEvent(e):
-        if e.key() == Qt.Key_Space:
-            card.changeSide()
-
-
     app = QApplication(sys.argv)
     # app.setStyleSheet(open('./etc/{0}.qss'.format('style'), "r").read())
-    main = QFrame()
-    main.keyPressEvent = keyPressEvent
-    box = QHBoxLayout(main)
-    card = AbcViewCard()
-    card.setSides([QLabel("front"), QLabel("back")])
-    box.addWidget(card)
-    main.show()
+    dropWidgetItem = AbcDropWidgetItem("AbcDropLabel", "word")
+    dropWidgetItem.show()
     sys.exit(app.exec_())
+
+
+# if __name__ == '__main__':
+#
+#     def keyPressEvent(e):
+#         if e.key() == Qt.Key_Space:
+#             card.changeSide()
+#
+#
+#     app = QApplication(sys.argv)
+#     # app.setStyleSheet(open('./etc/{0}.qss'.format('style'), "r").read())
+#     main = QFrame()
+#     main.keyPressEvent = keyPressEvent
+#     box = QHBoxLayout(main)
+#     card = AbcViewCard()
+#     card.setSides([QLabel("front"), QLabel("back")])
+#     box.addWidget(card)
+#     main.show()
+#     sys.exit(app.exec_())

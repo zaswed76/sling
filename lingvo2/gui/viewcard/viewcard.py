@@ -24,9 +24,7 @@ class ViewCard(AbcViewCard):
         self.setStyleSheet("background-color: lightgrey")
         self.setToolTip("DropLayout")
 
-    def updateContent(self):
-        pass
-        # print("ViewCard", self.cardModel)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -6,12 +6,14 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from tools.handler import qt_message_handler
+qInstallMessageHandler(qt_message_handler)
 import config
 import paths
 from core.cardModel import CardModel, PConfig, DropBox, DropItem, DragItemStyle
 from core.dictsequence import DictSeq
 from core.dictsmodel import DictsModel
-from gui.custom.abccard import AbcViewCard
+
 from gui.centrallframe import CenterStackFrame
 from gui.choosedict import ChooseDictStack
 
@@ -20,22 +22,7 @@ from gui.viewcard import viewcard
 
 
 
-def qt_message_handler(mode, context, message):
-    if mode == QtInfoMsg:
-        mode = 'INFO'
-    elif mode == QtWarningMsg:
-        mode = 'WARNING'
-    elif mode == QtCriticalMsg:
-        mode = 'CRITICAL'
-    elif mode == QtFatalMsg:
-        mode = 'FATAL'
-    else:
-        mode = 'DEBUG'
-    print('qt_message_handler: line: %d, func: %s(), file: %s' % (
-        context.line, context.function, context.file))
-    print('  %s: %s\n' % (mode, message))
 
-qInstallMessageHandler(qt_message_handler)
 
 def fileInput(folder):
     files_list = glob.glob(folder + "/*.css")
@@ -51,6 +38,10 @@ class ToolBar(QToolBar):
         super().__init__(*__args)
         self.main = main
         self.setFixedHeight(42)
+
+        self.addAction(
+            QAction(QIcon(":/house.png"), "cardView", self))
+
         self.addAction(
             QAction(QIcon(":/dict.png"), "chooseDict", self))
         self.addAction(
@@ -113,15 +104,6 @@ class Main(QMainWindow):
         # self.viewEditCard.setC
         self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard)
 
-
-
-
-
-
-
-
-
-
         self.stackWidgets["view"] = self.viewCard
         self.stackWidgets["chooseDict"] = self.chooseDict
         self.stackWidgets["cardEditView"] = self.viewCardEditWidget
@@ -170,6 +152,9 @@ class Main(QMainWindow):
 
     def cardEditViewAction(self):
         self.centerStackFrame.showStack("cardEditView")
+
+    def cardViewAction(self):
+        self.centerStackFrame.showStack("view")
 
     @property
     def dictList(self):

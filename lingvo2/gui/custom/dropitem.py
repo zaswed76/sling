@@ -2,39 +2,9 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from . import dropcomponents
-from . abccard import *
+from gui.custom import dropcomponents
+from gui.custom.abccard import *
 
-class TuneDropWidgetItem(QFrame):
-    def __init__(self):
-        super().__init__()
-        self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowFlag(Qt.Tool)
-
-
-class SoundBtn(QPushButton):
-    def __init__(self, *__args):
-        super().__init__(*__args)
-
-
-
-class CloseDropLabelBtn(QPushButton):
-    def __init__(self, *__args):
-        super().__init__(*__args)
-
-
-class TuneDropLabelBtn(QPushButton):
-    def __init__(self, *__args):
-        super().__init__(*__args)
-
-
-class ControlsDropLabel(QFrame):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.box = AbcBoxLayout(QBoxLayout.LeftToRight, parent=self)
-        self.closeDropLabelBtn = CloseDropLabelBtn(self)
-        self.tuneDropLabelBtn = TuneDropLabelBtn(self)
-        self.box.addWidgets([self.closeDropLabelBtn, self.tuneDropLabelBtn])
 
 class DropWidgetItem(QFrame):
     def __init__(self, widget_tipe, text=None, soundBtn=False, idO=None, *args, **kwargs):
@@ -45,7 +15,6 @@ class DropWidgetItem(QFrame):
         :param args:
         :param kwargs:
         """
-
         super().__init__(*args, **kwargs)
         if idO is None:
             self.idO = id(self)
@@ -69,7 +38,6 @@ class DropWidgetItem(QFrame):
         self.controlsDropLabel.hide()
 
     def enabledIcon(self, enabled):
-        print(enabled, "sound")
         if enabled:
             self.soundBtn.setIcon(QIcon(":/volume.png"))
         else:
@@ -87,10 +55,9 @@ class DropWidgetItem(QFrame):
         conteiner = self.sender().parent().parent().parent()
         widget = self.sender().parent().parent()
         idWidget = id(widget)
-        print(conteiner.side, conteiner.index, widget.idO)
-        self.tuneDropWidgetItemDialog = TuneDropWidgetItem()
-        self.tuneDropWidgetItemDialog.show()
-        # print(conteiner, idWidget, widget, sep=" - ")
+        # self.tuneDropWidgetItemDialog = TuneDropWidgetItem()
+        # self.tuneDropWidgetItemDialog.show()
+
 
     def resizeEvent(self, e):
         rect = self.component.rect()
@@ -110,6 +77,7 @@ class DropWidgetItem(QFrame):
 
     def __repr__(self):
         return "{}-{}".format(self.__class__.__name__, self.idO)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
