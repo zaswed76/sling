@@ -92,8 +92,10 @@ class Main(QMainWindow):
         self.dictsModel.updateWorkData(self.chooseDict.checkedDicts())
 
         # работаем с карточками
+
         self.viewCard = viewcard.ViewCard()
         self.viewCard.setCardModel(self.cardModel)
+        self.viewFrame = viewcard.ViewFrame(self.viewCard)
 
 
         # редактируем карточки
@@ -104,7 +106,7 @@ class Main(QMainWindow):
         # self.viewEditCard.setC
         self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard)
 
-        self.stackWidgets["view"] = self.viewCard
+        self.stackWidgets["view"] = self.viewFrame
         self.stackWidgets["chooseDict"] = self.chooseDict
         self.stackWidgets["cardEditView"] = self.viewCardEditWidget
 

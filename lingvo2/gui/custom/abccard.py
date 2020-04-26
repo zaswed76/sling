@@ -75,12 +75,13 @@ class AbcDropLayout(QFrame):
         self.cardModel = cardModel
         self.setObjectName(objectName)
         self.__components = {}
-
         self.box = AbcBoxLayout(QBoxLayout_Direction)
         self.setToolTip(self.objectName())
         self.setAcceptDrops(True)
 
-
+    def addComponent(self, qwidget):
+        self.__components[id(qwidget)] = qwidget
+        self.box.addWidget(self.__components[id(qwidget)])
 
 
 class AbcDropLabel(QLabel):
@@ -94,7 +95,7 @@ class AbcSide(QFrame):
     def __init__(self, layout: QBoxLayout, objectName=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setObjectName(objectName)
-        self.box = layout
+        self.box = layout(self)
 
     def setSpacing(self, s):
         self.box.setSpacing(s)
@@ -175,18 +176,36 @@ class AbcViewCard(QStackedWidget):
         self.__currentSideIndex = 0
         self.sideNames = ('front', 'back')
         self.sides = {}
+        self.dropsLayouts = {}
+        self.sides["front"] = AbcSide(AbcVBoxLayout, "front")
+        self.sides["front"].setSpacing(1)
+        self.sides["back"] = AbcSide(AbcVBoxLayout, "back")
+        self.sides["back"].setSpacing(1)
+        self.setSides(self.sides.values())
 
     def updateContent(self):
-        pass
+        for sideName, side in self.cardModel.sides.items():
+            for index, dropLayoutModel in enumerate(side):
+                self.dropsLayouts[dropLayoutModel.name] = AbcDropLayout(dropLayoutModel.name,
+                                                                     QBoxLayout.TopToBottom,
+                                                                     self.cardModel,
+                                                                     sideName,
+                                                                     index)
+                # контейнер на сторону
+                self.sides[sideName].addWidget(self.dropsLayouts[dropLayoutModel.name])
+                # компоненты в каждый контейнер если есть
+                self.addComponents(dropLayoutModel)
 
-    #
-    # def addComponents(self, dropLayoutModel):
-    #     for comp in dropLayoutModel:
-    #         text = comp.text
-    #         widgetType = comp.qwidgetType
-    #         idO = comp.idO
-    #         qwidget = AbcDropWidgetItem(widgetType, text, idO=idO, soundBtn=comp.soundBtn)
-    #         self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
+
+    def addComponents(self, dropLayoutModel):
+        for comp in dropLayoutModel:
+            text = comp.text
+            widgetType = comp.qwidgetType
+            idO = comp.idO
+            qwidget = AbcDropWidgetItem(widgetType, text=text, idO=idO,  soundBtn=comp.soundBtn)
+            self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
+
+
 
     def setSide(self, side_name, widget):
         self.sides[side_name] = widget
