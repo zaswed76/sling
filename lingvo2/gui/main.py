@@ -45,7 +45,8 @@ class ToolBar(QToolBar):
             QAction(QIcon(":/dict.png"), "chooseDict", self))
         self.addAction(
             QAction(QIcon(":/edit.png"), "cardEditView", self))
-
+        self.addAction(
+            QAction(QIcon(":/profile.png"), "profile", self))
 
 class ChooseDictStackController:
     def __init__(self, main, parent):
@@ -156,6 +157,9 @@ class Main(QMainWindow):
 
     def cardViewAction(self):
         self.centerStackFrame.showStack("view")
+
+    def profileAction(self):
+        print("profile")
 
     @property
     def dictList(self):
