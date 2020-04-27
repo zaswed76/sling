@@ -83,8 +83,9 @@ class Main(QMainWindow):
 
 
         # выбираем словарь
-        self.chooseDict = ChooseDictStack(self, name="chooseDictStack",
+        self.chooseDict = ChooseDictStack(self, name="chooseDict",
                                           config=self.cfg)
+        self.chooseDict.setFocusPolicy(Qt.NoFocus)
         self.controls["chooseDictStack"] = ChooseDictStackController(self,
                                                                      self.chooseDict)
 
@@ -96,16 +97,18 @@ class Main(QMainWindow):
         # работаем с карточками
 
         self.viewCard = viewcard.ViewCard(self.dictsModel)
+
         self.viewCard.setCardModel(self.cardModel)
-        self.viewFrame = viewcard.ViewFrame(self.viewCard)
+        self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")
 
         # редактируем карточки
         self.editDropList = editdrop_listview.DropListWidget(None, "editDropList")
+        self.editDropList.setFocusPolicy(Qt.NoFocus)
         self.editDropList.setItems(config.Config(paths.CARD_CONFIG)["dropItemsTypeList"])
         self.viewEditCard = editcard.EditCard()
+
         self.viewEditCard.setCardModel(self.cardModel)
-        # self.viewEditCard.setC
-        self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard)
+        self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard, "cardEditView")
 
         self.stackWidgets["view"] = self.viewFrame
         self.stackWidgets["chooseDict"] = self.chooseDict
@@ -117,10 +120,14 @@ class Main(QMainWindow):
 
         self.chooseDict.setCheckedItemsToNames(
             self.cfg["choosedict"]["checkedDicts"])
+        self.setFocus(Qt.ActiveWindowFocusReason)
+        self.changeStackWidget(0)
+
+
 
     def updateViews(self):
         self.viewCardEditWidget.updateContent()
-        self.viewCard.updateContent()
+        self.viewCard.updateWidgetComponent()
 
 
     def getCardModel(self) -> CardModel:
@@ -139,10 +146,12 @@ class Main(QMainWindow):
         self.toolBar.actionTriggered.connect(self.toolActions)
 
     def changeStackWidget(self, i):
+        print("AAAAAAAAAAAAAA")
         if self._currentStackWidget == "cardEditView":
             self.cfg.save()
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
-        print(self.chooseDict.checkedDicts(), '!!!!!')
+        print(self._currentStackWidget, "#######")
+        self.stackWidgets[self._currentStackWidget].setFocus(Qt.ActiveWindowFocusReason)
         self.dictsModel.updateWorkData(self.chooseDict.checkedDicts())
 
 
@@ -176,16 +185,25 @@ class Main(QMainWindow):
         self.cfg.save()
         self.cardModel.saveContent()
 
-    def keyPressEvent(self, e):
-        if e.key() == Qt.Key_Right:
-            self.viewCard.setSideIndex(0)
-            self.viewCard.setItemWord(self.dictsModel.nextItem())
-        elif e.key() == Qt.Key_Left:
-            pass
-            # print(self.cardModel.prevItem())
-        elif e.key() == Qt.Key_Space:
-            self.viewCard.turnSide()
 
+
+    def keyPressEvent(self, e):
+        if self._currentStackWidget == "view":
+            self.viewKeyPressEvent(e)
+        elif self._currentStackWidget == "cardEditView":
+            self.editViewKeyPressEvent(e)
+
+    def viewKeyPressEvent(self, e):
+        if e.key() == Qt.Key_Right:
+            self.viewCard.updateContent()
+        elif e.key() == Qt.Key_Left:
+            print("<<<<<<<<<<<<")
+        elif e.key() == Qt.Key_Space:
+            self.viewCard.changeSide()
+
+    def editViewKeyPressEvent(self, e):
+        if e.key() == Qt.Key_Space:
+            self.viewCardEditWidget.turnSideBtn.animateClick()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

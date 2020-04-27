@@ -190,7 +190,7 @@ class AbcViewCard(QStackedWidget):
         self.sides["back"].setSpacing(1)
         self.setSides(self.sides.values())
 
-    def updateContent(self):
+    def updateWidgetComponent(self):
         for sideName, side in self.cardModel.sides.items():
             for index, dropLayoutModel in enumerate(side):
                 self.dropsLayouts[dropLayoutModel.name] = AbcDropLayout(dropLayoutModel.name,
@@ -224,7 +224,7 @@ class AbcViewCard(QStackedWidget):
 
     def setCardModel(self, cardModel):
         self.__cardModel = cardModel
-        self.updateContent()
+        self.updateWidgetComponent()
 
     @property
     def cardModel(self):

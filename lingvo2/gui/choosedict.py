@@ -71,6 +71,7 @@ class ChooseDictStack(QFrame):
         self.closeChooseDictBtn.setFixedSize(32, 32)
         self.closeChooseDictBtn.move(self.textFrame.rect().topRight() + QPoint(26, -2))
 
+
     def parentMethod(self):
         print("parentMethod")
 

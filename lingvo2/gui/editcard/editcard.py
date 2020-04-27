@@ -13,8 +13,15 @@ class EditCard(AbcViewCard):
         super().__init__(*args, **kwargs)
         self.setFixedSize(600, 600)
 
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Right:
+            print(">>>>>>>")
+        elif e.key() == Qt.Key_Left:
+            print("<<<<<<<<<<<<")
+        elif e.key() == Qt.Key_Space:
+            self.changeSide()
 
-    def updateContent(self):
+    def updateWidgetComponent(self):
         for sideName, side in self.cardModel.sides.items():
             for index, dropLayoutModel in enumerate(side):
                 self.dropsLayouts[dropLayoutModel.name] = DropLayout(dropLayoutModel.name,

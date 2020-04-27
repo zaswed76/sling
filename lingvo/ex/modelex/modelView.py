@@ -33,7 +33,7 @@ class Model(QObject):
 
     def setView(self, view):
         self.view = view
-        self.view.updateContent()
+        self.view.updateWidgetComponent()
 
 
     def increase(self):

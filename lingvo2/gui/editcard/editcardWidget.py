@@ -11,9 +11,11 @@ class ChangeSideCardBtn(QPushButton):
         super().__init__(*__args)
         self.setFont(QFont("arial", 20))
 
+
 class EditCardWidget(QFrame):
-    def __init__(self, editDropList, viewCard, *args, **kwargs):
+    def __init__(self, editDropList, viewCard, objectName,  *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.setObjectName(objectName)
         self.box_0 = QHBoxLayout(self)
         self.box_0.setContentsMargins(0, 0, 0, 0)
         self.box_0.setSpacing(0)
@@ -32,6 +34,8 @@ class EditCardWidget(QFrame):
 
         self.box_0.addLayout(self.box_right)
         self.box_0.addStretch(1)
+
+
 
     def changeSide(self, viewCard):
         side = viewCard.changeSide()

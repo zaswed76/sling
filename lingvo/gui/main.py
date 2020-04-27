@@ -120,8 +120,8 @@ class Main(QMainWindow):
         # self.viewCardStack.initCard()
 
     def updateViews(self):
-        self.cardEditView.updateContent()
-        self.viewCardStack.updateContent()
+        self.cardEditView.updateWidgetComponent()
+        self.viewCardStack.updateWidgetComponent()
 
 
     def getCardModel(self) -> CardModel:
