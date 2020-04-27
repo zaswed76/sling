@@ -12,7 +12,7 @@ from gui.viewcard.components import ViewLayout
 class ViewFrame(QFrame):
     def __init__(self, viewCard, objectName, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.lst = [viewCard]
+
         self.setObjectName(objectName)
         self.setFixedSize(790, 788)
         self.box = QHBoxLayout(self)
@@ -28,9 +28,20 @@ class ViewCard(AbcViewCard):
 
 
     def updateContent(self):
+        if not self.isComponent():
+            return
+        wordItem = self.dictsModel.nextItem()
+
+        if wordItem is None:
+            return
+        print(wordItem.Word)
         for nameSide, side in self.sides.items():
             for layout in side.layouts:
-                print(layout)
+                for component in layout.components:
+                    widget = component
+                    textType = component.text
+                    widget.setText(wordItem.getTypeText(textType))
+
 
 
     def updateWidgetComponent(self):

@@ -43,13 +43,13 @@ class DropLayout(AbcDropLayout):
         self.addComponent(qwidget)
         e.accept()
 
-    def addComponent(self, qwidget):
-        self.__components[qwidget.idO] = qwidget
-        self.box.addWidget(self.__components[qwidget.idO])
+    # def addComponent(self, qwidget):
+    #     self.__components[qwidget.idO] = qwidget
+    #     self.box.addWidget(self.__components[qwidget.idO])
 
-    def removeComponent(self, idO):
-        self.box.removeWidget(self.__components[idO])
-        self.__components[idO].deleteLater()
+    # def removeComponent(self, idO):
+    #     self.box.removeWidget(self.__components[idO])
+    #     self.__components[idO].deleteLater()
 
 
 

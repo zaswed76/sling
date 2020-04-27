@@ -17,9 +17,7 @@ class ViewLayout(AbcDropLayout):
         self.__components = {}
         self.box = AbcBoxLayout(QBoxLayout_Direction, self)
 
-    def addComponent(self, qwidget):
-        self.__components[qwidget.idO] = qwidget
-        self.box.addWidget(self.__components[qwidget.idO])
+
 
 
 

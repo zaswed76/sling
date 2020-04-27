@@ -80,6 +80,14 @@ class AbcDropLayout(QFrame):
         self.__components = {}
         self.box = AbcBoxLayout(QBoxLayout_Direction, None)
 
+    def addComponent(self, qwidget):
+        self.__components[qwidget.idO] = qwidget
+        self.box.addWidget(self.__components[qwidget.idO])
+
+    def removeComponent(self, idO):
+        self.box.removeWidget(self.__components[idO])
+        self.__components[idO].deleteLater()
+
     @property
     def components(self):
         lst = []
@@ -156,6 +164,9 @@ class AbcDropWidgetItem(QFrame):
         self.soundBtn = SoundBtn(self.component)
         self.enabledIcon(soundBtnFlag)
 
+    def setText(self, text):
+        self.component.setText(text)
+
     def enabledIcon(self, enabled):
         if enabled:
             self.soundBtn.setIcon(QIcon(":/volume.png"))
@@ -212,6 +223,14 @@ class AbcViewCard(QStackedWidget):
             qwidget = AbcDropWidgetItem(widgetType, text=text, idO=idO,  soundBtn=comp.soundBtn)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
+
+    def isComponent(self):
+        for nameSide, side in self.sides.items():
+            for layout in side.layouts:
+                for component in layout.components:
+                    if component: return True
+        else:
+            return False
 
 
     def setSide(self, side_name, widget):

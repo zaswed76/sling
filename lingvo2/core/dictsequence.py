@@ -8,9 +8,9 @@ class WordItem:
     def __init__(self, *args, **kwargs):
         self.textItems = args
         self.transcription = "none"
-        self.cyrillicTranscription = "none"
+        self.cyrillicTrans = "none"
         self.translation = "none"
-        self.base = "none"
+        self.Word = "none"
         self.example = "none"
         self.example2 = "none"
         self.index = kwargs.get("index", 0)
@@ -18,27 +18,24 @@ class WordItem:
         self.image = kwargs.get("image")
         ln = len(args)
         if ln == 2:
-            self.base, self.translation = args
+            self.Word, self.translation = args
         elif ln == 3:
-            self.base, self.cyrillicTranscription, self.translation = args
+            self.Word, self.cyrillicTrans, self.translation = args
         elif ln == 4:
-            self.base, self.translation, *ex = args
+            self.Word, self.translation, *ex = args
             self.example, self.example2 = ex
         elif ln == 5:
-            self.base, self.cyrillicTranscription, self.translation, self.example, self.example2 = args
+            self.Word, self.cyrillicTrans, self.translation, self.example, self.example2 = args
         elif ln == 6:
-            self.base, self.cyrillicTranscription, self.translation, self.example, self.example2, self.transcription = args
+            self.Word, self.cyrillicTrans, self.translation, self.example, self.example2, self.transcription = args
+
+    def getTypeText(self, typeText):
+        return getattr(self, typeText)
 
 
-    # def __repr__(self):
-    #     return "{} {} cir:{} tr:{} {}".format(self.base,
-    #                                self.translation,
-    #                                self.cyrillicTranscription,
-    #                                self.transcription,
-    #                                self.examples)
 
     def __repr__(self):
-        return "{}".format(self.base)
+        return "{}".format(self.Word)
 
 
 
