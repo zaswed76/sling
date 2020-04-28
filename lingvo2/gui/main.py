@@ -123,6 +123,8 @@ class Main(QMainWindow):
         self.setFocus(Qt.ActiveWindowFocusReason)
         self.changeStackWidget(0)
 
+        self.newGame()
+
 
 
     def updateViews(self):
@@ -146,14 +148,18 @@ class Main(QMainWindow):
         self.toolBar.actionTriggered.connect(self.toolActions)
 
     def changeStackWidget(self, i):
-        print("AAAAAAAAAAAAAA")
         if self._currentStackWidget == "cardEditView":
             self.cfg.save()
+        elif self._currentStackWidget == "chooseDict":
+            self.newGame()
+
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
-        print(self._currentStackWidget, "#######")
         self.stackWidgets[self._currentStackWidget].setFocus(Qt.ActiveWindowFocusReason)
         self.dictsModel.updateWorkData(self.chooseDict.checkedDicts())
 
+    def newGame(self):
+        self.dictsModel.reset()
+        self.viewCard.updateContent()
 
     def toolActions(self, act):
         getattr(self, "{}Action".format(act.text()))()
@@ -184,7 +190,6 @@ class Main(QMainWindow):
     def closeEvent(self, *args, **kwargs):
         self.cfg.save()
         self.cardModel.saveContent()
-
 
 
     def keyPressEvent(self, e):

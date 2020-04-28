@@ -138,7 +138,7 @@ if __name__ == '__main__':
         print("-----------")
         print(name)
         for wordItem in slovar.values():
-            print(wordItem.base, wordItem.image, wordItem.sound, sep=":")
+            print(wordItem.Word, wordItem.image, wordItem.sound, sep=":")
 
 
 

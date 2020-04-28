@@ -68,12 +68,18 @@ def scan(folder,
 
 if __name__ == '__main__':
     import paths
-
-    datapath = paths.DATA
-
     import pprint
+    slowar1 = r"E:\1_SYNS_ORIGINAL\0SYNC\python_projects\sling\lingvo2\data\slovar1\slovar1.txt"
+    season = r"E:\1_SYNS_ORIGINAL\0SYNC\python_projects\sling\lingvo2\data\seasons\seasons.txt"
+    reader = Reader(slowar1)
+    pprint.pprint(reader.data)
 
-    dext = (".txt", ".xlsx")
-    imext = (".png", ".jpg")
+    # datapath = paths.DATA
 
-    pprint.pprint(scan(datapath))
+
+
+    # dext = (".txt", ".xlsx")
+    # imext = (".png", ".jpg")
+
+    # pprint.pprint(scan(datapath))
+#

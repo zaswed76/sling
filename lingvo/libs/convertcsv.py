@@ -1,7 +1,7 @@
 import csv
 
-path=r"D:\user\projects\sling\lingvo\data\slovar1\testDict - Лист1.csv"
-path2=r"D:\user\projects\sling\lingvo\data\slovar1\testDictEx.txt"
+path=r"E:\1_SYNS_ORIGINAL\0SYNC\python_projects\sling\lingvo2\data\seasons\seasons.csv"
+path2=r"E:\1_SYNS_ORIGINAL\0SYNC\python_projects\sling\lingvo2\data\seasons\seasons.txt"
 
 
 
