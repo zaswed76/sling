@@ -1,4 +1,0 @@
-cat1  [cat]1  per1  ex11  ex21
-cat2  [cat]2  per2  ex12  ex22
-cat3  [cat]3  per3  ex13  ex23
-cat4  [cat]4  per4  ex14  ex24

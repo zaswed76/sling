@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from core.xlsxreader import xlsxRead
 
 
 class Reader:
@@ -26,7 +27,7 @@ class Reader:
         return self.data
 
     def readXlsx(self, path):
-        pass
+        return xlsxRead(path)
 
 
 def rglobs(folder, exts):

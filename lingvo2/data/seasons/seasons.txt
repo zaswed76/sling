@@ -1,7 +1,0 @@
-spring;сприн;весна;it's spring in the forest;spring recess
-summer;самме;лето;Hot Summer;summer rain
-autumn;отем;осень;autumn leaves yellow;Golden autumn
-winter;винте;зима;it snows in winter;make snowballs in winter
-garden;гаден;сад;spring garden;apple tree grows in the garden
-season;сизен;сезон;three months in a season;not a season
-

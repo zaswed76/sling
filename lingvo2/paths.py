@@ -10,3 +10,5 @@ DATA = ROOT / "data"
 CSS = ROOT / "css"
 ICONS = ROOT / "resources/icons"
 UIFORM = ROOT / "gui/uiform"
+
+DATATESTDIR = ROOT / "datatest"

@@ -1,6 +1,0 @@
-
-cat1+  per1+
-cat2+  [cat2]+  per2+
-cat3+  per3+  ex13+  ex23+
-cat4+  [cat]4+  per4+  ex14+ ex24+
-cat5+  [cat]5+  per5+  ex15+  ex25+  [ex35]+

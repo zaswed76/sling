@@ -78,6 +78,8 @@ class ChooseDictStack(QFrame):
         item = self.dictListModel.itemFromIndex(index)
 
         for item in self.main.dictSeq[item.text()].textItems:
+            print(item, "!!!!")
+
             tlist.append("   ".join(item) + "\n")
         text = "".join(tlist)
         self.textFrame.setPlainText(text)
