@@ -7,16 +7,27 @@ TextFrame {
      font-family: Helvetica;
 }
 
-
 ControlBtn {
+
     border: none;
-    image: url(":/addSound.png");
-    width: 32px;
-    height: 32px;
     padding: 10px 0px 0px 0px;
 }
 
 ControlBtn:hover {
+
+    color: #00A000;
+}
+
+
+ControlBtn#loadSoundsBtn {
+    /*border: none;*/
+    image: url(":/addSound.png");
+    width: 22px;
+    height: 22px;
+    /*padding: 10px 0px 0px 0px;*/
+}
+
+ControlBtn#loadSoundsBtn:hover {
 
     image: url(":/addSoundHover.png");
 }

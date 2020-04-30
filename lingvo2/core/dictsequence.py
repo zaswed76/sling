@@ -4,6 +4,26 @@ from collections.abc import MutableMapping
 
 datadir = paths.DATA
 
+class Example:
+    def __init__(self, example: str = None):
+        self.example = example
+        self.spoiler = None
+        if example is None:
+            self.text = None
+        else:
+            spl = self.example.split("_")[:2]
+            lspl = len(spl)
+            if lspl == 1:
+                self.text = spl[0]
+            elif lspl == 2:
+                self.text, self.spoiler = spl
+            if not self.text:
+                self.text = None
+            if not self.spoiler:
+                self.spoiler = None
+
+
+
 class WordItem:
     def __init__(self, *args, **kwargs):
         self.textItems = args
@@ -106,6 +126,7 @@ class DictSeq(MutableMapping):
                                   d["dirname"],
                                   d['images'],
                                   d['sounds'])
+
     def __setitem__(self, key, value):
         self.__data[key] = value
 

@@ -14,6 +14,7 @@ import paths
 from core.cardModel import CardModel
 from core.dictsequence import DictSeq
 from core.dictsmodel import DictsModel
+from core.soundloader import soundLoader
 
 from gui.centrallframe import CenterStackFrame
 from gui.choosedicts.choosedict import ChooseDictStack
@@ -56,8 +57,12 @@ class ChooseDictStackController:
         self.main = main
 
     def loadSoundsBtn(self):
-        self.loadSoundsDialog = LoadSoundsDialog()
+        self.loadSoundsDialog = LoadSoundsDialog(self.main)
         self.loadSoundsDialog.show()
+
+    def loadSoundWebBtn(self):
+        print("loadSoundWebBtn")
+        soundLoader(1, 2)
 
 
 
@@ -144,7 +149,6 @@ class Main(QMainWindow):
 
     def connect(self):
         controll = self.sender()
-        print(controll, "AAAAAAAAAAAAAAAAAAA")
         slot = controll.objectName()
         object = self.controls[controll.parent().objectName()]
         getattr(object, slot)()
