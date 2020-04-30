@@ -31,7 +31,6 @@ class ViewCard(AbcViewCard):
         if not self.isComponent():
             return
         wordItem = self.dictsModel.nextItem()
-
         if wordItem is None:
             return
         for nameSide, side in self.sides.items():
@@ -39,7 +38,12 @@ class ViewCard(AbcViewCard):
                 for component in layout.components:
                     widget = component
                     textType = component.text
-                    widget.setText(wordItem.getTypeText(textType))
+                    text = wordItem.getTypeText(textType)
+                    if text is not None:
+                        widget.setText(text)
+                    else:
+                        widget.clearText()
+                        widget.enabledIcon(False)
 
 
 
@@ -63,7 +67,9 @@ class ViewCard(AbcViewCard):
             widgetType = comp.qwidgetType
             idO = comp.idO
             comp.soundBtn = self.cardModel.soundBtnDefault
+
             qwidget = WidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn)
+            qwidget.setObjectNameComponent(text)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
 

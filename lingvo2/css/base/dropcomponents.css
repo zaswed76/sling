@@ -1,23 +1,30 @@
 
 
-AbcDropLabel {
+DropLabel {
     font-size: 44px;
     qproperty-alignment: AlignCenter;
 
 }
 
-AbcDropLabel#cyrillicTrans {
+
+DropLabel#Word {
+    font-size: 44px;
+    qproperty-alignment: AlignCenter;
+
+}
+
+DropLabel#cyrillicTrans {
     font-size: 30px;
     color: #343436;
 }
 
 
-AbcDropLabel#translation {
+DropLabel#translation {
     font-size: 30px;
     color: #054494;
 }
 
-AbcDropLabel#example {
+DropLabel#example {
     font-size: 20px;
     color: #6e6e6e;
     qproperty-alignment: AlignLeft;

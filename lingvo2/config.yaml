@@ -17,7 +17,7 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
-    - family
+    - seasons
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx

@@ -104,6 +104,7 @@ class AbcDropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
 
+
     def __repr__(self):
         return "AbcDropLabel"
 
@@ -149,6 +150,7 @@ class AbcDropWidgetItem(QFrame):
         super().__init__(*args, **kwargs)
         self.widgetType = widget_tipe
         self.text = text
+
         self.box = QHBoxLayout(self)
         self.box.setContentsMargins(0, 0, 0, 0)
         self.box.setSpacing(0)
@@ -157,12 +159,20 @@ class AbcDropWidgetItem(QFrame):
             self.idO = id(self)
         else:
             self.idO = idO
+
         self.component = getattr(dropcomponents, widget_tipe)()
+
         if text: self.component.setText(text)
         self.box.addWidget(self.component)
 
         self.soundBtn = SoundBtn(self.component)
         self.enabledIcon(soundBtnFlag)
+
+    def setObjectNameComponent(self, objectName):
+        self.component.setObjectName(objectName)
+
+    def clearText(self):
+        self.component.clear()
 
     def setText(self, text):
         self.component.setText(text)

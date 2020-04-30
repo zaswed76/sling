@@ -7,12 +7,12 @@ datadir = paths.DATA
 class WordItem:
     def __init__(self, *args, **kwargs):
         self.textItems = args
-        self.transcription = "none"
-        self.cyrillicTrans = "none"
-        self.translation = "none"
-        self.Word = "none"
-        self.example = "none"
-        self.example2 = "none"
+        self.transcription = None
+        self.cyrillicTrans = None
+        self.translation = None
+        self.Word = None
+        self.example = None
+        self.example2 = None
         self.index = kwargs.get("index", 0)
         self.sound = kwargs.get("sound")
         self.image = kwargs.get("image")
