@@ -43,15 +43,24 @@ class WordItem:
             self.Word, self.cyrillicTrans, self.translation = args
         elif ln == 4:
             self.Word, self.translation, *ex = args
-            self.example, self.example2 = ex
+            self.example = Example(ex[0])
+            self.example2 = Example(ex[1])
         elif ln == 5:
-            self.Word, self.cyrillicTrans, self.translation, self.example, self.example2 = args
+            self.Word, self.cyrillicTrans, self.translation, *ex = args
+            self.example = Example(ex[0])
+            self.example2 = Example(ex[1])
         elif ln == 6:
-            self.Word, self.cyrillicTrans, self.translation, self.example, self.example2, self.transcription = args
-        self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
+            self.Word, self.cyrillicTrans, self.translation, *ex, self.transcription = args
+            self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
+            self.example = Example(ex[0])
+            self.example2 = Example(ex[1])
 
     def getTypeText(self, typeText):
-        return getattr(self, typeText)
+        text = getattr(self, typeText)
+        if typeText is not None:
+            if typeText == "example" and text is not None:
+                text = text.text
+        return text
 
 
 
