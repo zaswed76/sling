@@ -8,19 +8,20 @@ DropLabel {
 
 
 DropLabel#Word {
-    font-size: 44px;
+    font-size: 76px;
     qproperty-alignment: AlignCenter;
+    color: #525254;
 
 }
 
 DropLabel#cyrillicTrans {
     font-size: 30px;
-    color: #343436;
+    color: #525254;
 }
 
 
 DropLabel#translation {
-    font-size: 30px;
+    font-size: 48px;
     color: #054494;
 }
 

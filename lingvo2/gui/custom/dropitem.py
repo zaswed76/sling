@@ -34,7 +34,7 @@ class DropWidgetItem(AbcDropWidgetItem):
         conteiner = self.sender().parent().parent().parent()
         widget = self.sender().parent().parent()
         idWidget = id(widget)
-        # self.tuneDropWidgetItemDialog = TuneDropWidgetItem()
+        self.tuneDropWidgetItemDialog = TuneDropWidgetItem()
         # self.tuneDropWidgetItemDialog.show()
 
     def resizeEvent(self, e):

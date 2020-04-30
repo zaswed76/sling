@@ -7,15 +7,17 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from tools.handler import qt_message_handler
+
 qInstallMessageHandler(qt_message_handler)
 import config
 import paths
-from core.cardModel import CardModel, PConfig, DropBox, DropItem, DragItemStyle
+from core.cardModel import CardModel
 from core.dictsequence import DictSeq
 from core.dictsmodel import DictsModel
 
 from gui.centrallframe import CenterStackFrame
-from gui.choosedict import ChooseDictStack
+from gui.choosedicts.choosedict import ChooseDictStack
+from gui.choosedicts.choosedict import *
 
 from gui.editcard import editcard, editcardWidget, editdrop_listview
 from gui.viewcard import viewcard
@@ -53,8 +55,9 @@ class ChooseDictStackController:
         self.parent = parent
         self.main = main
 
-    def closeChooseDict(self):
-        pass
+    def loadSoundsBtn(self):
+        self.loadSoundsDialog = LoadSoundsDialog()
+        self.loadSoundsDialog.show()
 
 
 
@@ -141,6 +144,7 @@ class Main(QMainWindow):
 
     def connect(self):
         controll = self.sender()
+        print(controll, "AAAAAAAAAAAAAAAAAAA")
         slot = controll.objectName()
         object = self.controls[controll.parent().objectName()]
         getattr(object, slot)()
@@ -214,6 +218,8 @@ class Main(QMainWindow):
     def editViewKeyPressEvent(self, e):
         if e.key() == Qt.Key_Space:
             self.viewCardEditWidget.turnSideBtn.animateClick()
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

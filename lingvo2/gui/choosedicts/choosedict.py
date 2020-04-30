@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import paths
 from gui.custom.customwidgets import *
+from gui.choosedicts.choosedictcontrols import *
 
 class DictItem(QStandardItem):
     def __init__(self, *__args):
@@ -28,9 +29,8 @@ class ChooseDictListView(QListView):
 
 
 
-class ControlFrame(QFrame):
-    def __init__(self, main, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+
+
 
 class TextFrame(QTextEdit):
     def __init__(self, main, *args, **kwargs):
@@ -56,7 +56,7 @@ class ChooseDictStack(QFrame):
         self.dictListModel.updateDictList(self.main.dictSeq)
         self.chooseDictListView.clicked[QModelIndex].connect(self.itemDictChange)
 
-        self.controlFrame = ControlFrame(self.main)
+        self.controlFrame = ChooseDictControls(self.main)
         self.textFrame = TextFrame(self.main)
         self.box.addWidget(self.chooseDictListView, stretch=10)
         self.box.addWidget(self.controlFrame, stretch=2)
@@ -64,6 +64,7 @@ class ChooseDictStack(QFrame):
 
         top_right = self.rect().topRight()
         n = top_right - QPoint(41, -2)
+
 
 
 

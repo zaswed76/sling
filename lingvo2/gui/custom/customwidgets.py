@@ -7,7 +7,11 @@ from PyQt5.QtWidgets import *
 
 
 
-
+class AbcDialog(QFrame):
+    def __init__(self):
+        super().__init__()
+        self.setWindowModality(Qt.ApplicationModal)
+        self.setWindowFlag(Qt.Tool)
 
 class ToolTypeFrame(QFrame):
     def __init__(self, name, *args, **kwargs):

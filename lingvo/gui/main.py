@@ -5,15 +5,15 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from gui.cardeditorpkg.cardeditorwidget import CardEditView
 
 import config
 import paths
-from core.cardModel import CardModel, PConfig, DropBox, DropItem, DragItemStyle
+from core.cardModel import CardModel
 from core.dictsequence import DictSeq
 from core.dictsmodel import DictsModel
-from gui.cardeditorpkg.cardeditorwidget import CardEditView
 from gui.centrallframe import CenterStackFrame
-from gui.choosedict import ChooseDictStack
+from gui.choosedicts.choosedict import ChooseDictStack
 from gui.viewcard import ViewCard
 
 

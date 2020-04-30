@@ -1,10 +1,22 @@
 
 
-QPushButton#closeChooseDict {
-    border-image: url("./resources/icons/base/icon_close.png");
-}
+
 TextFrame {
      background-color: #e9e9eb;
      font-size: 14pt;
      font-family: Helvetica;
+}
+
+
+ControlBtn {
+    border: none;
+    image: url(":/addSound.png");
+    width: 32px;
+    height: 32px;
+    padding: 10px 0px 0px 0px;
+}
+
+ControlBtn:hover {
+
+    image: url(":/addSoundHover.png");
 }
