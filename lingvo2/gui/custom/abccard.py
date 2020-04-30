@@ -192,7 +192,7 @@ class AbcViewCard(QStackedWidget):
 
         super().__init__(*args, **kwargs)
         self.__currentSideIndex = 0
-        self.sideNames = ('front', 'back')
+        self.sideNames = ['front', 'back']
         self.sides = {}
         self.dropsLayouts = {}
         self.sides["front"] = AbcSide(AbcVBoxLayout, "front")
@@ -255,7 +255,7 @@ class AbcViewCard(QStackedWidget):
 
     @property
     def currentSideName(self):
-        return self.sideNames[self.__currentSideIndex]
+        return self.sideNames[self.currentSideIndex]
 
     @currentSideIndex.setter
     def currentSideIndex(self, index):
@@ -268,6 +268,12 @@ class AbcViewCard(QStackedWidget):
         self.currentSideIndex = not self.currentSideIndex
         self.setCurrentIndex(self.currentSideIndex)
         return self.currentSideName
+
+    def sideToName(self, name):
+        self.setCurrentWidget(self.sides[name])
+        self.currentSideIndex = self.sideNames.index(name)
+        return self.currentSideName
+
 
     def __repr__(self):
         return "AbcViewCard"

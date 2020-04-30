@@ -34,7 +34,6 @@ class ViewCard(AbcViewCard):
 
         if wordItem is None:
             return
-        print(wordItem.Word)
         for nameSide, side in self.sides.items():
             for layout in side.layouts:
                 for component in layout.components:

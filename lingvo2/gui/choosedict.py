@@ -20,7 +20,7 @@ class DictListModel(QStandardItemModel):
         for i in dictList:
             self.appendRow(DictItem(i))
 
-class ChooseDictView(QListView):
+class ChooseDictListView(QListView):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.main = main
@@ -41,7 +41,6 @@ class TextFrame(QTextEdit):
 class ChooseDictStack(QFrame):
     def __init__(self, main, name=None, config=None, *args, **kwargs):
 
-
         super().__init__(*args, **kwargs)
         self.cfg = config
         self.main = main
@@ -50,16 +49,16 @@ class ChooseDictStack(QFrame):
         self.box.setContentsMargins(0, 0, 0, 0)
         self.box.setSpacing(0)
 
-        self.chooseDictFrame = ChooseDictView(self.main)
+        self.chooseDictListView = ChooseDictListView(self.main)
         self.dictListModel = DictListModel()
-        self.chooseDictFrame.setModel(self.dictListModel)
+        self.chooseDictListView.setModel(self.dictListModel)
 
         self.dictListModel.updateDictList(self.main.dictSeq)
-        self.chooseDictFrame.clicked[QModelIndex].connect(self.itemDictChange)
+        self.chooseDictListView.clicked[QModelIndex].connect(self.itemDictChange)
 
         self.controlFrame = ControlFrame(self.main)
         self.textFrame = TextFrame(self.main)
-        self.box.addWidget(self.chooseDictFrame, stretch=10)
+        self.box.addWidget(self.chooseDictListView, stretch=10)
         self.box.addWidget(self.controlFrame, stretch=2)
         self.box.addWidget(self.textFrame, stretch=20)
 
@@ -76,10 +75,7 @@ class ChooseDictStack(QFrame):
         self.cfg["choosedict"]["checkedDicts"] = self.checkedDicts()
         tlist = []
         item = self.dictListModel.itemFromIndex(index)
-
         for item in self.main.dictSeq[item.text()].textItems:
-            print(item, "!!!!")
-
             tlist.append("   ".join(item) + "\n")
         text = "".join(tlist)
         self.textFrame.setPlainText(text)

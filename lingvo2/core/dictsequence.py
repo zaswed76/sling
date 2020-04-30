@@ -28,6 +28,7 @@ class WordItem:
             self.Word, self.cyrillicTrans, self.translation, self.example, self.example2 = args
         elif ln == 6:
             self.Word, self.cyrillicTrans, self.translation, self.example, self.example2, self.transcription = args
+        self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
 
     def getTypeText(self, typeText):
         return getattr(self, typeText)

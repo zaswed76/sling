@@ -54,8 +54,8 @@ class ChooseDictStackController:
         self.main = main
 
     def closeChooseDict(self):
-        self.main.centerStackFrame.showStack("view")
-        self.parent.parentMethod()
+        pass
+
 
 
 class Main(QMainWindow):
@@ -125,6 +125,9 @@ class Main(QMainWindow):
 
         self.newGame()
 
+    def newGame(self):
+        self.dictsModel.reset()
+        self.viewCard.updateContent()
 
 
     def updateViews(self):
@@ -151,15 +154,15 @@ class Main(QMainWindow):
         if self._currentStackWidget == "cardEditView":
             self.cfg.save()
         elif self._currentStackWidget == "chooseDict":
+            check = self.chooseDict.checkedDicts()
+            self.dictsModel.updateWorkData(check)
             self.newGame()
 
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
         self.stackWidgets[self._currentStackWidget].setFocus(Qt.ActiveWindowFocusReason)
-        self.dictsModel.updateWorkData(self.chooseDict.checkedDicts())
 
-    def newGame(self):
-        self.dictsModel.reset()
-        self.viewCard.updateContent()
+
+
 
     def toolActions(self, act):
         getattr(self, "{}Action".format(act.text()))()
@@ -200,7 +203,9 @@ class Main(QMainWindow):
 
     def viewKeyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
+            self.viewCard.sideToName("front")
             self.viewCard.updateContent()
+            # self.viewCard.t
         elif e.key() == Qt.Key_Left:
             print("<<<<<<<<<<<<")
         elif e.key() == Qt.Key_Space:
