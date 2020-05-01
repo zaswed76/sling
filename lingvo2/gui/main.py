@@ -23,6 +23,15 @@ from gui.choosedicts.choosedict import *
 from gui.editcard import editcard, editcardWidget, editdrop_listview
 from gui.viewcard import viewcard
 
+def warningMessage(parent, nameDict):
+    message = """словарь - {} уже содержит каталог с аудиофайлами.
+если проодолжить то ваши файлы могут быть удалены""".format(nameDict)
+    msgBox = QMessageBox(QMessageBox.Warning, "QMessageBox.warning()",
+            message, QMessageBox.NoButton, None)
+    msgBox.addButton("продолжить", QMessageBox.AcceptRole)
+    msgBox.addButton("отменить", QMessageBox.RejectRole)
+    return msgBox.exec_()
+
 
 
 
@@ -61,8 +70,29 @@ class ChooseDictStackController:
         self.loadSoundsDialog.show()
 
     def loadSoundWebBtn(self):
-        print("loadSoundWebBtn")
-        soundLoader(1, 2)
+        workDict = {}
+        checkList = self.main.chooseDict.checkedDicts()
+
+
+
+        for dict_name, dict_data in self.main.dictSeq.scan.items():
+            dirname = dict_data["dirname"]
+            sounds = dict_data["sounds"]
+
+            if dict_name in checkList:
+                if sounds:
+                    res = warningMessage(self, dict_name)
+                    if res == QMessageBox.AcceptRole:
+                        print("продолжить")
+                    else:
+                        return
+
+                workDict[dict_name] = dirname
+        print(workDict)
+
+
+
+
 
 
 

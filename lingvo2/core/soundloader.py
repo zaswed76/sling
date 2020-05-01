@@ -2,8 +2,6 @@ from gtts import gTTS
 from pathlib import Path
 
 def soundLoader(wordList, dirForSounds):
-    print(dirForSounds, type(dirForSounds))
-
     for line in wordList:
         tts = loadGtts(line)
         file_name = Path(dirForSounds) / "{}.mp3".format(line)

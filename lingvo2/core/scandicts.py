@@ -10,9 +10,12 @@ class Reader:
             self.path = Path(path)
             self.load(self.path)
 
+
     def load(self, path):
+
         self.data.clear()
         self.path = Path(path)
+        # print(self.path)
         if self.path.suffix == ".txt":
             return self.readTxt(path)
         elif self.path.suffix == ".xlsx":
@@ -55,6 +58,7 @@ def scan(folder,
                             sounds: [str, str]}}
     """
     dm = {}
+
     for root, directories, filenames in os.walk(folder):
         for filename in filenames:
             name, ext = os.path.splitext(filename)

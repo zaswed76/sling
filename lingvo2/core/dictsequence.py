@@ -61,9 +61,6 @@ class WordItem:
             if typeText == "example" and text is not None:
                 text = text.text
         return text
-
-
-
     def __repr__(self):
         return "{}".format(self.Word)
 
@@ -89,6 +86,7 @@ class Dict(MutableMapping):
         return [x.textItems for x in self.__data.values()]
 
     def updateWordObjects(self):
+        print(self.dictpath)
         for id, line in enumerate(scandicts.Reader().load(self.dictpath)):
             self.__data[line[0]] = WordItem(*line,
                                             image=self.images.get(line[0]),
@@ -121,6 +119,7 @@ class DictSeq(MutableMapping):
         словарь словарей
         :param folder:
         """
+        self.folder = folder
         self.__data = {}
         self.scan  = scandicts.scan(folder)
         self.init()
