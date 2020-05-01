@@ -105,7 +105,8 @@ class ChooseDictStackController:
         return loaderDict
 
 
-
+    def addDict(self):
+        print("addDict")
 
 
 

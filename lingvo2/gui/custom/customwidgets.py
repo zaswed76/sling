@@ -27,6 +27,7 @@ class BoxLayout(QBoxLayout):
         self.setParent(parent)
         contentMargin = kwargs.get("content_margin", (0, 0, 0, 0))
         spacing = kwargs.get("spacing", 0)
+        print(spacing, "WWWWWWWWWWWWWWWWWW")
         self.setContentsMargins(*contentMargin)
         self.setSpacing(spacing)
 

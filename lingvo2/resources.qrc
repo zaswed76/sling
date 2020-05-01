@@ -9,8 +9,13 @@
     <file alias="cfgShadow.png">./resources/icons/base/cfgShadow.png</file>
     <file alias="house.png">./resources/icons/base/house.png</file>
     <file alias="profile.png">./resources/icons/base/profile.png</file>
+
     <file alias="addSound.png">./resources/icons/base/addSound.png</file>
     <file alias="addSoundHover.png">./resources/icons/base/addSoundHover.png</file>
+
+    <file alias="addDict.png">./resources/icons/base/addDict.png</file>
+    <file alias="addDictHover.png">./resources/icons/base/addDictHover.png</file>
+
 
 </qresource>
 </RCC>

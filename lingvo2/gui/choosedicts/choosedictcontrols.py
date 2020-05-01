@@ -8,6 +8,7 @@ class ControlBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setIconSize(QSize(36, 36))
 
 
 class LoadSoundsDialog(AbcDialog):
@@ -48,11 +49,20 @@ class LoadSoundsDialog(AbcDialog):
 class ChooseDictControls(QFrame):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.box = BoxLayout(QBoxLayout.TopToBottom, self)
-        self.loadSoundsBtn = ControlBtn()
         self.setObjectName("chooseDictStack")
-        self.loadSoundsBtn.clicked.connect(main.connect)
-        self.loadSoundsBtn.setObjectName("loadSoundsBtn")
+        self.box = BoxLayout(QBoxLayout.TopToBottom, self, spacing=6, content_margin=(0, 6, 0, 0))
 
-        self.box.addWidget(self.loadSoundsBtn)
+
+        self.addDictBtn = ControlBtn()
+        self.addDictBtn.setIcon(QIcon(":/addDict.png"))
+        self.addDictBtn.clicked.connect(main.connect)
+        self.addDictBtn.setObjectName("addDict")
+
+        self.addSoundsBtn = ControlBtn()
+        self.addSoundsBtn.setIcon(QIcon(":/addSound.png"))
+        self.addSoundsBtn.clicked.connect(main.connect)
+        self.addSoundsBtn.setObjectName("loadSoundsBtn")
+
+        self.box.addWidget(self.addDictBtn, alignment=Qt.AlignCenter)
+        self.box.addWidget(self.addSoundsBtn, alignment=Qt.AlignCenter)
         self.box.addStretch(10)
