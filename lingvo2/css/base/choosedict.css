@@ -8,13 +8,16 @@ TextFrame {
 }
 
 ControlBtn {
-
-    border: none;
-    padding: 10px 0px 0px 0px;
+    font-size: 12pt;
+    font-family: Helvetica;
+    color: #5d5d5f;
+    border: 1px solid #11b9e7;
+    border-radius: 4px;
+    padding: 4px 0px 4px 0px;
 }
 
 ControlBtn:hover {
-
+    border-color: #00A000;
     color: #00A000;
 }
 
@@ -30,4 +33,22 @@ ControlBtn#loadSoundsBtn {
 ControlBtn#loadSoundsBtn:hover {
 
     image: url(":/addSoundHover.png");
+}
+
+ProgressLabel {
+    background-color: #e9e9eb;
+    font-size: 12pt;
+    font-family: Helvetica;
+    font-style: italic;
+    color: #6e6e6e;
+}
+
+QLabel#LoadSoundsDialog_statusLabel {
+    background-color: #e9e9eb;
+    font-size: 10pt;
+    font-family: Helvetica;
+    font-style: italic;
+    color: #6e6e6e;
+    padding: 4px 0px 6px 0px;
+    border: 1px solid #11b9e7;
 }

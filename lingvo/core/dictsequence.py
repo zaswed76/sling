@@ -55,7 +55,11 @@ class Dict(MutableMapping):
 
     @property
     def textBase(self):
-        return [x.base for x in self.__data.values()]
+        return [x.Word for x in self.__data.values()]
+
+    @property
+    def textExample(self):
+        return [x.example.text for x in self.__data.values()]
 
     @property
     def textItems(self):

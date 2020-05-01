@@ -70,7 +70,7 @@ class Left(QtWidgets.QListWidget):
 
     def mouseMoveEvent(self, e):
         mimeData = QMimeData()
-        mimeData.setText(self.currentItem().text())
+        mimeData.setText(self.currentItem().text)
         drag = QDrag(self)
         drag.setMimeData(mimeData)
         dropAction = drag.exec_(Qt.MoveAction)

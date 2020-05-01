@@ -1,6 +1,5 @@
 import fileinput
 import glob
-from pathlib import Path
 import sys
 
 from PyQt5.QtCore import *
@@ -70,41 +69,28 @@ class ChooseDictStackController:
         self.parent = parent
         self.main = main
 
-
     def loadSoundsBtn(self):
         self.loadSoundsDialog = LoadSoundsDialog(self.main)
         self.loadSoundsDialog.show()
 
     def loadSoundWebBtn(self):
-        loaderDict = {}
         workDict = {}
         checkList = self.main.chooseDict.checkedDicts()
+
+
+
         for dict_name, dict_data in self.main.dictSeq.scan.items():
             dirname = dict_data["dirname"]
             sounds = dict_data["sounds"]
             if dict_name in checkList:
                 if sounds and not warningMessage(self, dict_name):
-                    continue
-                else:
-
-                    workDict[dict_name] = dirname
+                    return
+                workDict[dict_name] = dirname
         for dict_name, dict_path in  workDict.items():
-            # --------------------------------------------------
-            pdict_path = Path(dict_path)
-            Path(pdict_path / "sounds").mkdir(parents=True, exist_ok=True)
-            targetDir = pdict_path / "sounds"
-
-            # print(targetDir)
-            wordList = self.main.dictSeq[dict_name].textBase
-            soundLoader =  SoundLoader(wordList, targetDir, None)
-            soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
-            nfiles = soundLoader.run()
-
-            soundLoader.close()
-            loaderDict[dict_name] = (nfiles, len(wordList))
-        return loaderDict
-
-
+            print(dict_name)
+            print(self.main.dictSeq[dict_name].textBase)
+            print(self.main.dictSeq[dict_name].textExamples)
+            print("-------------------")
 
 
 
@@ -197,7 +183,7 @@ class Main(QMainWindow):
         controll = self.sender()
         slot = controll.objectName()
         object = self.controls[controll.parent().objectName()]
-        return getattr(object, slot)()
+        getattr(object, slot)()
 
     def __setToolBar(self):
         self.toolBar = ToolBar(self)

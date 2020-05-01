@@ -147,7 +147,7 @@ class Main(QMainWindow):
         # self.viewCardStack.initCard()
 
     def toolActions(self, act):
-        getattr(self, "{}Action".format(act.text()))()
+        getattr(self, "{}Action".format(act.text))()
 
     def chooseDictAction(self):
         self.centerStackFrame.showStack("chooseDict")

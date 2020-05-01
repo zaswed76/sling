@@ -31,8 +31,8 @@ class WordItem:
         self.cyrillicTrans = None
         self.translation = None
         self.Word = None
-        self.example = None
-        self.example2 = None
+        self.example = Example()
+        self.example2 = Example()
         self.index = kwargs.get("index", 0)
         self.sound = kwargs.get("sound")
         self.image = kwargs.get("image")
@@ -79,14 +79,16 @@ class Dict(MutableMapping):
 
     @property
     def textBase(self):
-        return [x.base for x in self.__data.values()]
+        return [x.Word for x in self.__data.values()]
+    @property
+    def textExample(self):
+        return [x.example.text for x in self.__data.values()]
 
     @property
     def textItems(self):
         return [x.textItems for x in self.__data.values()]
 
     def updateWordObjects(self):
-        print(self.dictpath)
         for id, line in enumerate(scandicts.Reader().load(self.dictpath)):
             self.__data[line[0]] = WordItem(*line,
                                             image=self.images.get(line[0]),

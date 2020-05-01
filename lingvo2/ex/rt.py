@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
 		self.addDockWidget(Qt.RightDockWidgetArea, dockWidget)
 
 	def get_list_item(self):
-		self.textEdit.setPlainText(self.listWidget.currentItem().text())
+		self.textEdit.setPlainText(self.listWidget.currentItem().text)
 
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
