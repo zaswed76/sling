@@ -124,13 +124,17 @@ class DictSeq(MutableMapping):
         self.folder = folder
         self.__data = {}
         self.scan  = scandicts.scan(folder)
-        self.init()
+
+
+    def clear(self):
+        self.__data.clear()
 
     @property
     def data(self):
         return self.__data
 
     def init(self):
+        self.clear()
         for n, d in self.scan.items():
             self.__data[n] = Dict(n, d["dictpath"],
                                   d["dirname"],

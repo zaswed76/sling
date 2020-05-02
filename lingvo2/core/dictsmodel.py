@@ -13,6 +13,7 @@ class DictsModel:
         self._workData = {}
         self._workList = list()
         self._cursor = -1
+        self.currentItem = None
 
 
     @property
@@ -23,9 +24,9 @@ class DictsModel:
     def workList(self):
         return self._workList
 
-    def updateWorkData(self, checkedDicts):
+    def updateWorkData(self, checkedDicts, dictSeq):
         self.reset()
-        self._workData = {k:v for k, v in self.dictSeq.items() if k in checkedDicts}
+        self._workData = {k:v for k, v in dictSeq.items() if k in checkedDicts}
 
         self._workList.clear()
         for d in self._workData.values():
@@ -36,7 +37,9 @@ class DictsModel:
     def nextItem(self):
         if self._cursor < len(self._workList)-1:
             self._cursor += 1
-            return self._workList[self._cursor]
+            self.currentItem = self._workList[self._cursor]
+            return self.currentItem
+
 
     def prevItem(self):
         if self._cursor > 0:

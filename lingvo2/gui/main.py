@@ -1,11 +1,13 @@
 import fileinput
 import glob
+import os
 from pathlib import Path
 import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from PyQt5 import QtMultimedia
 
 from tools.handler import qt_message_handler
 
@@ -102,6 +104,8 @@ class ChooseDictStackController:
 
             soundLoader.close()
             loaderDict[dict_name] = (nfiles, len(wordList))
+        self.main.updateDictModel()
+        self.main.newGame()
         return loaderDict
 
 
@@ -121,6 +125,9 @@ class Main(QMainWindow):
         self._set_style_sheet(self.cfg["currentStyle"])
 
         self.dictSeq = DictSeq(paths.DATA)
+        self.dictsModel = DictsModel(self.dictSeq)
+        self.updateDictModel()
+
 
         # здесь хранятся все стеки (окна)
         self.centerStackFrame = CenterStackFrame(self)
@@ -144,9 +151,8 @@ class Main(QMainWindow):
         self.controls["chooseDictStack"] = ChooseDictStackController(self,
                                                                      self.chooseDict)
 
-        self.dictsModel = DictsModel(self.dictSeq)
 
-        self.dictsModel.updateWorkData(self.cfg["choosedict"]['checkedDicts'])
+
 
 
         # работаем с карточками
@@ -180,12 +186,39 @@ class Main(QMainWindow):
 
         self.newGame()
 
+    def updateDictModel(self):
+        self.dictSeq.init()
+        self.dictsModel.updateWorkData(self.cfg["choosedict"]['checkedDicts'], self.dictSeq)
+
+
+
     def soundClick(self):
-        print("soundClick")
+        print(self.dictsModel.currentItem)
+        # if audioFile and os.path.isfile(audioFile):
+        self.playSound(self.dictsModel.currentItem.sound)
+        self.setFocus(Qt.ActiveWindowFocusReason)
+
+    def playSound(self, filePath):
+        self.media = QUrl.fromLocalFile(filePath)
+        self.content = QtMultimedia.QMediaContent(self.media)
+        self.player = QtMultimedia.QMediaPlayer()
+        self.player.setMedia(self.content)
+        # self.player.positionChanged.connect(self.positionSuond)
+        self.player.stateChanged.connect(self.mediaStatusSuond)
+        self.player.play()
+
+    def positionSuond(self, i):
+        print(i, "!!!")
+
+    def mediaStatusSuond(self, i):
+        if self.player.state() == QtMultimedia.QMediaPlayer.StoppedState:
+            self.player.setMedia(QtMultimedia.QMediaContent())
+            self.player.stop()
 
     def newGame(self):
         self.dictsModel.reset()
         self.viewCard.updateContent()
+
 
 
     def updateViews(self):
@@ -213,7 +246,7 @@ class Main(QMainWindow):
             self.cfg.save()
         elif self._currentStackWidget == "chooseDict":
             check = self.chooseDict.checkedDicts()
-            self.dictsModel.updateWorkData(check)
+            self.dictsModel.updateWorkData(check, self.dictSeq)
             self.newGame()
 
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
