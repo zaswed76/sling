@@ -151,7 +151,7 @@ class Main(QMainWindow):
 
         # работаем с карточками
 
-        self.viewCard = viewcard.ViewCard(self.dictsModel)
+        self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
 
         self.viewCard.setCardModel(self.cardModel)
         self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")
@@ -179,6 +179,9 @@ class Main(QMainWindow):
         self.changeStackWidget(0)
 
         self.newGame()
+
+    def soundClick(self):
+        print("soundClick")
 
     def newGame(self):
         self.dictsModel.reset()

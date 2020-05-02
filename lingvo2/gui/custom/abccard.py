@@ -18,6 +18,7 @@ class TuneDropWidgetItem(QFrame):
 class SoundBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
+        self.setCursor(QCursor(Qt.PointingHandCursor))
 
 class CloseDropLabelBtn(QPushButton):
     def __init__(self, *__args):
@@ -138,7 +139,7 @@ class AbcSide(QFrame):
         return str(self.layouts)
 
 class AbcDropWidgetItem(QFrame):
-    def __init__(self, widget_tipe, text=None, idO=None, soundBtnFlag=False, *args, **kwargs):
+    def __init__(self, widget_tipe, text=None, idO=None, soundBtnFlag=False, main=None, *args, **kwargs):
         """
         этот виджет добавляем в контейнер AbcDropLayout
         :param widget_tipe:
@@ -148,6 +149,7 @@ class AbcDropWidgetItem(QFrame):
         """
 
         super().__init__(*args, **kwargs)
+        self.main = main
         self.widgetType = widget_tipe
         self.text = text
 
@@ -166,7 +168,10 @@ class AbcDropWidgetItem(QFrame):
         self.box.addWidget(self.component)
 
         self.soundBtn = SoundBtn(self.component)
+
         self.enabledIcon(soundBtnFlag)
+
+
 
     def setObjectNameComponent(self, objectName):
         self.component.setObjectName(objectName)
@@ -195,12 +200,13 @@ class AbcDropWidgetItem(QFrame):
         return "{}-{}".format(self.__class__.__name__, self.idO)
 
 class AbcViewCard(QStackedWidget):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, main=None, *args, **kwargs):
         """
         визуальная модель карточки
         """
 
-        super().__init__(*args, **kwargs)
+        super().__init__()
+        self.main = main
         self.__currentSideIndex = 0
         self.sideNames = ['front', 'back']
         self.sides = {}

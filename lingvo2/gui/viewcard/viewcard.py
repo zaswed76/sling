@@ -21,8 +21,10 @@ class ViewFrame(QFrame):
 
 
 class ViewCard(AbcViewCard):
-    def __init__(self, dictsModel, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, dictsModel, main=None, *args, **kwargs):
+
+        super().__init__(main, *args, **kwargs)
+        self.main = main
         self.dictsModel = dictsModel
         self.setFixedSize(730, 730)
 
@@ -68,7 +70,9 @@ class ViewCard(AbcViewCard):
             idO = comp.idO
             comp.soundBtn = self.cardModel.soundBtnDefault
 
-            qwidget = WidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn)
+            qwidget = WidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn, main=self.main)
+            qwidget.soundBtn.clicked.connect(self.main.soundClick)
+
             qwidget.setObjectNameComponent(text)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 

@@ -4,7 +4,10 @@
     <file alias="dict.png">./resources/icons/base/dict.png</file>
     <file alias="edit.png">./resources/icons/base/edit.png</file>
     <file alias="open.png">./resources/icons/base/open.png</file>
+
     <file alias="volume.png">./resources/icons/base/volume.png</file>
+    <file alias="volumeHover.png">./resources/icons/base/volumeHover.png</file>
+
     <file alias="closeAround.png">./resources/icons/base/closeAround.png</file>
     <file alias="cfgShadow.png">./resources/icons/base/cfgShadow.png</file>
     <file alias="house.png">./resources/icons/base/house.png</file>
