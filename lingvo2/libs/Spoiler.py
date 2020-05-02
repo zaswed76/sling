@@ -10,7 +10,7 @@ class Spoiler(QWidget):
         HORIZONTAL = 1
         VERTICAL = 2
 
-    def __init__(self, orientation=Orientation.HORIZONTAL, animationDuration = 250, parent=None):
+    def __init__(self, orientation=Orientation.HORIZONTAL, animationDuration = 120, parent=None):
         QWidget.__init__(self, parent)
 
         self.opened = False
