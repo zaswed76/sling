@@ -20,7 +20,7 @@ class Spoiler(QWidget):
         self.animator = QParallelAnimationGroup()
 
         if orientation is self.Orientation.HORIZONTAL:
-            self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+            self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
             self.setMaximumWidth(0)
             self.setMinimumWidth(0)
@@ -30,7 +30,7 @@ class Spoiler(QWidget):
             self.animator.addAnimation(QPropertyAnimation(self, b"maximumWidth"))
 
         elif orientation is self.Orientation.VERTICAL:
-            self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+            self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
             self.setMaximumHeight(0)
             self.setMinimumHeight(0)

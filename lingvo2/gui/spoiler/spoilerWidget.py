@@ -13,6 +13,7 @@ from gui.spoiler.Spoiler import Spoiler
 class SpoilerLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
+        self.setScaledContents(True)
 
 class BaseLabel(QLabel):
     clicked = pyqtSignal()
@@ -29,6 +30,7 @@ class QSpoilerBtn(QPushButton):
         self.iconright = iconright
         self.iconleft = iconleft
         self.setCheckable(True)
+
 
         # self.setIcon(QIcon(iconleft))
         # self.setFlat(True)
@@ -49,44 +51,64 @@ class QSpoilerBtn(QPushButton):
 
 
 
-def fun(spoiler):
-    if spoiler.isOpened():
-        spoiler.close()
-    else:
-        spoiler.open()
-
-class Main(QFrame):
-    def __init__(self):
+class SpoilerWidget(QFrame):
+    def __init__(self, iconleft=None, iconright=None):
         super().__init__()
-        self.grid = QGridLayout(self)
-        self.grid.setContentsMargins(0, 0, 0, 0)
-        self.grid.setSpacing(0)
+        self.iconright = iconright
+        self.iconleft = iconleft
 
-        self.baseLabel = BaseLabel("это надпись\nв две строки")
-        self.baseLabel.clicked.connect(lambda: fun(self.spoiler))
+        self.box1 = QHBoxLayout(self)
+        self.box1.setContentsMargins(0, 0, 0, 0)
+        self.box1.setSpacing(0)
 
-        self.spBtn = QSpoilerBtn("./right.png", "./left.png")
+        self.box = QVBoxLayout()
+        self.box1.addLayout(self.box)
+        self.box.addStretch(10)
+
+        self.spBtn = QSpoilerBtn(self.iconright, self.iconleft)
         self.spBtn.setStyleSheet(open("spoiler.css", "r").read())
 
-        self.spoilerLb = SpoilerLabel("это спойлер")
-        self.spoilerLayout = QHBoxLayout()
-        self.spoilerLayout.addWidget(self.spoilerLb)
-        self.spoiler = Spoiler(Spoiler.Orientation.HORIZONTAL)
-        self.spoiler.setContentLayout(self.spoilerLayout)
+        self.box.addWidget(self.spBtn, alignment=Qt.AlignLeft)
+
+        self.rbox = QVBoxLayout()
+        self.box1.addLayout(self.rbox)
+
+        self.baseSpoilerLabel = BaseLabel()
+        self.baseSpoilerLabel.clicked.connect(self.runSpoiler)
+
+        self.rbox.addWidget(self.baseSpoilerLabel, alignment=Qt.AlignLeft | Qt.AlignTop)
 
 
-        self.grid.addWidget(self.baseLabel, 0, 0)
-        self.grid.addWidget(self.spBtn, 1, 0)
-        self.grid.addWidget(self.spoiler, 1, 1)
+
+        self.spoilerLabel = SpoilerLabel()
 
 
-    def clickSpoyler(self):
-        print("ddddddddd")
+
+
+        self.rbox.addWidget(self.spoilerLabel)
+
+    def runSpoiler(self):
+        self.spoilerLabel.hide()
+
+    def setText(self, text):
+        self.baseSpoilerLabel.setText(text)
+
+    def setSpoilerText(self, text):
+        self.spoilerLabel.setText(text)
+
+class Widget(QFrame):
+    def __init__(self):
+        super().__init__()
+        box = QHBoxLayout(self)
+        spoilerWidget = SpoilerWidget()
+        spoilerWidget.setText("это какой нибудь пример")
+        spoilerWidget.setSpoilerText("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+        box.addWidget(spoilerWidget)
 
 if __name__ == '__main__':
     import paths
     app = QApplication(sys.argv)
-    main = Main()
+    main = Widget()
     main.show()
     sys.exit(app.exec_())
 
