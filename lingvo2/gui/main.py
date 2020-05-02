@@ -193,7 +193,7 @@ class Main(QMainWindow):
 
 
     def soundClick(self):
-        print(self.dictsModel.currentItem)
+        print(self.dictSeq["family"]['family'].sound)
         # if audioFile and os.path.isfile(audioFile):
         self.playSound(self.dictsModel.currentItem.sound)
         self.setFocus(Qt.ActiveWindowFocusReason)
