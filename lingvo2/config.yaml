@@ -17,6 +17,8 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
+    - family
+    - familybackup
     - seasons
 core:
     cycle: true

@@ -1,0 +1,30 @@
+
+/*SpoilerLabel {*/
+    /*font-family: Helvetica;*/
+    /*font-style: italic;*/
+    /*font-size: 16pt;*/
+    /*color: #5d5d5f;*/
+    /*!*border-top: 1px solid gray;*!*/
+    /*!*border-radius: 6px;*!*/
+/*}*/
+
+/*BaseLabel {*/
+    /*border: none;*/
+    /*font-family: Helvetica;*/
+    /*font-style: italic;*/
+    /*font-size: 16pt;*/
+    /*color: #343436;*/
+    /*!*background-color: #6ab3ba;*!*/
+/*}*/
+
+
+
+QSpoilerBtn {
+    border: none;
+    image: url("./right.png");
+}
+
+QSpoilerBtn:checked {
+    border: none;
+    image: url("./left.png");
+}

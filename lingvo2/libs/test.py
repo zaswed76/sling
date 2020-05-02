@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QGridLayout, QPushButton, QLabel, QWidget, \
     QHBoxLayout, QSizePolicy, QSpacerItem, QComboBox, QGroupBox, QRadioButton
-from libs.Spoiler import Spoiler
+from gui.spoiler.Spoiler import Spoiler
 
 def fun(spoiler):
     if spoiler.isOpened():

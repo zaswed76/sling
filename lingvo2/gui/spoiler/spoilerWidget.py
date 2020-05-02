@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 from tools.handler import qt_message_handler
 qInstallMessageHandler(qt_message_handler)
 
-from libs.Spoiler import Spoiler
+from gui.spoiler.Spoiler import Spoiler
 
 class SpoilerLabel(QLabel):
     def __init__(self, *__args):
@@ -23,24 +23,28 @@ class BaseLabel(QLabel):
         self.clicked.emit()
 
 class QSpoilerBtn(QPushButton):
-    def __init__(self, icon=None, *__args):
+    def __init__(self, iconleft, iconright, *__args):
         super().__init__(*__args)
-        self.icon = icon
-        self.setCheckable(True)
-        self.setText(">")
 
-        # if icon is not None:
-        #     self.setIcon(QIcon(icon))
+        self.iconright = iconright
+        self.iconleft = iconleft
+        self.setCheckable(True)
+
+        # self.setIcon(QIcon(iconleft))
         # self.setFlat(True)
 
-    def mousePressEvent(self, e):
+    # def mousePressEvent(self, e):
+    #
+    #     if self.isChecked():
+    #         self.setChecked(False)
+    #         self.setIcon(QIcon(self.iconleft))
+    #         self.setFlat(True)
+    #
+    #     else:
+    #         self.setChecked(True)
+    #         self.setIcon(QIcon(self.iconright))
+    #         self.setFlat(True)
 
-        if self.isChecked():
-            self.setChecked(False)
-            self.setText(">")
-        else:
-            self.setChecked(True)
-            self.setText("<")
 
 
 
@@ -61,7 +65,8 @@ class Main(QFrame):
         self.baseLabel = BaseLabel("это надпись\nв две строки")
         self.baseLabel.clicked.connect(lambda: fun(self.spoiler))
 
-        self.spBtn = QSpoilerBtn(">")
+        self.spBtn = QSpoilerBtn("./right.png", "./left.png")
+        self.spBtn.setStyleSheet(open("spoiler.css", "r").read())
 
         self.spoilerLb = SpoilerLabel("это спойлер")
         self.spoilerLayout = QHBoxLayout()
@@ -81,8 +86,10 @@ class Main(QFrame):
 if __name__ == '__main__':
     import paths
     app = QApplication(sys.argv)
-    stylepath = paths.CSS / "base/spoiler.css"
-    app.setStyleSheet(open(stylepath, "r").read())
     main = Main()
     main.show()
     sys.exit(app.exec_())
+
+
+
+
