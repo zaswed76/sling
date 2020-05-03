@@ -27,6 +27,10 @@ class SpoilerLabel(QLabel):
         self._stext = ""
         self.setAlignment(Qt.AlignTop | Qt.AlignLeft)
 
+    def clear(self):
+        self._stext = ""
+        self.setText(self._stext)
+
     def text(self):
         return self._stext
 
@@ -124,6 +128,11 @@ class SpoilerWidget(QFrame):
 
     def spoilerText(self):
         return self.spoilerLabel.text()
+
+    def clear(self):
+        print("!!!!!!")
+        self.baseLabel.clear()
+        self.spoilerLabel.clear()
 
 
 

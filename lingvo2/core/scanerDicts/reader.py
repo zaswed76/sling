@@ -12,7 +12,7 @@ def formatter(data):
     # pprint.pprint(cutData)
     # print("----------------")
     fdata = list(filter(emptyFilter, cutData))
-    pprint.pprint(fdata)
+    # pprint.pprint(fdata)
 
 def emptyFilter(line):
     f1 = any(line)

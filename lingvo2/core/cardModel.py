@@ -142,8 +142,8 @@ def save():
 
 def load():
     card = CardModel(paths.PICKLE_CONFIG)
-    print(card.front)
-    print(card.back)
+    # print(card.front)
+    # print(card.back)
 
 
 if __name__ == '__main__':

@@ -74,6 +74,8 @@ class SpoilerExampleLabel(QFrame):
         self.spoilerWidget.setSpoilerText("спойлер")
         self.box.addWidget(self.spoilerWidget)
 
+    def clear(self):
+        self.spoilerWidget.clear()
 
     def setText(self, text):
         self.spoilerWidget.setText(text)

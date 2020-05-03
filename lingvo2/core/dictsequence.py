@@ -31,7 +31,7 @@ class WordItem:
         self.cyrillicTrans = None
         self.translation = None
         self.Word = None
-        self.example = Example()
+        self.spoilerExample = Example()
         self.example2 = Example()
         self.index = kwargs.get("index", 0)
         self.sound = kwargs.get("sound")
@@ -43,26 +43,27 @@ class WordItem:
             self.Word, self.cyrillicTrans, self.translation = args
         elif ln == 4:
             self.Word, self.translation, *ex = args
-            self.example = Example(ex[0])
+            self.spoilerExample = Example(ex[0])
             self.example2 = Example(ex[1])
         elif ln == 5:
             self.Word, self.cyrillicTrans, self.translation, *ex = args
-            self.example = Example(ex[0])
+            self.spoilerExample = Example(ex[0])
             self.example2 = Example(ex[1])
         elif ln == 6:
             self.Word, self.cyrillicTrans, self.translation, *ex, self.transcription = args
-            self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
-            self.example = Example(ex[0])
+
+            self.spoilerExample = Example(ex[0])
             self.example2 = Example(ex[1])
+        self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
 
     def getSpoiler(self):
-        text = self.example.spoiler
+        text = self.spoilerExample.spoiler
         return text
 
     def getTypeText(self, typeText):
         text = getattr(self, typeText)
         if typeText is not None:
-            if typeText == "example" and text is not None:
+            if typeText in ["spoilerExample", "example2"] and text is not None:
                 text = text.text
         return text
 
@@ -87,7 +88,7 @@ class Dict(MutableMapping):
         return [x.Word for x in self.__data.values()]
     @property
     def textExample(self):
-        return [x.example.text for x in self.__data.values()]
+        return [x.spoilerExample.text for x in self.__data.values()]
 
     @property
     def textItems(self):

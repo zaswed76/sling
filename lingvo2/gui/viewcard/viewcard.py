@@ -46,7 +46,7 @@ class ViewCard(AbcViewCard):
                     if text is not None:
                         widget.setText(text)
 
-                        if textType == "example":
+                        if textType == "spoilerExample":
                             widget.hideSpoiler()
                             if spoilerText:
                                 widget.setSpoiletText(spoilerText)

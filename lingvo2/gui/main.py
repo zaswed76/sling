@@ -79,11 +79,14 @@ class ChooseDictStackController:
 
     def loadSoundWebBtn(self):
         loaderDict = {}
+        exLoaderDict = {}
         workDict = {}
         checkList = self.main.chooseDict.checkedDicts()
         for dict_name, dict_data in self.main.dictSeq.scan.items():
             dirname = dict_data["dirname"]
             sounds = dict_data["sounds"]
+            # print(sounds)
+
             if dict_name in checkList:
                 if sounds and not warningMessage(self, dict_name):
                     continue
@@ -96,18 +99,34 @@ class ChooseDictStackController:
             Path(pdict_path / "sounds").mkdir(parents=True, exist_ok=True)
             targetDir = pdict_path / "sounds"
 
-            # print(targetDir)
+
             wordList = self.main.dictSeq[dict_name].textBase
+
+            exampleList = self.main.dictSeq[dict_name].textExample
+            if any(exampleList):
+                # todo добавить скачивание примеров
+                Path(pdict_path / "examplesSounds").mkdir(parents=True, exist_ok=True)
+                examplestargetDir = pdict_path / "examplesSounds"
+
+                soundLoader =  SoundLoader(exampleList, examplestargetDir, None)
+                soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
+                nfiles = soundLoader.run()
+                soundLoader.close()
+                exLoaderDict[dict_name] = (nfiles, len(exampleList))
+
             soundLoader =  SoundLoader(wordList, targetDir, None)
             soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
             nfiles = soundLoader.run()
-
             soundLoader.close()
             loaderDict[dict_name] = (nfiles, len(wordList))
+
         self.main.updateDictModel()
         self.main.newGame()
-        return loaderDict
+        return self._fsum(loaderDict, exLoaderDict, dict_name)
 
+    def _fsum(self, d1, d2, name):
+        for _d1, _d2 in zip(d1.values(), d2.values()):
+            return {name: [p1 + p2 for p1, p2 in zip(_d1, _d2)]}
 
     def addDict(self):
         print("addDict")
@@ -150,11 +169,6 @@ class Main(QMainWindow):
         self.chooseDict.setFocusPolicy(Qt.NoFocus)
         self.controls["chooseDictStack"] = ChooseDictStackController(self,
                                                                      self.chooseDict)
-
-
-
-
-
         # работаем с карточками
 
         self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)

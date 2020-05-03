@@ -2,7 +2,7 @@ dropItemsTypeList:
 - [Word, DropLabel]
 - [translation, DropLabel]
 - [cyrillicTrans, DropLabel]
-- [example, SpoilerExampleLabel]
+- [spoilerExample, SpoilerExampleLabel]
 - [example2, DropLabel]
 - [input, InputEdit]
 - [OnlyIcon, ClassWidget, ./resources/icons/base/icon_gift_alt.png, onlyIcon]

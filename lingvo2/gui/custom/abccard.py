@@ -169,7 +169,7 @@ class AbcDropWidgetItem(QFrame):
             self.component.setText(text)
         self.box.addWidget(self.component)
 
-        if text in ["Word", "example"]:
+        if text in ["Word", "spoilerExample", "example2"]:
             self.soundBtn = SoundBtn(self.component)
             self.enabledIcon(soundBtnFlag)
 

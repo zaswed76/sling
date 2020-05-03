@@ -4,8 +4,8 @@ from core.cardModel import *
 
 def load():
     card = CardModel(paths.PICKLE_CONFIG)
-    print(card.front)
-    print(card.back)
+    # print(card.front)
+    # print(card.back)
 
 def save():
     f_sections = [DropBox(s) for s in ["top", "center", "bottom"]]
