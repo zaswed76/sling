@@ -1,6 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-   <file alias="left.png">./left.png</file>
-   <file alias="right.png">./left.png</file>
+   <file alias="left.png">./images/left.png</file>
+   <file alias="right.png">./images/right.png</file>
 </qresource>
 </RCC>
