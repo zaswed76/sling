@@ -75,9 +75,9 @@ if __name__ == '__main__':
     import paths
     import pprint
     slowar1 = r"E:\1_SYNS_ORIGINAL\0SYNC\python_projects\sling\lingvo2\data\slovar1\slovar1.txt"
-    season = r"E:\1_SYNS_ORIGINAL\0SYNC\python_projects\sling\lingvo2\data\seasons\seasons.txt"
-    reader = Reader(slowar1)
-    pprint.pprint(reader.data)
+    season = r"D:\user\projects\sling\lingvo2\data\seasons\seasons.xlsx"
+    reader = Reader().load(season)
+    pprint.pprint(reader)
 
     # datapath = paths.DATA
 

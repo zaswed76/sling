@@ -35,6 +35,8 @@ class WordItem:
         self.example2 = Example()
         self.index = kwargs.get("index", 0)
         self.sound = kwargs.get("sound")
+        self.exampleSound = kwargs.get("exampleSound")
+        # print(self.sound)
         self.image = kwargs.get("image")
         ln = len(args)
         if ln == 2:
@@ -96,9 +98,16 @@ class Dict(MutableMapping):
 
     def updateWordObjects(self):
         for id, line in enumerate(scandicts.Reader().load(self.dictpath)):
+            ex = line[3:4]
+            if ex:
+                exname = ex[0].split("_")[0]
+            else:
+                exname = None
+
             self.__data[line[0]] = WordItem(*line,
                                             image=self.images.get(line[0]),
                                             sound=self.sounds.get(line[0]),
+                                            exampleSound=self.sounds.get(exname),
                                             index=id
                                             )
 
@@ -143,6 +152,7 @@ class DictSeq(MutableMapping):
         self.clear()
         self.scan = scandicts.scan(self.folder)
         for n, d in self.scan.items():
+            print(n)
             self.__data[n] = Dict(n, d["dictpath"],
                                   d["dirname"],
                                   d['images'],
@@ -177,6 +187,7 @@ class DictSeq(MutableMapping):
 if __name__ == '__main__':
     import pprint
     ds = DictSeq(paths.DATA)
+    print(ds)
     for name, slovar in ds.items():
         print("-----------")
         print(name)

@@ -1,46 +1,21 @@
 import fileinput
 import glob
-import os
-from pathlib import Path
-import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
 from PyQt5 import QtMultimedia
-
 from tools.handler import qt_message_handler
 
-qInstallMessageHandler(qt_message_handler)
+
 import config
-import paths
 from core.cardModel import CardModel
 from core.dictsequence import DictSeq
 from core.dictsmodel import DictsModel
-from core.soundloader import SoundLoader
-
 from gui.centrallframe import CenterStackFrame
-from gui.choosedicts.choosedict import ChooseDictStack
 from gui.choosedicts.choosedict import *
-
+from gui.choosedicts.contollers import ChooseDictStackController
 from gui.editcard import editcard, editcardWidget, editdrop_listview
 from gui.viewcard import viewcard
 
-def warningMessage(parent, nameDict):
-    message = """словарь - {} уже содержит каталог с аудиофайлами.
-если проодолжить то ваши файлы могут быть удалены""".format(nameDict)
-    msgBox = QMessageBox(QMessageBox.Warning, "QMessageBox.warning()",
-            message, QMessageBox.NoButton, None)
-    msgBox.addButton("продолжить", QMessageBox.AcceptRole)
-    msgBox.addButton("отменить", QMessageBox.RejectRole)
-    if msgBox.exec_() == QMessageBox.AcceptRole:
-        return True
-    else:
-        return False
-
-
-
-
+qInstallMessageHandler(qt_message_handler)
 
 
 def fileInput(folder):
@@ -67,75 +42,6 @@ class ToolBar(QToolBar):
         self.addAction(
             QAction(QIcon(":/profile.png"), "profile", self))
 
-class ChooseDictStackController:
-    def __init__(self, main, parent):
-        self.parent = parent
-        self.main = main
-
-
-    def loadSoundsBtn(self):
-        self.loadSoundsDialog = LoadSoundsDialog(self.main)
-        self.loadSoundsDialog.show()
-
-    def loadSoundWebBtn(self):
-        loaderDict = {}
-        exLoaderDict = {}
-        workDict = {}
-        checkList = self.main.chooseDict.checkedDicts()
-        for dict_name, dict_data in self.main.dictSeq.scan.items():
-            dirname = dict_data["dirname"]
-            sounds = dict_data["sounds"]
-            # print(sounds)
-
-            if dict_name in checkList:
-                if sounds and not warningMessage(self, dict_name):
-                    continue
-                else:
-
-                    workDict[dict_name] = dirname
-        for dict_name, dict_path in  workDict.items():
-            # --------------------------------------------------
-            pdict_path = Path(dict_path)
-            Path(pdict_path / "sounds").mkdir(parents=True, exist_ok=True)
-            targetDir = pdict_path / "sounds"
-
-
-            wordList = self.main.dictSeq[dict_name].textBase
-
-            exampleList = self.main.dictSeq[dict_name].textExample
-            if any(exampleList):
-                # todo добавить скачивание примеров
-                Path(pdict_path / "examplesSounds").mkdir(parents=True, exist_ok=True)
-                examplestargetDir = pdict_path / "examplesSounds"
-
-                soundLoader =  SoundLoader(exampleList, examplestargetDir, None)
-                soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
-                nfiles = soundLoader.run()
-                soundLoader.close()
-                exLoaderDict[dict_name] = (nfiles, len(exampleList))
-
-            soundLoader =  SoundLoader(wordList, targetDir, None)
-            soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
-            nfiles = soundLoader.run()
-            soundLoader.close()
-            loaderDict[dict_name] = (nfiles, len(wordList))
-
-        self.main.updateDictModel()
-        self.main.newGame()
-        return self._fsum(loaderDict, exLoaderDict, dict_name)
-
-    def _fsum(self, d1, d2, name):
-        for _d1, _d2 in zip(d1.values(), d2.values()):
-            return {name: [p1 + p2 for p1, p2 in zip(_d1, _d2)]}
-
-    def addDict(self):
-        print("addDict")
-
-
-
-
-
-
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -144,8 +50,10 @@ class Main(QMainWindow):
         self._set_style_sheet(self.cfg["currentStyle"])
 
         self.dictSeq = DictSeq(paths.DATA)
+
         self.dictsModel = DictsModel(self.dictSeq)
         self.updateDictModel()
+        # print(self.dictSeq["seasons"].sounds)
 
 
         # здесь хранятся все стеки (окна)
@@ -207,7 +115,14 @@ class Main(QMainWindow):
 
 
     def soundClick(self):
-        self.playSound(self.dictsModel.currentItem.sound)
+        widgetType = self.sender().parent().parent().widgetType
+        if widgetType == "SpoilerExampleLabel":
+            pathsound = self.dictsModel.currentItem.exampleSound
+        elif widgetType == "DropLabel":
+            pathsound = self.dictsModel.currentItem.sound
+
+
+        self.playSound(pathsound)
         self.setFocus(Qt.ActiveWindowFocusReason)
 
     def playSound(self, filePath):

@@ -42,7 +42,6 @@ class TextFrame(QTextEdit):
 
 class ChooseDictStack(QFrame):
     def __init__(self, main, name=None, config=None, *args, **kwargs):
-
         super().__init__(*args, **kwargs)
         self.cfg = config
         self.main = main
@@ -55,7 +54,7 @@ class ChooseDictStack(QFrame):
         self.dictListModel = DictListModel()
         self.chooseDictListView.setModel(self.dictListModel)
 
-        self.dictListModel.updateDictList(self.main.dictSeq)
+        self.updateViewList()
         self.chooseDictListView.clicked[QModelIndex].connect(self.itemDictChange)
 
         self.controlFrame = ChooseDictControls(self.main)
@@ -68,6 +67,9 @@ class ChooseDictStack(QFrame):
         n = top_right - QPoint(41, -2)
 
 
+    def updateViewList(self):
+        self.dictListModel.clear()
+        self.dictListModel.updateDictList(self.main.dictSeq)
 
 
     def parentMethod(self):
