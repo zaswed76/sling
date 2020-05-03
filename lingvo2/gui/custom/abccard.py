@@ -179,6 +179,12 @@ class AbcDropWidgetItem(QFrame):
         except AttributeError:
             pass
 
+    def hideSpoiler(self):
+        try:
+            self.component.hideSpoiler()
+        except AttributeError:
+            pass
+
     def setObjectNameComponent(self, objectName):
         self.component.setObjectName(objectName)
 

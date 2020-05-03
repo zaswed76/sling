@@ -15,7 +15,10 @@ class SpoilerBtn(QPushButton):
         super().__init__(*__args)
         self.setCheckable(True)
         self.setCursor(QCursor(Qt.PointingHandCursor))
-        self.clearFocus()
+        self.setFocusPolicy(Qt.NoFocus)
+
+    # def keyPressEvent(self, QKeyEvent):
+    #     self.
 
 class SpoilerLabel(QLabel):
     def __init__(self, *__args):
@@ -104,6 +107,11 @@ class SpoilerWidget(QFrame):
     def runSpoiler(self):
         self.spoilerLabel.changeVisible()
         self.spBtn.setChecked(self.spoilerLabel.visibleFlag)
+
+    def hideSpoiler(self):
+        self.spoilerLabel.setText("")
+        self.spoilerLabel.visibleFlag = False
+        self.spBtn.setChecked(False)
 
     def setText(self, text):
         self.baseLabel.setText(text)

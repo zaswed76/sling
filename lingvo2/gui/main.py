@@ -193,8 +193,6 @@ class Main(QMainWindow):
 
 
     def soundClick(self):
-        print(self.dictSeq["family"]['family'].sound)
-        # if audioFile and os.path.isfile(audioFile):
         self.playSound(self.dictsModel.currentItem.sound)
         self.setFocus(Qt.ActiveWindowFocusReason)
 
@@ -298,6 +296,7 @@ class Main(QMainWindow):
         if e.key() == Qt.Key_Right:
             self.viewCard.sideToName("front")
             self.viewCard.updateContent()
+            self.setFocus(Qt.ActiveWindowFocusReason)
 
 
         elif e.key() == Qt.Key_Left:
