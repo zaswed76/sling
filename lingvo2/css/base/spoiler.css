@@ -1,18 +1,38 @@
-
-SpoilerLabel {
-    font-family: Helvetica;
-    font-style: italic;
-    font-size: 16pt;
-    color: #5d5d5f;
-    /*border-top: 1px solid gray;*/
-    /*border-radius: 6px;*/
+SpoilerExampleLabel {
+    padding: 26px 0px 0px 26px;
 }
 
-BaseLabel {
+
+SpoilerLabel {
+    font-size: 16pt;
+    color: #6e6e6e;
+    font-style: italic;
+    qproperty-alignment: AlignLeft;
+    padding: 0px 0px 0px 0px;
+}
+
+
+
+SpoilerBaseLabel {
     border: none;
     font-family: Helvetica;
     font-style: italic;
-    font-size: 16pt;
-    color: #343436;
+    font-size: 18pt;
+    color: #29292b;
     /*background-color: #6ab3ba;*/
 }
+
+
+
+SpoilerBtn {
+    border: none;
+    image: url(":/right.png");
+    max-height: 18px;
+    max-width: 18px;
+}
+
+SpoilerBtn:checked {
+    border: none;
+    image: url(":/left.png");
+}
+

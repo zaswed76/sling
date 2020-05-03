@@ -55,12 +55,17 @@ class WordItem:
             self.example = Example(ex[0])
             self.example2 = Example(ex[1])
 
+    def getSpoiler(self):
+        text = self.example.spoiler
+        return text
+
     def getTypeText(self, typeText):
         text = getattr(self, typeText)
         if typeText is not None:
             if typeText == "example" and text is not None:
                 text = text.text
         return text
+
     def __repr__(self):
         return "{}".format(self.Word)
 

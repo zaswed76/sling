@@ -18,6 +18,8 @@ class WidgetItem(AbcDropWidgetItem):
         self.installEventFilter(self)
 
     def eventFilter(self, obj, event):
+        if self.soundBtn is None:
+            return False
         if self.component.text() and event.type() == 11:  # Если мышь покинула область фиджета
             self.soundBtn.setIcon(QIcon(":/volume.png"))
         elif self.component.text() and event.type() == 10:# Если мышь над виджетом

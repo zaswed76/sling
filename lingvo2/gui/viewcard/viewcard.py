@@ -41,8 +41,17 @@ class ViewCard(AbcViewCard):
                     widget = component
                     textType = component.text
                     text = wordItem.getTypeText(textType)
+                    spoilerText = wordItem.getSpoiler()
+
                     if text is not None:
                         widget.setText(text)
+                        if spoilerText:
+                            widget.setSpoiletText(spoilerText)
+                        else:
+                            widget.setSpoiletText("")
+
+
+
                     else:
                         widget.clearText()
                         widget.enabledIcon(False)
@@ -69,9 +78,9 @@ class ViewCard(AbcViewCard):
             widgetType = comp.qwidgetType
             idO = comp.idO
             comp.soundBtn = self.cardModel.soundBtnDefault
-
             qwidget = WidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn, main=self.main)
-            qwidget.soundBtn.clicked.connect(self.main.soundClick)
+            if qwidget.soundBtn is not None:
+                qwidget.soundBtn.clicked.connect(self.main.soundClick)
 
             qwidget.setObjectNameComponent(text)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)

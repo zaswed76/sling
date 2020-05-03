@@ -4,6 +4,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from gui.custom.dropitem import *
+from gui.spoiler import gspoiler
 
 
 class Side(AbcSide):
@@ -43,13 +44,7 @@ class DropLayout(AbcDropLayout):
         self.addComponent(qwidget)
         e.accept()
 
-    # def addComponent(self, qwidget):
-    #     self.__components[qwidget.idO] = qwidget
-    #     self.box.addWidget(self.__components[qwidget.idO])
 
-    # def removeComponent(self, idO):
-    #     self.box.removeWidget(self.__components[idO])
-    #     self.__components[idO].deleteLater()
 
 
 
@@ -62,4 +57,31 @@ class DropLayout(AbcDropLayout):
 class DropLabel(AbcDropLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
+
+class SpoilerExampleLabel(QFrame):
+    def __init__(self, *__args):
+        super().__init__()
+        self.box = QVBoxLayout(self)
+        self.box.setContentsMargins(0, 0, 0, 0)
+        self.box.setSpacing(0)
+
+        btn = gspoiler.SpoilerBtn()
+        base = gspoiler.SpoilerBaseLabel()
+        spoiler = gspoiler.SpoilerLabel()
+        self.spoilerWidget = gspoiler.SpoilerWidget(baseLabel=base, spoiLerLabel=spoiler, spoilerBtn=btn,
+                                                    indenttopArrow=8, spoilertopIndent=3)
+
+        self.spoilerWidget.setSpoilerText("спойлер")
+        self.box.addWidget(self.spoilerWidget)
+
+
+    def setText(self, text):
+        self.spoilerWidget.setText(text)
+
+    def text(self):
+        self.spoilerWidget.text()
+
+    def setSpoiletText(self, text):
+        self.spoilerWidget.setSpoilerText(text)
+
 

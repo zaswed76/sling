@@ -41,6 +41,7 @@ class EditCard(AbcViewCard):
             text = comp.text
             widgetType = comp.qwidgetType
             idO = comp.idO
+            print(widgetType, text, "EEEEEEEEEEEEE")
             qwidget = DropWidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 

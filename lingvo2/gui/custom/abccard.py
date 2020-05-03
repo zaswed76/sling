@@ -152,6 +152,7 @@ class AbcDropWidgetItem(QFrame):
         self.main = main
         self.widgetType = widget_tipe
         self.text = text
+        self.soundBtn = None
 
         self.box = QHBoxLayout(self)
         self.box.setContentsMargins(0, 0, 0, 0)
@@ -164,14 +165,19 @@ class AbcDropWidgetItem(QFrame):
 
         self.component = getattr(dropcomponents, widget_tipe)()
 
-        if text: self.component.setText(text)
+        if text:
+            self.component.setText(text)
         self.box.addWidget(self.component)
 
-        self.soundBtn = SoundBtn(self.component)
+        if text in ["Word", "example"]:
+            self.soundBtn = SoundBtn(self.component)
+            self.enabledIcon(soundBtnFlag)
 
-        self.enabledIcon(soundBtnFlag)
-
-
+    def setSpoiletText(self, text):
+        try:
+            self.component.setSpoiletText(text)
+        except AttributeError:
+            pass
 
     def setObjectNameComponent(self, objectName):
         self.component.setObjectName(objectName)
@@ -194,7 +200,9 @@ class AbcDropWidgetItem(QFrame):
         right = rect.right()
         center.setX(right-175)
         center.setY(int(center.y()-25/2))
-        self.soundBtn.move(center)
+        if self.soundBtn is not None:
+            self.soundBtn.move(center)
+
 
     def __repr__(self):
         return "{}-{}".format(self.__class__.__name__, self.idO)

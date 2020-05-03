@@ -19,6 +19,8 @@
     <file alias="addDict.png">./resources/icons/base/addDict.png</file>
     <file alias="addDictHover.png">./resources/icons/base/addDictHover.png</file>
 
+    <file alias="right.png">./resources/icons/base/right.png</file>
+    <file alias="left.png">./resources/icons/base/left.png</file>
 
 </qresource>
 </RCC>

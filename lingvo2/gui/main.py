@@ -289,14 +289,17 @@ class Main(QMainWindow):
     def keyPressEvent(self, e):
         if self._currentStackWidget == "view":
             self.viewKeyPressEvent(e)
+
         elif self._currentStackWidget == "cardEditView":
             self.editViewKeyPressEvent(e)
+        self.centerStackFrame.setFocus()
 
     def viewKeyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
             self.viewCard.sideToName("front")
             self.viewCard.updateContent()
-            # self.viewCard.t
+
+
         elif e.key() == Qt.Key_Left:
             print("<<<<<<<<<<<<")
         elif e.key() == Qt.Key_Space:
