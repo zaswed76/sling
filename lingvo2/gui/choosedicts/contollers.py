@@ -41,8 +41,6 @@ class ChooseDictStackController:
         for dict_name, dict_data in self.main.dictSeq.scan.items():
             dirname = dict_data["dirname"]
             sounds = dict_data["sounds"]
-            # print(sounds)
-
             if dict_name in checkList:
                 if sounds and not warningMessage(self, dict_name):
                     continue
@@ -59,7 +57,9 @@ class ChooseDictStackController:
             wordList = self.main.dictSeq[dict_name].textBase
 
             exampleList = self.main.dictSeq[dict_name].textExample
+
             if any(exampleList):
+
                 # todo добавить скачивание примеров
                 Path(pdict_path / "examplesSounds").mkdir(parents=True, exist_ok=True)
                 examplestargetDir = pdict_path / "examplesSounds"
@@ -69,6 +69,8 @@ class ChooseDictStackController:
                 nfiles = soundLoader.run()
                 soundLoader.close()
                 exLoaderDict[dict_name] = (nfiles, len(exampleList))
+            else:
+                pass
 
             soundLoader =  SoundLoader(wordList, targetDir, None)
             soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
@@ -76,12 +78,18 @@ class ChooseDictStackController:
             soundLoader.close()
             loaderDict[dict_name] = (nfiles, len(wordList))
 
-        self.main.updateDictModel()
-        self.main.newGame()
-        return self._fsum(loaderDict, exLoaderDict, dict_name)
+            self.main.updateDictModel()
+            self.main.newGame()
+
+            res = self._fsum(loaderDict, exLoaderDict, dict_name)
+            print(res, "EEEEEEEEEEEEEEEE")
+            return res
 
     def _fsum(self, d1, d2, name):
+        if not d1: d1 = {name: (0, 0)}
+        if not d2: d2 = {name: (0, 0)}
         for _d1, _d2 in zip(d1.values(), d2.values()):
+
             return {name: [p1 + p2 for p1, p2 in zip(_d1, _d2)]}
 
     def addDict(self):
@@ -106,5 +114,5 @@ class ChooseDictStackController:
                 return
 
 
-            #
+
 

@@ -115,15 +115,17 @@ class Main(QMainWindow):
 
 
     def soundClick(self):
+        # todo может ли self.dictsModel.currentItem == None
+        pathsound = None
         widgetType = self.sender().parent().parent().widgetType
-        if widgetType == "SpoilerExampleLabel":
+        if widgetType == "SpoilerExampleLabel"  and self.dictsModel.currentItem is not None:
             pathsound = self.dictsModel.currentItem.exampleSound
-        elif widgetType == "DropLabel":
+        elif widgetType == "DropLabel" and self.dictsModel.currentItem is not None:
             pathsound = self.dictsModel.currentItem.sound
 
-
-        self.playSound(pathsound)
-        self.setFocus(Qt.ActiveWindowFocusReason)
+        if pathsound is not None:
+            self.playSound(pathsound)
+            self.setFocus(Qt.ActiveWindowFocusReason)
 
     def playSound(self, filePath):
         self.media = QUrl.fromLocalFile(filePath)
@@ -161,6 +163,7 @@ class Main(QMainWindow):
         controll = self.sender()
         slot = controll.objectName()
         object = self.controls[controll.parent().objectName()]
+        # print(object, slot, '!!!!!!!!!')
         return getattr(object, slot)()
 
     def __setToolBar(self):
