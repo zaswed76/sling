@@ -14,6 +14,7 @@ from gui.choosedicts.choosedict import *
 from gui.choosedicts.contollers import ChooseDictStackController
 from gui.editcard import editcard, editcardWidget, editdrop_listview
 from gui.viewcard import viewcard
+from gui.maintoolbar import ToolBar
 
 qInstallMessageHandler(qt_message_handler)
 
@@ -27,20 +28,7 @@ def fileInput(folder):
     return "".join(ls)
 
 
-class ToolBar(QToolBar):
-    def __init__(self, main, *__args):
-        super().__init__(*__args)
-        self.main = main
-        self.setFixedHeight(42)
 
-        self.addAction(
-            QAction(QIcon(":/arrow_right_green.png"), "cardView", self))
-        self.addAction(
-            QAction(QIcon(":/book_blue.png"), "chooseDict", self))
-        self.addAction(
-            QAction(QIcon(":/component_blue_edit.png"), "cardEditView", self))
-        self.addAction(
-            QAction(QIcon(":/profile.png"), "profile", self))
 
 class Main(QMainWindow):
     def __init__(self):
@@ -198,6 +186,10 @@ class Main(QMainWindow):
 
     def profileAction(self):
         print("profile")
+
+    def cardrefreshAction(self):
+        print("cardrefreshAction")
+
 
     @property
     def dictList(self):
