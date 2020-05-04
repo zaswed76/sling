@@ -1,14 +1,49 @@
+ViewFrame {
+
+    background-color: #f8f8f8;
+    /*border: 10px green solid;*/
+    /*border-radius: 4px;*/
+}
+
+
+
 
 ViewCard{
-    background-color: #979797;
+    background-color: #5ea9cd;
+    border: 1px #424244 solid;
+    border-radius: 6px;
 }
 
 ViewLayout {
     background-color: #ececec;
+}
+
+ViewLayout#top {
+
+    border-top: 1px #424244 solid;
+    border-left: 1px #424244 solid;
+    border-right: 1px #424244 solid;
+    border-bottom: none;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+ViewLayout#center {
+
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
 
 }
 
-/*AbcDropLabel {*/
-    /*font-size: 12pt;*/
-/*}*/
+ViewLayout#bottom {
 
+
+    border-top: none;
+    border-left: 1px #424244 solid;
+    border-right: 1px #424244 solid;
+    border-bottom: 1px #424244 solid;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
