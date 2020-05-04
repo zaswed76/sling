@@ -15,7 +15,8 @@ ViewCard{
 }
 
 ViewLayout {
-    background-color: #ececec;
+    /*background-color: #f9f3df;*/
+    background-image: url(:/palazzo_canvase-texture2.jpg)
 }
 
 ViewLayout#top {
