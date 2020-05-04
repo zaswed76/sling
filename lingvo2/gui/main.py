@@ -33,16 +33,15 @@ def fileInput(folder):
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(790, 830)
         self.cfg = config.Config(paths.CONFIG)
+        self._size = self.cfg["ui"]["mainWindowSize"]
+        self.setFixedSize(*self._size)
         self._set_style_sheet(self.cfg["currentStyle"])
 
         self.dictSeq = DictSeq(paths.DATA)
 
         self.dictsModel = DictsModel(self.dictSeq)
         self.updateDictModel()
-        # print(self.dictSeq["seasons"].sounds)
-
 
         # здесь хранятся все стеки (окна)
         self.centerStackFrame = CenterStackFrame(self)
@@ -53,24 +52,20 @@ class Main(QMainWindow):
         self._currentStackWidget = self.cfg["ui"]["currentStackWidget"]
 
         # загружаем модель
-
         self.cardModel = CardModel(paths.PICKLE_CONFIG)
         self.cardModel.updateSignal.connect(self.updateViews)
 
-
-
         # выбираем словарь
-        self.chooseDict = ChooseDictStack(self, name="chooseDict",
-                                          config=self.cfg)
+        self.chooseDict = ChooseDictStack(self, name="chooseDict", config=self.cfg)
         self.chooseDict.setFocusPolicy(Qt.NoFocus)
         self.controls["chooseDictStack"] = ChooseDictStackController(self,
                                                                      self.chooseDict)
         # работаем с карточками
-
         self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
-
+        self.viewCard.setFixedSize(*self.cfg["ui"]["viewCardSize"])
         self.viewCard.setCardModel(self.cardModel)
-        self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")
+        self.viewFrame = viewcard.ViewFrame(self.viewCard, "view") # 790, 830   790, 788
+        self.viewFrame.setFixedSize(self._size[0], self._size[1]-42) # 790, 830   790, 788
 
         # редактируем карточки
         self.editDropList = editdrop_listview.DropListWidget(None, "editDropList")
@@ -184,8 +179,11 @@ class Main(QMainWindow):
         self.centerStackFrame.showStack("cardEditView")
 
     def cardViewAction(self):
+        if self.currentStackWidget == "cardEditView":
+            self.cardrefreshAction()
         self.centerStackFrame.showStack("view")
-        self.cardrefreshAction()
+
+
 
     def profileAction(self):
         print("profile")
@@ -195,11 +193,11 @@ class Main(QMainWindow):
         self.centerStackFrame.removeStackWidget("view", self.stackWidgets["view"])
         del self.stackWidgets["view"]
         self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
+        self.viewCard.setFixedSize(*self.cfg["ui"]["viewCardSize"])
         self.viewCard.setCardModel(self.cardModel)
         self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")
         self.stackWidgets["view"] = self.viewFrame
         self.centerStackFrame.insertWidget(0, "view", self.stackWidgets["view"])
-        print(self._currentStackWidget, "&&&&&&&&&&&&&")
         self.centerStackFrame.showStack(currentStack)
         self.newGame()
 

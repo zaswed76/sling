@@ -14,7 +14,7 @@ class ViewFrame(QFrame):
         super().__init__(*args, **kwargs)
 
         self.setObjectName(objectName)
-        self.setFixedSize(790, 788)
+        # self.setFixedSize(790, 788)
         self.box = QHBoxLayout(self)
         self.box.addWidget(viewCard)
 
@@ -26,7 +26,8 @@ class ViewCard(AbcViewCard):
         super().__init__(main, *args, **kwargs)
         self.main = main
         self.dictsModel = dictsModel
-        self.setFixedSize(730, 730)
+        # self.setFixedSize(720, 720)
+
 
 
 

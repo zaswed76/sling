@@ -222,7 +222,10 @@ class AbcDropWidgetItem(QFrame):
         rect = self.component.rect()
         center = rect.center()
         right = rect.right()
-        center.setX(right-175)
+        mx = 45
+        if self.widgetType == "SpoilerExampleLabel":
+            mx +=40
+        center.setX(right-mx)
         center.setY(int(center.y()-25/2))
         if self.soundBtn is not None:
             self.soundBtn.move(center)
@@ -239,7 +242,7 @@ class AbcViewCard(QStackedWidget):
 
         super().__init__()
         self.main = main
-        self.__currentSideIndex = 0
+        self.__currentSideIndex = 1
         self.sideNames = ['front', 'back']
         self.sides = {}
         self.dropsLayouts = {}
@@ -248,6 +251,7 @@ class AbcViewCard(QStackedWidget):
         self.sides["back"] = AbcSide(AbcVBoxLayout, "back")
         self.sides["back"].setSpacing(1)
         self.setSides(self.sides.values())
+        self.changeSide()
 
     def clearComponents(self):
         for side in self.sides.values():
@@ -323,6 +327,9 @@ class AbcViewCard(QStackedWidget):
             self.__currentSideIndex = 0
 
     def changeSide(self):
+        x = 4 if self.currentSideIndex else -4
+        shadow = QGraphicsDropShadowEffect(blurRadius=30, xOffset=x, yOffset=4)
+        self.setGraphicsEffect(shadow)
         self.currentSideIndex = not self.currentSideIndex
         self.setCurrentIndex(self.currentSideIndex)
         return self.currentSideName

@@ -23,6 +23,8 @@
     <file alias="nav_left_blue.png">./resources/icons/base/nav_left_blue.png</file>
     <file alias="nav_plain_blue.png">./resources/icons/base/nav_plain_blue.png</file>
     <file alias="replace2.png">./resources/icons/base/replace2.png</file>
+    <file alias="gears.png">./resources/icons/base/gears.png</file>
+    <file alias="gear.png">./resources/icons/base/gear.png</file>
 
 
 

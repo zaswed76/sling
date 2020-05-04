@@ -31,6 +31,9 @@ customizeLabel:
     translation: AAAAAAAAAAAAA
 ui:
     currentStackWidget: view
-    startSize:
-    - 600
-    - 600
+    mainWindowSize:
+    - 790
+    - 830
+    viewCardSize:
+    - 620
+    - 720
