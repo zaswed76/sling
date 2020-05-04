@@ -54,12 +54,12 @@ class ChooseDictControls(QFrame):
 
 
         self.addDictBtn = ControlBtn()
-        self.addDictBtn.setIcon(QIcon(":/addDict.png"))
+        self.addDictBtn.setIcon(QIcon(":/notebook_add.png"))
         self.addDictBtn.clicked.connect(main.connect)
         self.addDictBtn.setObjectName("addDict")
 
         self.addSoundsBtn = ControlBtn()
-        self.addSoundsBtn.setIcon(QIcon(":/addSound.png"))
+        self.addSoundsBtn.setIcon(QIcon(":/music_blue_add.png"))
         self.addSoundsBtn.clicked.connect(main.connect)
         self.addSoundsBtn.setObjectName("loadSoundsBtn")
 

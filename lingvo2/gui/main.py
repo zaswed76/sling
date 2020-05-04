@@ -34,11 +34,11 @@ class ToolBar(QToolBar):
         self.setFixedHeight(42)
 
         self.addAction(
-            QAction(QIcon(":/house.png"), "cardView", self))
+            QAction(QIcon(":/arrow_right_green.png"), "cardView", self))
         self.addAction(
-            QAction(QIcon(":/dict.png"), "chooseDict", self))
+            QAction(QIcon(":/book_blue.png"), "chooseDict", self))
         self.addAction(
-            QAction(QIcon(":/edit.png"), "cardEditView", self))
+            QAction(QIcon(":/component_blue_edit.png"), "cardEditView", self))
         self.addAction(
             QAction(QIcon(":/profile.png"), "profile", self))
 
