@@ -122,7 +122,6 @@ class Main(QMainWindow):
             pathsound = self.dictsModel.currentItem.exampleSound
         elif widgetType == "DropLabel" and self.dictsModel.currentItem is not None:
             pathsound = self.dictsModel.currentItem.sound
-
         if pathsound is not None:
             self.playSound(pathsound)
             self.setFocus(Qt.ActiveWindowFocusReason)
