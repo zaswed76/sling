@@ -32,8 +32,8 @@ customizeLabel:
 ui:
     currentStackWidget: view
     mainWindowSize:
-    - 790
-    - 830
+    - 700
+    - 760
     viewCardSize:
-    - 620
-    - 720
+    - 600
+    - 680

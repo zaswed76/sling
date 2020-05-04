@@ -72,6 +72,7 @@ class Main(QMainWindow):
         self.editDropList.setFocusPolicy(Qt.NoFocus)
         self.editDropList.setItems(config.Config(paths.CARD_CONFIG)["dropItemsTypeList"])
         self.viewEditCard = editcard.EditCard()
+        self.viewEditCard.setFixedSize(self._size[0]-190, self._size[1]-190)
 
         self.viewEditCard.setCardModel(self.cardModel)
         self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard, "cardEditView")
@@ -149,8 +150,14 @@ class Main(QMainWindow):
 
     def __setToolBar(self):
         self.toolBar = ToolBar(self)
+        self._visibleToolBarFlag = True
+        self.toolBar.visibilityChanged.connect(self.visibilityToolBar)
         self.addToolBar(Qt.TopToolBarArea, self.toolBar)
         self.toolBar.actionTriggered.connect(self.toolActions)
+
+    def visibilityToolBar(self, p_bool):
+        self._visibleToolBarFlag = p_bool
+
 
     def changeStackWidget(self, i):
         if self._currentStackWidget == "cardEditView":
@@ -224,6 +231,8 @@ class Main(QMainWindow):
 
 
     def keyPressEvent(self, e):
+        if e.key() == Qt.Key_F12:
+            self.toolBar.setVisible(not self._visibleToolBarFlag)
         if self._currentStackWidget == "view":
             self.viewKeyPressEvent(e)
 
@@ -247,7 +256,13 @@ class Main(QMainWindow):
         if e.key() == Qt.Key_Space:
             self.viewCardEditWidget.turnSideBtn.animateClick()
 
-
+    def mousePressEvent(self, e):
+        rect = QRect(self.rect().topLeft(), QPoint(self._size[0], 41))
+        x = e.pos().x()
+        y = e.pos().y()
+        if rect.contains(x, y) and not self._visibleToolBarFlag:
+            self.toolBar.setVisible(True)
+            print(x, y)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

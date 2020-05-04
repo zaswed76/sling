@@ -11,7 +11,7 @@ from gui.custom.dropitem import *
 class EditCard(AbcViewCard):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setFixedSize(600, 600)
+
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right:

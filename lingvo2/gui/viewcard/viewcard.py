@@ -14,9 +14,11 @@ class ViewFrame(QFrame):
         super().__init__(*args, **kwargs)
 
         self.setObjectName(objectName)
-        # self.setFixedSize(790, 788)
+
         self.box = QHBoxLayout(self)
         self.box.addWidget(viewCard)
+
+
 
 
 
@@ -42,7 +44,7 @@ class ViewCard(AbcViewCard):
             for layout in side.layouts:
                 for component in layout.components:
                     widget = component
-                    print(widget, "88888888888888888888888888888")
+
                     textType = component.text
                     text = wordItem.getTypeText(textType)
                     spoilerText = wordItem.getSpoiler()
@@ -91,8 +93,6 @@ class ViewCard(AbcViewCard):
             if qwidget.soundBtn is not None:
                 qwidget.soundBtn.clicked.connect(self.main.soundClick)
             qwidget.setObjectNameComponent(text)
-            print(qwidget, "!!!")
-            print("------------------------")
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
 
