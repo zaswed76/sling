@@ -150,7 +150,6 @@ class Main(QMainWindow):
         controll = self.sender()
         slot = controll.objectName()
         object = self.controls[controll.parent().objectName()]
-        # print(object, slot, '!!!!!!!!!')
         return getattr(object, slot)()
 
     def __setToolBar(self):
@@ -165,9 +164,12 @@ class Main(QMainWindow):
             check = self.chooseDict.checkedDicts()
             self.dictsModel.updateWorkData(check, self.dictSeq)
             self.newGame()
-
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
         self.stackWidgets[self._currentStackWidget].setFocus(Qt.ActiveWindowFocusReason)
+        if self.currentStackWidget == "view":
+            self.toolBar.setDisabledButton("cardrefresh", False)
+        else:
+            self.toolBar.setDisabledButton("cardrefresh", True)
 
 
 
@@ -183,12 +185,28 @@ class Main(QMainWindow):
 
     def cardViewAction(self):
         self.centerStackFrame.showStack("view")
+        self.cardrefreshAction()
 
     def profileAction(self):
         print("profile")
 
     def cardrefreshAction(self):
-        print("cardrefreshAction")
+        currentStack = self.currentStackWidget
+        self.centerStackFrame.removeStackWidget("view", self.stackWidgets["view"])
+        del self.stackWidgets["view"]
+        self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
+        self.viewCard.setCardModel(self.cardModel)
+        self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")
+        self.stackWidgets["view"] = self.viewFrame
+        self.centerStackFrame.insertWidget(0, "view", self.stackWidgets["view"])
+        print(self._currentStackWidget, "&&&&&&&&&&&&&")
+        self.centerStackFrame.showStack(currentStack)
+        self.newGame()
+
+
+    @property
+    def currentStackWidget(self):
+        return self._currentStackWidget
 
 
     @property

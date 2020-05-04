@@ -28,3 +28,12 @@ class CenterStackFrame(QFrame):
 
     def showStack(self, window):
         self.stack.setCurrentWidget(self.stackWidgets[window])
+
+
+    def removeStackWidget(self, name, stackWidget):
+        del self.stackWidgets[name]
+        self.stack.removeWidget(stackWidget)
+
+    def insertWidget(self, i, name,  widget):
+        self.stackWidgets[name] = widget
+        self.stack.insertWidget(i, widget)

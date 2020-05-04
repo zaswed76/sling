@@ -29,6 +29,8 @@ class ViewCard(AbcViewCard):
         self.setFixedSize(730, 730)
 
 
+
+
     def updateContent(self):
         if not self.isComponent():
             return
@@ -39,10 +41,10 @@ class ViewCard(AbcViewCard):
             for layout in side.layouts:
                 for component in layout.components:
                     widget = component
+                    print(widget, "88888888888888888888888888888")
                     textType = component.text
                     text = wordItem.getTypeText(textType)
                     spoilerText = wordItem.getSpoiler()
-
                     if text is not None:
                         widget.setText(text)
                         widget.enabledIcon(True)
@@ -71,8 +73,14 @@ class ViewCard(AbcViewCard):
                 # компоненты в каждый контейнер если есть
                 self.addComponents(dropLayoutModel)
 
+    def update2(self):
+
+        for sideName, side in self.cardModel.sides.items():
+            for index, dropLayoutModel in enumerate(side):
+                self.addComponents(dropLayoutModel)
 
     def addComponents(self, dropLayoutModel):
+
         for comp in dropLayoutModel:
             text = comp.text
             widgetType = comp.qwidgetType
@@ -81,8 +89,9 @@ class ViewCard(AbcViewCard):
             qwidget = WidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn, main=self.main)
             if qwidget.soundBtn is not None:
                 qwidget.soundBtn.clicked.connect(self.main.soundClick)
-
             qwidget.setObjectNameComponent(text)
+            print(qwidget, "!!!")
+            print("------------------------")
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
 

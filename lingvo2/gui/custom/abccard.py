@@ -89,6 +89,15 @@ class AbcDropLayout(QFrame):
         self.box.removeWidget(self.__components[idO])
         self.__components[idO].deleteLater()
 
+
+    def removeComponents(self):
+        for i in range(self.box.count()):
+            item = self.box.itemAt(i)
+            if item is not None:
+                widget = item.widget()
+                self.removeComponent(widget.idO)
+
+
     @property
     def components(self):
         lst = []
@@ -114,6 +123,13 @@ class AbcSide(QFrame):
         super().__init__(*args, **kwargs)
         self.setObjectName(objectName)
         self.box = layout(self)
+
+    def _clear(self):
+        for i in range(self.box.count()):
+            item = self.box.itemAt(i)
+            if item is not None:
+                widget = item.widget()
+                widget.removeComponents()
 
 
 
@@ -195,6 +211,8 @@ class AbcDropWidgetItem(QFrame):
         self.component.setText(text)
 
     def enabledIcon(self, enabled):
+        if self.soundBtn is None:
+            return
         if enabled:
             self.soundBtn.setIcon(QIcon(":/volume.png"))
         else:
@@ -230,6 +248,16 @@ class AbcViewCard(QStackedWidget):
         self.sides["back"] = AbcSide(AbcVBoxLayout, "back")
         self.sides["back"].setSpacing(1)
         self.setSides(self.sides.values())
+
+    def clearComponents(self):
+        for side in self.sides.values():
+            for i in range(side.box.count()):
+                item = side.box.itemAt(i)
+                if item is not None:
+                    widget = item.widget()
+                    widget.removeComponents()
+
+
 
     def updateWidgetComponent(self):
         for sideName, side in self.cardModel.sides.items():

@@ -3,6 +3,20 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
 
+class ToolBtn(QToolButton):
+    def __init__(self, parent, qicon, action):
+        super().__init__()
+        self.action = action
+        self.setObjectName(action)
+        self.parent = parent
+        self.setIcon(qicon)
+
+    def mousePressEvent(self, QMouseEvent):
+        getattr(self.parent, self.action)()
+
+
+
+
 class Spacer(QFrame):
     def __init__(self, spacer=None, stretch=0, spacing=0, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -16,6 +30,7 @@ class Spacer(QFrame):
 class ToolBar(QToolBar):
     def __init__(self, main, *__args):
         super().__init__(*__args)
+        self.btns = {}
         self.main = main
         self.setFixedHeight(42)
 
@@ -29,7 +44,14 @@ class ToolBar(QToolBar):
             QAction(QIcon(":/profile.png"), "profile", self))
         self.addSeparator()
         self.addWidget(Spacer(stretch=1))
-        self.addAction(
-            QAction(QIcon(":/component_blue_replace.png"), "cardrefresh", self))
+        # self.addAction(QAction(QIcon(":/replace2.png"), "cardrefresh", self))
+        self.addButton(QIcon(":/replace2.png"), "cardrefresh")
         self.addWidget(Spacer(spacing=26))
 
+    def addButton(self, Qicon, method):
+        methodName = "{}Action".format(method)
+        self.btns[method] = ToolBtn(self.main, Qicon, methodName)
+        self.addWidget(self.btns[method])
+
+    def setDisabledButton(self, btnName, p_bool):
+        self.btns[btnName].setDisabled(p_bool)
