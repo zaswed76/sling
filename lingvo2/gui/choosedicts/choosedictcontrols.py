@@ -8,7 +8,7 @@ class ControlBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
-        self.setIconSize(QSize(36, 36))
+        self.setIconSize(QSize(28, 28))
 
 
 class LoadSoundsDialog(AbcDialog):

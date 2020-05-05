@@ -1,13 +1,38 @@
+ChooseDictListView {
+    border-top: none;
+    border-left: none;
+    border-right: 1px solid #979797;
+    border-bottom: none;
+    background: #c4bbad;
+    color: #252424;
+    font-family: Helvetica;
+    font-size: 16pt;
+    /*outline: 0;*/
+}
+
+ChooseDictListView::item:hover {
+    background: #cecece;
+    color: #151414;
+}
+
+ChooseDictListView::item:selected {
+    background: #206eb2;
+    color: #ffffff;
+}
+
+
+
 
 ChooseDictControls {
-    background-color: #dfdfe1;
-    border: none;
+    background-color: #c4bbad;
+
 }
 
 TextFrame {
-     background-color: #e9e9eb;
+     background-color: #faf4e0;
      font-size: 14pt;
      font-family: Helvetica;
+     border: 2px solid #cbcbcb;
 }
 
 ControlBtn{
@@ -24,12 +49,8 @@ ControlBtn{
 }
 
 ControlBtn:hover {
-
-    border: 2px solid #0eb715;
-    color: #00A000;
+    border: 1px solid #f4f4f6;
 }
-
-
 
 ProgressLabel {
     background-color: #e9e9eb;
@@ -48,3 +69,29 @@ QLabel#LoadSoundsDialog_statusLabel {
     padding: 4px 0px 6px 0px;
     border: 1px solid #11b9e7;
 }
+
+/*ChooseDictStack {*/
+    /*background-color: #e8e8e8;*/
+
+/*}*/
+
+/*ViewStack {*/
+    /*background-color: #c2c2c2;*/
+/*}*/
+
+/*ChooseDictStack {*/
+    /*background-color: #c9c9c9;*/
+    /*border-left: 1px solid #5d5d5f;*/
+    /*border-right:  1px solid #5d5d5f;*/
+    /*border-bottom:  1px solid #5d5d5f;*/
+    /*border-top: 1px solid #5d5d5f;*/
+/*}*/
+
+/*ControlFrame {*/
+    /*background-color: #d1d1d3;*/
+/*}*/
+
+/*TextFrame {*/
+    /*background-color: #a8a8a8;*/
+/*}*/
+
