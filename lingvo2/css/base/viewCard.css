@@ -12,11 +12,13 @@ ViewCard{
     background-color: #5ea9cd;
     border: 1px #424244 solid;
     border-radius: 6px;
+    background-image: url(:/palazzo_canvase-texture2_light.jpg)
 }
 
 ViewLayout {
-    /*background-color: #f9f3df;*/
-    background-image: url(:/palazzo_canvase-texture2.jpg)
+    background: none ;
+    /*background-image: url(:/palazzo_canvase-texture2_light.jpg)*/
+    /*background-image: url(:/palazzo_canvase-texture2_yellow.jpg)*/
 }
 
 ViewLayout#top {

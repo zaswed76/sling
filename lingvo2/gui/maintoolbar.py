@@ -33,21 +33,21 @@ class ToolBar(QToolBar):
         self.btns = {}
         self.main = main
         self.setFixedHeight(42)
-
+        # self.addWidget(Spacer(spacing=42))
         self.addAction(
             QAction(QIcon(":/arrow_right_green.png"), "cardView", self))
         self.addAction(
             QAction(QIcon(":/book_blue.png"), "chooseDict", self))
         self.addAction(
             QAction(QIcon(":/component_blue_edit.png"), "cardEditView", self))
-        self.addAction(
-            QAction(QIcon(":/profile.png"), "profile", self))
-        self.addSeparator()
-        self.addWidget(Spacer(stretch=1))
+        # self.addAction(
+            # QAction(QIcon(":/profile.png"), "profile", self))
+        # self.addSeparator()
+        # self.addWidget(Spacer(stretch=1))
         self.addAction(
             QAction(QIcon(":/gear.png"), "profile", self))
         self.addButton(QIcon(":/replace2.png"), "cardrefresh")
-        self.addWidget(Spacer(spacing=26))
+        self.addWidget(Spacer(spacing=42))
 
     def addButton(self, Qicon, method):
         methodName = "{}Action".format(method)

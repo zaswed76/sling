@@ -30,6 +30,8 @@
     <file alias="paper_texture316.jpg">./resources/icons/base/paper_texture316.jpg</file>
     <file alias="subtle-pattern-1.jpg">./resources/icons/base/subtle-pattern-1.jpg</file>
     <file alias="palazzo_canvase-texture2.jpg">./resources/icons/base/palazzo_canvase-texture2.jpg</file>
+    <file alias="palazzo_canvase-texture2_light.jpg">./resources/icons/base/palazzo_canvase-texture2_light.jpg</file>
+    <file alias="palazzo_canvase-texture2_yellow.jpg">./resources/icons/base/palazzo_canvase-texture2_yellow.jpg</file>
 
 
 

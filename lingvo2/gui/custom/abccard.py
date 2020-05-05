@@ -247,7 +247,7 @@ class AbcViewCard(QStackedWidget):
         self.sides = {}
         self.dropsLayouts = {}
         self.sides["front"] = AbcSide(AbcVBoxLayout, "front")
-        self.sides["front"].setSpacing(1)
+        self.sides["front"].setSpacing(0)
         self.sides["back"] = AbcSide(AbcVBoxLayout, "back")
         self.sides["back"].setSpacing(1)
         self.setSides(self.sides.values())
