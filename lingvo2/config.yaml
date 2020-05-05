@@ -17,7 +17,8 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
-    - seasons
+    - family
+    - "\u041B\u0438\u0441\u0442 Microsoft Excel"
 core:
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx

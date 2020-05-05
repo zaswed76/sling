@@ -22,6 +22,11 @@ def warningMessage(parent, nameDict):
     else:
         return False
 
+class LoadObject:
+    def __init__(self, dictName, *args):
+        self.dictName = dictName
+
+
 
 class ChooseDictStackController:
     def __init__(self, main, parent):
@@ -34,9 +39,21 @@ class ChooseDictStackController:
         self.loadSoundsDialog.show()
 
     def loadSoundWebBtn(self):
+        checkList = self.main.chooseDict.checkedDicts()
+        for name, dict_data in self.main.dictSeq.items():
+            if name in checkList:
+                print(name,  dict_data.dirname)
+        return {}
+
+
+
+
+    def loadSoundWebBtnEx(self):
+        print("load sound")
+        return {}
         loaderDict = {}
         exLoaderDict = {}
-        workDict = {}
+        workDict = {} # имя словаря: путь к каталогу
         checkList = self.main.chooseDict.checkedDicts()
         for dict_name, dict_data in self.main.dictSeq.scan.items():
             dirname = dict_data["dirname"]
@@ -45,45 +62,62 @@ class ChooseDictStackController:
                 if sounds and not warningMessage(self, dict_name):
                     continue
                 else:
-
                     workDict[dict_name] = dirname
+
+
         for dict_name, dict_path in  workDict.items():
             # --------------------------------------------------
-            pdict_path = Path(dict_path)
-            Path(pdict_path / "sounds").mkdir(parents=True, exist_ok=True)
-            targetDir = pdict_path / "sounds"
-
-
             wordList = self.main.dictSeq[dict_name].textBase
-
             exampleList = self.main.dictSeq[dict_name].textExample
+            pdict_path = Path(dict_path)
 
+
+            targetDir = pdict_path / "sounds"
+            examplestargetDir = pdict_path / "examplesSounds"
+            if any(wordList):
+                Path(pdict_path / "sounds").mkdir(parents=True, exist_ok=True)
             if any(exampleList):
-
-                # todo добавить скачивание примеров
                 Path(pdict_path / "examplesSounds").mkdir(parents=True, exist_ok=True)
-                examplestargetDir = pdict_path / "examplesSounds"
+            else:
+                exampleList.clear()
 
-                soundLoader =  SoundLoader(exampleList, examplestargetDir, None)
-                soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
-                nfiles = soundLoader.run()
-                soundLoader.close()
+
+
+
+
+
+
+            # print(wordList)
+            # print(exampleList)
+            # print(targetDir)
+            # print(examplestargetDir)
+            # print("-----------------------")
+            if any(wordList):
+                # soundLoader =  SoundLoader(wordList, targetDir, None)
+                # soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
+                # nfiles = soundLoader.run()
+                nfiles = 5
+                # soundLoader.close()
+                loaderDict[dict_name] = (nfiles, len(wordList))
+            else:
+                loaderDict[dict_name] = (0, 0)
+            if any(exampleList):
+                # soundLoader =  SoundLoader(wordList, targetDir, None)
+                # soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
+                # nfiles = soundLoader.run()
+                nfiles = 4
+                # soundLoader.close()
                 exLoaderDict[dict_name] = (nfiles, len(exampleList))
             else:
-                pass
+                exLoaderDict[dict_name] = (0, 0)
+        print(loaderDict)
+        print(exLoaderDict)
+        print("--------------")
+        # return self._fsum(loaderDict, exLoaderDict)
+        return {}
 
-            soundLoader =  SoundLoader(wordList, targetDir, None)
-            soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
-            nfiles = soundLoader.run()
-            soundLoader.close()
-            loaderDict[dict_name] = (nfiles, len(wordList))
 
-            self.main.updateDictModel()
-            self.main.newGame()
 
-            res = self._fsum(loaderDict, exLoaderDict, dict_name)
-            print(res, "EEEEEEEEEEEEEEEE")
-            return res
 
     def _fsum(self, d1, d2, name):
         if not d1: d1 = {name: (0, 0)}

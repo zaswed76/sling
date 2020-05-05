@@ -120,7 +120,8 @@ class Main(QMainWindow):
         self.player.play()
 
     def positionSuond(self, i):
-        print(i, "!!!")
+        pass
+        # print(i, "!!!")
 
     def mediaStatusSuond(self, i):
         if self.player.state() == QtMultimedia.QMediaPlayer.StoppedState:
@@ -193,7 +194,8 @@ class Main(QMainWindow):
 
 
     def profileAction(self):
-        print("profile")
+        pass
+        # print("profile")
 
     def cardrefreshAction(self):
         currentStack = self.currentStackWidget
@@ -262,7 +264,7 @@ class Main(QMainWindow):
         y = e.pos().y()
         if rect.contains(x, y) and not self._visibleToolBarFlag:
             self.toolBar.setVisible(True)
-            print(x, y)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

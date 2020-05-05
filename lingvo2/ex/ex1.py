@@ -1,13 +1,35 @@
 
 
+class LoadObject:
+    def __init__(self, dictName, *args):
+        self.dictName = dictName
+        self._soundsType = []
 
-def _fsum(d1, d2, name):
-    if not d1: d1 = (0, 0)
-    if not d2: d2 = (0, 0)
-    for _d1, _d2 in zip(d1.values(), d2.values()):
-        return {name: [p1 + p2 for p1, p2 in zip(_d1, _d2)]}
+    def setSoundType(self, type, soundList):
+        setattr(self, type, soundList)
+        self._soundsType.append(type)
 
-a = dict(aaa=[4, 4])
-b = dict()
+    def __getattr__(self, attr):
+        return self[attr]
 
-print(_fsum(a, b, "aaa"))
+    def __setattr__(self, key, value):
+        self.__dict__[key] = value
+
+    def soundsList(self):
+        return [getattr(self, x) for x in self._soundsType]
+
+    def soundsDict(self):
+        return {x: getattr(self, x) for x in self._soundsType}
+
+
+class Loader:
+    def __init__(self, *p_args):
+        pass
+
+if __name__ == '__main__':
+    loadObject = LoadObject("name")
+    # loadObject.setSoundType("SoundWord", [1, 2, 3])
+    loadObject.setSoundType("SoundExamples", [4, 5, 6])
+
+    print(loadObject.soundsList())
+    print(loadObject.soundsDict())

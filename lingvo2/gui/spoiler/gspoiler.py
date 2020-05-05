@@ -130,7 +130,7 @@ class SpoilerWidget(QFrame):
         return self.spoilerLabel.text()
 
     def clear(self):
-        print("!!!!!!")
+
         self.baseLabel.clear()
         self.spoilerLabel.clear()
 
