@@ -23,6 +23,7 @@ class SpoilerBtn(QPushButton):
 class SpoilerLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
+        self.setWordWrap(True)
         self.visibleFlag = False
         self._stext = ""
         self.setAlignment(Qt.AlignTop | Qt.AlignLeft)
@@ -45,9 +46,16 @@ class SpoilerLabel(QLabel):
         else:
             self.setText("")
 
-    # def resizeEvent(self, *args, **kwargs):
-    #     rect = self.parent().rect()
-    #     # self.setMinimumWidth(500)
+    @staticmethod
+    def fontDiapason(key):
+        return {-1 < key < 101: 16, 100 < key < 201: 14, 200 < key < 100000: 12}[1]
+
+    def wrapText(self, text):
+        size = SpoilerBaseLabel.fontDiapason(len(text))
+        return """< p style = "font-size:{size}pt" > {text} < / p >""".format(text=text, size=size)
+
+    def setText(self, p_str):
+        super().setText(self.wrapText(p_str))
 
 
 class SpoilerBaseLabel(QLabel):
@@ -55,6 +63,18 @@ class SpoilerBaseLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setWordWrap(True)
+
+    @staticmethod
+    def fontDiapason(key):
+        return {-1 < key < 101: 16, 100 < key < 201: 14, 200 < key < 100000: 10}[1]
+
+    def wrapText(self, text):
+        size = SpoilerBaseLabel.fontDiapason(len(text))
+        return """< p style = "font-size:{size}pt" > {text} < / p >""".format(text=text, size=size)
+
+    def setText(self, p_str):
+        super().setText(self.wrapText(p_str))
 
     def mousePressEvent(self, QMouseEvent):
         self.clicked.emit()

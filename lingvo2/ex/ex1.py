@@ -1,39 +1,48 @@
-from collections import UserDict
-
-
-class DCT(UserDict):
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-        self.__data = {}
-        # self.__data.update(*kwargs)
-
-
-    def update(self, __m):
-        self.__data.update(__m)
-        print(self.__data)
-
-
-    def __getitem__(self, key):
-        __line = " ".join(key.split(" ")[:4])
-        for k in self.__data:
-            print(k, "777")
-            if k.find(__line) > -1:
-                return self.__data.__getitem__(k)
-        else:
-            return None
 
 
 
-    def __repr__(self):
-        return str(self.__data)
 
-key = "Seems strange, because I use same closeEvent"
-ds = {"Seems strange, because I use": "res"}
-d = DCT()
-d.update(ds)
-print(d.get(key), "res")
+#!/usr/bin/env python3
 
-# s = "Seems strange, because I use"
-# line = "Seems strange, because I"
-# print(s.find(line))
+import sys
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+
+
+
+
+
+
+
+
+class Widget(QLabel):
+    def __init__(self):
+        super().__init__()
+
+        self.setWordWrap(True)
+
+    @staticmethod
+    def fontDiapason(key):
+        return {-1 < key < 101: 16, 100 < key < 201: 14, 200 < key < 100000: 12}[1]
+
+    def wrapText(self, text):
+        size = Widget.fontDiapason(len(text))
+        print(size)
+        return """< p style = "font-size:{size}pt" > {text} < / p >""".format(text=text, size=size)
+
+    def setText(self, p_str):
+        super().setText(self.wrapText(p_str))
+
+
+
+if __name__ == '__main__':
+    s = """ rherthhhhhhhhhhhhhhhhhretttttttttttttttttttttttttttttfeatures in PyCharm along with how to get started with data science
+    """
+    app = QApplication(sys.argv)
+
+    main = Widget()
+    main.setText(s)
+
+    main.show()
+    sys.exit(app.exec_())

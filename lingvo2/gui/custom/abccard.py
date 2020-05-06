@@ -113,6 +113,8 @@ class AbcDropLayout(QFrame):
 class AbcDropLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
+        self.setWordWrap(True)
+
 
 
     def __repr__(self):
@@ -190,6 +192,7 @@ class AbcDropWidgetItem(QFrame):
             self.enabledIcon(soundBtnFlag)
 
     def setSpoiletText(self, text):
+        print(text)
         try:
             self.component.setSpoiletText(text)
         except AttributeError:
