@@ -22,11 +22,13 @@ def warningMessage(parent, nameDict):
     else:
         return False
 
-class LoadDialogsFrame(QFrame):
-    def __init__(self):
-        super().__init__()
+class LoadDialogsFrame(QDialog):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         self.setWindowModality(Qt.ApplicationModal)
         self.setWindowFlag(Qt.Tool)
+
         self.base_box = QVBoxLayout(self)
         self.base_box.setSpacing(4)
         self.base_box.setContentsMargins(0, 0, 0, 0)
@@ -37,6 +39,15 @@ class LoadDialogsFrame(QFrame):
 
     def addWidget(self, widget):
         self.base_box.addWidget(widget)
+
+    def closeEvent(self, QCloseEvent):
+        ctrl = self.parent().main.chooseDictController
+        if len(ctrl.finishedList) == len(ctrl.main.chooseDict.checkedDicts()):
+            self.parent().main.updateDictModel()
+            QCloseEvent.accept()
+        else:
+            QCloseEvent.ignore()
+
 
 
 
@@ -58,15 +69,15 @@ class ChooseDictStackController:
         self.loadList = []
         loaderDict = {}
         checkList = self.main.chooseDict.checkedDicts()
-        self.loadDialogsFrame = LoadDialogsFrame()
-        self.loadDialogsFrame.addStratch(10)
+        self.loadDialogsFrame = LoadDialogsFrame(self.loadSoundsDialog)
         self.loadDialogsFrame.show()
+
+        self.loadDialogsFrame.addStratch(10)
+
         for n, (name, Dict) in enumerate(self.main.dictSeq.items()):
             if name in checkList:
-                loaderDict[name] = SoundLoaderDialog(Dict, self.loadDialogsFrame)
-                print(n//2)
+                loaderDict[name] = SoundLoaderDialog(Dict, self.main)
                 loaderDict[name].setStyleSheet('background: {};'.format(next(gen)))
-
                 self.loadDialogsFrame.addWidget(loaderDict[name])
                 loaderDict[name].finishedSignal.connect(self.finishedSignal)
                 loaderDict[name].run()
@@ -76,77 +87,6 @@ class ChooseDictStackController:
         self.finishedList.append(p_name)
         # if len(self.finishedList) == len(self.main.chooseDict.checkedDicts()):
         #     self.loadDialogsFrame.close()
-
-
-
-    def loadSoundWebBtnEx(self):
-        print("load sound")
-        return {}
-        loaderDict = {}
-        exLoaderDict = {}
-        workDict = {} # имя словаря: путь к каталогу
-        checkList = self.main.chooseDict.checkedDicts()
-        for dict_name, dict_data in self.main.dictSeq.scan.items():
-            dirname = dict_data["dirname"]
-            sounds = dict_data["sounds"]
-            if dict_name in checkList:
-                if sounds and not warningMessage(self, dict_name):
-                    continue
-                else:
-                    workDict[dict_name] = dirname
-
-
-        for dict_name, dict_path in  workDict.items():
-            # --------------------------------------------------
-            wordList = self.main.dictSeq[dict_name].textBase
-            exampleList = self.main.dictSeq[dict_name].textExample
-            pdict_path = Path(dict_path)
-
-
-            targetDir = pdict_path / "sounds"
-            examplestargetDir = pdict_path / "examplesSounds"
-            if any(wordList):
-                Path(pdict_path / "sounds").mkdir(parents=True, exist_ok=True)
-            if any(exampleList):
-                Path(pdict_path / "examplesSounds").mkdir(parents=True, exist_ok=True)
-            else:
-                exampleList.clear()
-
-
-
-
-
-
-
-            # print(wordList)
-            # print(exampleList)
-            # print(targetDir)
-            # print(examplestargetDir)
-            # print("-----------------------")
-            if any(wordList):
-                # soundLoader =  SoundLoader(wordList, targetDir, None)
-                # soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
-                # nfiles = soundLoader.run()
-                nfiles = 5
-                # soundLoader.close()
-                loaderDict[dict_name] = (nfiles, len(wordList))
-            else:
-                loaderDict[dict_name] = (0, 0)
-            if any(exampleList):
-                # soundLoader =  SoundLoader(wordList, targetDir, None)
-                # soundLoader.setWindowTitle("загружаются файлы для словаря - {}".format(dict_name))
-                # nfiles = soundLoader.run()
-                nfiles = 4
-                # soundLoader.close()
-                exLoaderDict[dict_name] = (nfiles, len(exampleList))
-            else:
-                exLoaderDict[dict_name] = (0, 0)
-        print(loaderDict)
-        print(exLoaderDict)
-        print("--------------")
-        # return self._fsum(loaderDict, exLoaderDict)
-        return {}
-
 
 
 

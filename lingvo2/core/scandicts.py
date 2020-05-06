@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from core.xlsxreader import xlsxRead
+from collections import UserDict
 
 
 class Reader:
@@ -32,13 +33,41 @@ class Reader:
     def readXlsx(self, path):
         return xlsxRead(path)
 
+class DCT(UserDict):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.__data = {}
+        self.__data.update(kwargs)
+
+
+    def update(self, __m, **kwargs):
+        self.__data.update(__m)
+
+
+    def __getitem__(self, key):
+        if key is None:
+            return None
+        __line = " ".join(key.split(" ")[:4])
+        for k in self.__data:
+            if k.find(__line) > -1:
+                return self.__data.__getitem__(k)
+        else:
+            return None
+
+
+
+
 
 def rglobs(folder, exts):
     lst = []
+    dct = DCT()
     ppath = Path(folder)
     for ext in exts:
         lst.extend([str(x) for x in ppath.rglob("*{}".format(ext))])
-    return {Path(n).stem: n for n in lst}
+    rg = {Path(n).stem: n for n in lst}
+    dct.update(rg)
+
+    return dct
 
 
 def scan(folder,

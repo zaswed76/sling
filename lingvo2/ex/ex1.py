@@ -1,35 +1,39 @@
+from collections import UserDict
 
 
-class LoadObject:
-    def __init__(self, dictName, *args):
-        self.dictName = dictName
-        self._soundsType = []
+class DCT(UserDict):
+    def __init__(self, **kwargs):
 
-    def setSoundType(self, type, soundList):
-        setattr(self, type, soundList)
-        self._soundsType.append(type)
-
-    def __getattr__(self, attr):
-        return self[attr]
-
-    def __setattr__(self, key, value):
-        self.__dict__[key] = value
-
-    def soundsList(self):
-        return [getattr(self, x) for x in self._soundsType]
-
-    def soundsDict(self):
-        return {x: getattr(self, x) for x in self._soundsType}
+        super().__init__(**kwargs)
+        self.__data = {}
+        # self.__data.update(*kwargs)
 
 
-class Loader:
-    def __init__(self, *p_args):
-        pass
+    def update(self, __m):
+        self.__data.update(__m)
+        print(self.__data)
 
-if __name__ == '__main__':
-    loadObject = LoadObject("name")
-    # loadObject.setSoundType("SoundWord", [1, 2, 3])
-    loadObject.setSoundType("SoundExamples", [4, 5, 6])
 
-    print(loadObject.soundsList())
-    print(loadObject.soundsDict())
+    def __getitem__(self, key):
+        __line = " ".join(key.split(" ")[:4])
+        for k in self.__data:
+            print(k, "777")
+            if k.find(__line) > -1:
+                return self.__data.__getitem__(k)
+        else:
+            return None
+
+
+
+    def __repr__(self):
+        return str(self.__data)
+
+key = "Seems strange, because I use same closeEvent"
+ds = {"Seems strange, because I use": "res"}
+d = DCT()
+d.update(ds)
+print(d.get(key), "res")
+
+# s = "Seems strange, because I use"
+# line = "Seems strange, because I"
+# print(s.find(line))

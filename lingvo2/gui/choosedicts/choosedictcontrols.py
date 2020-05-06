@@ -14,7 +14,7 @@ class ControlBtn(QPushButton):
 class LoadSoundsDialog(AbcDialog):
     def __init__(self, main):
         super().__init__()
-        # self.setWindowFlag(Qt.WindowStaysOnTopHint)
+
         self.main = main
         self.setObjectName("chooseDictStack")
         self.resize(400, 200)

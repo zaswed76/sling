@@ -42,6 +42,7 @@ class Main(QMainWindow):
         self.dictSeq.setSoundTypes(self.cfg["choosedict"]["soundTypeList"])
 
 
+
         self.dictsModel = DictsModel(self.dictSeq)
         self.updateDictModel()
 
@@ -60,8 +61,8 @@ class Main(QMainWindow):
         # выбираем словарь
         self.chooseDict = ChooseDictStack(self, name="chooseDict", config=self.cfg)
         self.chooseDict.setFocusPolicy(Qt.NoFocus)
-        self.controls["chooseDictStack"] = ChooseDictStackController(self,
-                                                                     self.chooseDict)
+        self.chooseDictController = ChooseDictStackController(self, self.chooseDict)
+        self.controls["chooseDictStack"] = self.chooseDictController
         # работаем с карточками
         self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
         self.viewCard.setFixedSize(*self.cfg["ui"]["viewCardSize"])
@@ -93,6 +94,7 @@ class Main(QMainWindow):
         self.changeStackWidget(0)
 
         self.newGame()
+        print(self.dictSeq["seasons"].sounds)
 
     def updateDictModel(self):
         self.dictSeq.init()
@@ -113,6 +115,7 @@ class Main(QMainWindow):
             self.setFocus(Qt.ActiveWindowFocusReason)
 
     def playSound(self, filePath):
+
         self.media = QUrl.fromLocalFile(filePath)
         self.content = QtMultimedia.QMediaContent(self.media)
         self.player = QtMultimedia.QMediaPlayer()

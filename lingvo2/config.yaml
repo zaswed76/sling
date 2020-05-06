@@ -17,10 +17,7 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
-    - family
-    - familybackup
     - seasons
-    - "\u041B\u0438\u0441\u0442 Microsoft Excel"
     soundTypeList:
     - Word
     - spoilerExample

@@ -36,7 +36,7 @@ class WordItem:
         self.index = kwargs.get("index", 0)
         self.sound = kwargs.get("sound")
         self.exampleSound = kwargs.get("exampleSound")
-        # print(self.sound)
+
         self.image = kwargs.get("image")
         ln = len(args)
         if ln == 2:
@@ -83,6 +83,7 @@ class Dict(MutableMapping):
         self.__data = {}
         self.dictpath = dictpath
         self.sounds = sounds
+
         self.images = images
         self.dirname = dirname
         self.name = name

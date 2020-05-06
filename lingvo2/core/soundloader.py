@@ -19,8 +19,10 @@ class SoundLoader(QThread):
 
     def run(self):
         for n, line in enumerate(self.wordList, start=1):
+            line = " ".join(line.split(" ")[:])
+            __line = " ".join(line.split(" ")[:5])
             tts = loadGtts(line)
-            file_name = Path(self.dirForSounds) / "{}.mp3".format(line)
+            file_name = Path(self.dirForSounds) / "{}.mp3".format(__line)
             saveTTS(tts, file_name)
             self.progressSignal.emit(n)
             self.soundNameSignal.emit(line)
@@ -38,11 +40,12 @@ class LoadSoundProgress(QProgressBar):
         self.setFixedHeight(12)
 
 
-class SoundLoaderDialog(QFrame):
+class SoundLoaderDialog(QDialog):
     finishedSignal = pyqtSignal(str)
     def __init__(self, Dict, parent, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        # self.setParent(parent)
+        # self.setWindowModality(Qt.ApplicationModal)
         # self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.Dict = Dict
         self.nameDict = self.Dict.name
@@ -58,6 +61,8 @@ class SoundLoaderDialog(QFrame):
         self.label = ProgressLabel("{}:".format(self.nameDict))
         self.box.addWidget(self.label)
         self.show()
+
+
 
     def run(self):
         self.soundLoadThreads = {}
@@ -81,7 +86,8 @@ class SoundLoaderDialog(QFrame):
                 formLayout.addRow(lb, self.progressBars[typeSound])
                 self.box.addLayout(formLayout)
 
-                self.soundLoadThreads[typeSound] = SoundLoader(typeSound, typeSoundList, targetSoundDir)
+                r = self.soundLoadThreads[typeSound] = SoundLoader(typeSound, typeSoundList, targetSoundDir)
+                print(r)
                 self.soundLoadThreads[typeSound].finished.connect(partial(self.finishedThead, typeSound))
                 # self.soundLoadThreads[typeSound].soundNameSignal.connect()
                 self.soundLoadThreads[typeSound].progressSignal.connect(self.progressBars[typeSound].setValue)
