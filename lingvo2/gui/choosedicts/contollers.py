@@ -1,4 +1,4 @@
-
+import itertools
 from pathlib import Path
 from shutil import copy2
 from PyQt5.QtCore import *
@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import *
 
 import paths
 from gui.choosedicts.choosedict import *
-from core.soundloader import SoundLoader
+from core.soundloader import SoundLoaderDialog
 
 
 def warningMessage(parent, nameDict):
@@ -22,9 +22,21 @@ def warningMessage(parent, nameDict):
     else:
         return False
 
-class LoadObject:
-    def __init__(self, dictName, *args):
-        self.dictName = dictName
+class LoadDialogsFrame(QFrame):
+    def __init__(self):
+        super().__init__()
+        self.setWindowModality(Qt.ApplicationModal)
+        self.setWindowFlag(Qt.Tool)
+        self.base_box = QVBoxLayout(self)
+        self.base_box.setSpacing(4)
+        self.base_box.setContentsMargins(0, 0, 0, 0)
+        self.setMinimumWidth(400)
+
+    def addStratch(self, p_int):
+        self.base_box.addStretch(p_int)
+
+    def addWidget(self, widget):
+        self.base_box.addWidget(widget)
 
 
 
@@ -39,12 +51,31 @@ class ChooseDictStackController:
         self.loadSoundsDialog.show()
 
     def loadSoundWebBtn(self):
-        checkList = self.main.chooseDict.checkedDicts()
-        for name, dict_data in self.main.dictSeq.items():
-            if name in checkList:
-                print(name,  dict_data.dirname)
-        return {}
+        colors = ["#A7D8FB", "#B9FBB5"]
+        gen = (x for x in itertools.cycle(colors))
 
+        self.finishedList = []
+        self.loadList = []
+        loaderDict = {}
+        checkList = self.main.chooseDict.checkedDicts()
+        self.loadDialogsFrame = LoadDialogsFrame()
+        self.loadDialogsFrame.addStratch(10)
+        self.loadDialogsFrame.show()
+        for n, (name, Dict) in enumerate(self.main.dictSeq.items()):
+            if name in checkList:
+                loaderDict[name] = SoundLoaderDialog(Dict, self.loadDialogsFrame)
+                print(n//2)
+                loaderDict[name].setStyleSheet('background: {};'.format(next(gen)))
+
+                self.loadDialogsFrame.addWidget(loaderDict[name])
+                loaderDict[name].finishedSignal.connect(self.finishedSignal)
+                loaderDict[name].run()
+        return loaderDict
+
+    def finishedSignal(self, p_name):
+        self.finishedList.append(p_name)
+        # if len(self.finishedList) == len(self.main.chooseDict.checkedDicts()):
+        #     self.loadDialogsFrame.close()
 
 
 

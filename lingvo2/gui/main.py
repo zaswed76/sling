@@ -39,6 +39,8 @@ class Main(QMainWindow):
         self._set_style_sheet(self.cfg["currentStyle"])
 
         self.dictSeq = DictSeq(paths.DATA)
+        self.dictSeq.setSoundTypes(self.cfg["choosedict"]["soundTypeList"])
+
 
         self.dictsModel = DictsModel(self.dictSeq)
         self.updateDictModel()

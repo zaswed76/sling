@@ -14,9 +14,10 @@ class ControlBtn(QPushButton):
 class LoadSoundsDialog(AbcDialog):
     def __init__(self, main):
         super().__init__()
+        # self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.main = main
         self.setObjectName("chooseDictStack")
-        self.setFixedSize(300, 200)
+        self.resize(400, 200)
         self.box = BoxLayout(QBoxLayout.TopToBottom, self)
         self.box.setSpacing(4)
         self.loadSoundWebBtn = ControlBtn("загрузить файлы из интернета")
@@ -34,12 +35,13 @@ class LoadSoundsDialog(AbcDialog):
     def loadSoundWeb(self):
         self.statusLabel.clear()
         loaderDict = self.main.connect()
-        textLines = []
-        for dct, res in  loaderDict.items():
-            loads, all = res
-            textLines.append('словарь "{}" - загружено {} из {}'.format(dct, loads, all))
-        text = "\n".join(textLines)
-        self.statusLabel.setText(text)
+        # print(loaderDict)
+        # textLines = []
+        # for dct, res in  loaderDict.items():
+        #     loads, all = res
+        #     textLines.append('словарь "{}" - загружено {} из {}'.format(dct, loads, all))
+        # text = "\n".join(textLines)
+        # self.statusLabel.setText(text)
 
 
 

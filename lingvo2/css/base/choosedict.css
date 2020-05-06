@@ -53,11 +53,11 @@ ControlBtn:hover {
 }
 
 ProgressLabel {
-    background-color: #e9e9eb;
-    font-size: 12pt;
+    background: none;
+    font-size: 14pt;
     font-family: Helvetica;
     font-style: italic;
-    color: #6e6e6e;
+    color: #0b64b4;
 }
 
 QLabel#LoadSoundsDialog_statusLabel {
@@ -70,6 +70,14 @@ QLabel#LoadSoundsDialog_statusLabel {
     border: 1px solid #11b9e7;
 }
 
+
+
+SoundLoaderDialog {
+    border-left: none;
+    border-right:  none;
+    border-bottom:  1px solid #b9fbb5;
+    border-top: none;
+}
 /*ChooseDictStack {*/
     /*background-color: #e8e8e8;*/
 

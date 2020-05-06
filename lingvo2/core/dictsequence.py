@@ -76,7 +76,10 @@ class WordItem:
 
 
 class Dict(MutableMapping):
-    def __init__(self, name, dictpath,  dirname, images, sounds):
+    def __init__(self, name, dictpath,  dirname, images, sounds, soundTypeList=None):
+        if soundTypeList is None:
+            self.soundTypeList = []
+        self.soundTypeList = soundTypeList
         self.__data = {}
         self.dictpath = dictpath
         self.sounds = sounds
@@ -85,12 +88,21 @@ class Dict(MutableMapping):
         self.name = name
         self.updateWordObjects()
 
+
+    def itemListForTypeSound(self, typeSound):
+        return getattr(self, "{}_List".format(typeSound))
+
     @property
-    def textBase(self):
-        return [x.Word for x in self.__data.values()]
+    def Word_List(self):
+        return [x.Word for x in self.__data.values() if x]
+
     @property
-    def textExample(self):
-        return [x.spoilerExample.text for x in self.__data.values()]
+    def spoilerExample_List(self):
+        return [x.spoilerExample.text for x in self.__data.values() if x.spoilerExample.text]
+
+    @property
+    def example2_List(self):
+        return [x.example2.text for x in self.__data.values() if x.example2.text]
 
     @property
     def textItems(self):
@@ -138,8 +150,15 @@ class DictSeq(MutableMapping):
         """
         self.folder = folder
         self.__data = {}
-        # self.scan  = scandicts.scan(folder)
+        self._soundTypeList = []
 
+
+    def setSoundTypes(self, soundTypeList):
+        self._soundTypeList.extend(soundTypeList)
+
+    @property
+    def soundTypeList(self):
+        return self._soundTypeList
 
     def clear(self):
         self.__data.clear()
@@ -156,7 +175,8 @@ class DictSeq(MutableMapping):
             self.__data[n] = Dict(n, d["dictpath"],
                                   d["dirname"],
                                   d['images'],
-                                  d['sounds'])
+                                  d['sounds'],
+                                  soundTypeList=self.soundTypeList)
 
     def __setitem__(self, key, value):
         self.__data[key] = value
