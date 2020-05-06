@@ -83,7 +83,6 @@ class ViewCard(AbcViewCard):
                 self.addComponents(dropLayoutModel)
 
     def addComponents(self, dropLayoutModel):
-
         for comp in dropLayoutModel:
             text = comp.text
             widgetType = comp.qwidgetType

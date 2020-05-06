@@ -7,7 +7,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import resources
 from tools.handler import qt_message_handler
-
+import textwrap
 qInstallMessageHandler(qt_message_handler)
 
 class SpoilerBtn(QPushButton):
@@ -23,10 +23,24 @@ class SpoilerBtn(QPushButton):
 class SpoilerLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
-        self.setWordWrap(True)
+        self._textWidth = 90
+        self.minFont = 12
         self.visibleFlag = False
         self._stext = ""
         self.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+
+    def wrapText(self, text):
+        size = SpoilerBaseLabel.fontDiapason(len(text))
+        content = "<br/>".join(textwrap.wrap(text, width=self.textWidth))
+        return """< p style = "font-size:{size}pt" > {text} < / p >""".format(text=content, size=size)
+
+    @property
+    def textWidth(self):
+        return self._textWidth
+
+    @textWidth.setter
+    def textWidth(self, w):
+        self._textWidth = w
 
     def clear(self):
         self._stext = ""
@@ -46,13 +60,16 @@ class SpoilerLabel(QLabel):
         else:
             self.setText("")
 
-    @staticmethod
-    def fontDiapason(key):
-        return {-1 < key < 101: 16, 100 < key < 201: 14, 200 < key < 100000: 12}[1]
+    def fontDiapason(self, key):
+        small = self.minFont
+        medium = self.minFont + 2
+        big = self.minFont + 4
+        return {-1 < key < 101: big, 100 < key < 201: medium, 200 < key < 100000: small}[1]
 
     def wrapText(self, text):
-        size = SpoilerBaseLabel.fontDiapason(len(text))
-        return """< p style = "font-size:{size}pt" > {text} < / p >""".format(text=text, size=size)
+        size = self.fontDiapason(len(text))
+        content = "<br/>".join(textwrap.wrap(text, width=self.textWidth))
+        return """< p style = "font-size:{size}pt" > {text} < / p >""".format(text=content, size=size)
 
     def setText(self, p_str):
         super().setText(self.wrapText(p_str))
@@ -63,15 +80,31 @@ class SpoilerBaseLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
-        self.setWordWrap(True)
+        self._textWidth = 90
+        self.minFont = 10
 
-    @staticmethod
-    def fontDiapason(key):
-        return {-1 < key < 101: 16, 100 < key < 201: 14, 200 < key < 100000: 10}[1]
+
+    @property
+    def textWidth(self):
+        return self._textWidth
+
+    @textWidth.setter
+    def textWidth(self, w):
+        # print(w, "pppppppppppppp")
+        self._textWidth = w
+
+
+    def fontDiapason(self, key):
+        small = self.minFont
+        medium = self.minFont + 2
+        big = self.minFont + 4
+        return {-1 < key < 101: big, 100 < key < 201: medium, 200 < key < 100000: small}[1]
 
     def wrapText(self, text):
-        size = SpoilerBaseLabel.fontDiapason(len(text))
-        return """< p style = "font-size:{size}pt" > {text} < / p >""".format(text=text, size=size)
+
+        size = self.fontDiapason(len(text))
+        content = "<br/>".join(textwrap.wrap(text, width=self.textWidth))
+        return """< p style = "font-size:{size}pt" > {text} < / p >""".format(text=content, size=size)
 
     def setText(self, p_str):
         super().setText(self.wrapText(p_str))
@@ -105,12 +138,14 @@ class SpoilerWidget(QFrame):
 
 
         self.baseLabel = baseLabel
+
         self.baseLabel.setParent(self)
 
         self.baseLabel.clicked.connect(self.runSpoiler)
         self.box.addWidget(self.baseLabel , alignment=Qt.AlignLeft | Qt.AlignTop)
 
         self.spoilerLabel = spoiLerLabel
+        # self.spoilerLabel = spoiLerLabel
         self.spoilerLabel.setParent(self)
 
         self.spBtn = spoilerBtn
@@ -118,8 +153,14 @@ class SpoilerWidget(QFrame):
         self.spBtn.clicked.connect(self.runSpoiler)
 
     def resizeEvent(self, e):
+
         rect = self.baseLabel.rect()
-        self.spBtn.move(rect.bottomLeft() + QPoint(self.indentlrftArrow, self.indenttopArrow))
+        s = int(rect.width() / 5.5)
+        # self.baseLabel.textWidth = s
+        p = QPoint(self.indentlrftArrow, self.indenttopArrow)
+        # print(rect, p, self.indenttopArrow)
+        # print("-------------------")
+        self.spBtn.move(rect.bottomLeft() + p)
         self.spoilerLabel.move(rect.bottomLeft() + QPoint(self.spoilerIndent, self.spoilertopIndent ))
 
     def setSpacing(self, p_int):

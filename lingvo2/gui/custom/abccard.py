@@ -65,7 +65,7 @@ class AbcVBoxLayout(QVBoxLayout):
         self.setSpacing(0)
 
 class AbcDropLayout(QFrame):
-    def __init__(self, objectName, QBoxLayout_Direction, cardModel, side, index, *args, **kwargs):
+    def __init__(self, objectName, QBoxLayout_Direction, cardModel, side, index, main=None, *args, **kwargs):
         """
         виджет-контейнер в который можно перетащить другие виджеты
         top center, bottom
@@ -74,6 +74,7 @@ class AbcDropLayout(QFrame):
         :param kwargs:
         """
         super().__init__(*args, **kwargs)
+        self.main = main
         self.index = index
         self.side = side
         self.cardModel = cardModel
@@ -111,11 +112,9 @@ class AbcDropLayout(QFrame):
         self.__components.clear()
 
 class AbcDropLabel(QLabel):
-    def __init__(self, *__args):
+    def __init__(self, main, *__args):
         super().__init__(*__args)
-        self.setWordWrap(True)
-
-
+        self.main = main
 
     def __repr__(self):
         return "AbcDropLabel"
@@ -181,7 +180,8 @@ class AbcDropWidgetItem(QFrame):
         else:
             self.idO = idO
 
-        self.component = getattr(dropcomponents, widget_tipe)()
+        self.component = getattr(dropcomponents, widget_tipe)(self.main)
+
 
         if text:
             self.component.setText(text)
@@ -192,7 +192,6 @@ class AbcDropWidgetItem(QFrame):
             self.enabledIcon(soundBtnFlag)
 
     def setSpoiletText(self, text):
-        print(text)
         try:
             self.component.setSpoiletText(text)
         except AttributeError:
@@ -245,6 +244,7 @@ class AbcViewCard(QStackedWidget):
 
         super().__init__()
         self.main = main
+        print(self.main, "00000")
         self.__currentSideIndex = 1
         self.sideNames = ['front', 'back']
         self.sides = {}
@@ -273,7 +273,8 @@ class AbcViewCard(QStackedWidget):
                                                                      QBoxLayout.TopToBottom,
                                                                      self.cardModel,
                                                                      sideName,
-                                                                     index)
+                                                                     index,
+                                                                     main=self.main)
                 # контейнер на сторону
                 self.sides[sideName].addWidget(self.dropsLayouts[dropLayoutModel.name])
                 # компоненты в каждый контейнер если есть

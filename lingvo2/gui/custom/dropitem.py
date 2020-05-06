@@ -7,7 +7,7 @@ from gui.custom.abccard import *
 
 
 class DropWidgetItem(AbcDropWidgetItem):
-    def __init__(self, widget_tipe, text=None, soundBtnFlag=False, idO=None, *args, **kwargs):
+    def __init__(self, widget_tipe, text=None, soundBtnFlag=False, idO=None, main=None, *args, **kwargs):
         """
         этот виджет добавляем в контейнер AbcDropLayout
         :param widget_tipe:
@@ -16,7 +16,8 @@ class DropWidgetItem(AbcDropWidgetItem):
         :param kwargs:
         """
 
-        super().__init__(widget_tipe, text, idO, soundBtnFlag, *args, **kwargs)
+        super().__init__(widget_tipe, text, idO, soundBtnFlag, main, *args, **kwargs)
+        self.main = main
         self.installEventFilter(self)
         self.controlsDropLabel = ControlsDropLabel(self)
         self.controlsDropLabel.closeDropLabelBtn.clicked.connect(self.removeComponent)

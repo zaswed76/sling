@@ -9,9 +9,9 @@ from gui.custom.dropitem import *
 
 
 class EditCard(AbcViewCard):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, main=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        self.main = main
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
@@ -28,7 +28,7 @@ class EditCard(AbcViewCard):
                                                                      QBoxLayout.TopToBottom,
                                                                      self.cardModel,
                                                                      sideName,
-                                                                     index)
+                                                                     index, main=self.main)
                 # контейнер на сторону
                 self.sides[sideName].addWidget(self.dropsLayouts[dropLayoutModel.name])
                 # компоненты в каждый контейнер если есть
@@ -42,7 +42,7 @@ class EditCard(AbcViewCard):
             widgetType = comp.qwidgetType
             idO = comp.idO
             # print(widgetType, text, "EEEEEEEEEEEEE")
-            qwidget = DropWidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn)
+            qwidget = DropWidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn, main=self.main)
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
     def __repr__(self):

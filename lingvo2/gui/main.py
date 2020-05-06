@@ -74,7 +74,7 @@ class Main(QMainWindow):
         self.editDropList = editdrop_listview.DropListWidget(None, "editDropList")
         self.editDropList.setFocusPolicy(Qt.NoFocus)
         self.editDropList.setItems(config.Config(paths.CARD_CONFIG)["dropItemsTypeList"])
-        self.viewEditCard = editcard.EditCard()
+        self.viewEditCard = editcard.EditCard(main=self)
         self.viewEditCard.setFixedSize(self._size[0]-190, self._size[1]-190)
 
         self.viewEditCard.setCardModel(self.cardModel)
@@ -94,7 +94,7 @@ class Main(QMainWindow):
         self.changeStackWidget(0)
 
         self.newGame()
-        print(self.dictSeq["seasons"].sounds)
+
 
     def updateDictModel(self):
         self.dictSeq.init()
