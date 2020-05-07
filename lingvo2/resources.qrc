@@ -13,6 +13,7 @@
     <file alias="add.png">./resources/icons/base/add.png</file>
     <file alias="add2.png">./resources/icons/base/add2.png</file>
 
+    <file alias="house.png">./resources/icons/base/house.png</file>
     <file alias="alarmclock.png">./resources/icons/base/alarmclock.png</file>
     <file alias="book_blue.png">./resources/icons/base/book_blue.png</file>
     <file alias="arrow_right_green.png">./resources/icons/base/arrow_right_green.png</file>
@@ -32,6 +33,8 @@
     <file alias="palazzo_canvase-texture2.jpg">./resources/icons/base/palazzo_canvase-texture2.jpg</file>
     <file alias="palazzo_canvase-texture2_light.jpg">./resources/icons/base/palazzo_canvase-texture2_light.jpg</file>
     <file alias="palazzo_canvase-texture2_yellow.jpg">./resources/icons/base/palazzo_canvase-texture2_yellow.jpg</file>
+
+
 
 
 

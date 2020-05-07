@@ -51,20 +51,27 @@ class LoadSoundsDialog(AbcDialog):
 class ChooseDictControls(QFrame):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.main = main
         self.setObjectName("chooseDictStack")
         self.box = BoxLayout(QBoxLayout.TopToBottom, self, spacing=6, content_margin=(0, 6, 0, 0))
 
 
-        self.addDictBtn = ControlBtn()
-        self.addDictBtn.setIcon(QIcon(":/notebook_add.png"))
-        self.addDictBtn.clicked.connect(main.connect)
-        self.addDictBtn.setObjectName("addDict")
+        self.addDictBtn = self.addBtn("addDict", ":/notebook_add.png")
+        self.addSoundsBtn = self.addBtn("loadSoundsBtn", ":/music_blue_add.png")
+        self.openDataFolder = self.addBtn("openDataFolder", ":/house.png")
 
-        self.addSoundsBtn = ControlBtn()
-        self.addSoundsBtn.setIcon(QIcon(":/music_blue_add.png"))
-        self.addSoundsBtn.clicked.connect(main.connect)
-        self.addSoundsBtn.setObjectName("loadSoundsBtn")
 
         self.box.addWidget(self.addDictBtn, alignment=Qt.AlignCenter)
         self.box.addWidget(self.addSoundsBtn, alignment=Qt.AlignCenter)
         self.box.addStretch(10)
+        self.box.addWidget(self.openDataFolder, alignment=Qt.AlignCenter)
+
+    def addBtn(self, methodName, icon=None):
+        Btn = ControlBtn()
+        if icon is not None:
+            Btn.setIcon(QIcon(icon))
+        else:
+            Btn.setText(methodName[:5])
+        Btn.clicked.connect(self.main.connect)
+        Btn.setObjectName(methodName)
+        return Btn

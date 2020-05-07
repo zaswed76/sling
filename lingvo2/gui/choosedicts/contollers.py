@@ -4,6 +4,7 @@ from shutil import copy2
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import subprocess
 
 import paths
 from gui.choosedicts.choosedict import *
@@ -56,6 +57,10 @@ class ChooseDictStackController:
         self.parent = parent
         self.main = main
 
+    def openDataFolder(self):
+        print("openDataFolder")
+
+        subprocess.Popen('explorer {}'.format(paths.DATA))
 
     def loadSoundsBtn(self):
         self.loadSoundsDialog = LoadSoundsDialog(self.main)
