@@ -1,15 +1,19 @@
-import gtts
+# import gtts
 from gtts import gTTS
 
-from langdetect import detect
+from textblob import TextBlob
 
-print(detect('cat'))
+line = "cat"
+
+
+lang = TextBlob(line).detect_language()
 
 
 
-for i in ["кот который гуляет сам по себе"]:
-    line = str(i)
-    tts = gTTS(line, lang='ru')
-    tts.save('tts_output{}.mp3'.format(line))
+print(lang)
+
+
+tts = gTTS(line, lang=lang)
+tts.save('tts_output{}.mp3'.format(line))
 
 
