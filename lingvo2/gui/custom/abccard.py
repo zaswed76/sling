@@ -192,7 +192,6 @@ class AbcDropWidgetItem(QFrame):
             self.enabledIcon(soundBtnFlag)
 
     def setPixmap(self, pixmap):
-        print(pixmap)
         self.component.setPixmap(pixmap)
 
     def setSpoiletText(self, text):

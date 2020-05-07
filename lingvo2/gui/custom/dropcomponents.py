@@ -40,8 +40,12 @@ class DropLayout(AbcDropLayout):
         mime = e.mimeData()
         component = mime.text()
         text, widgetType = component.split("_")
+
+
         qwidget = DropWidgetItem(widgetType, text=text, idO=None, soundBtnFlag=self.cardModel.soundBtnDefault,
                                  main=self.main)
+        if widgetType == "ImageLabel":
+            qwidget.setPixmap(QPixmap(":/photo_landscape_big.png"))
         self.cardModel.sides[sideName][self.index].appendDragItem(qwidget.idO, widgetType, text=text)
         self.addComponent(qwidget)
         e.accept()
@@ -62,7 +66,7 @@ class ImageLabel(AbcDropLabel):
         self.setFixedSize(300, 350)
         self.main = main
         self.cfg = self.main.cfg
-        self.setText("ImageLabel")
+
 
 class DropLabel(AbcDropLabel):
     def __init__(self, main, *__args):

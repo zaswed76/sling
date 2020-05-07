@@ -41,8 +41,11 @@ class EditCard(AbcViewCard):
             text = comp.text
             widgetType = comp.qwidgetType
             idO = comp.idO
-            # print(widgetType, text, "EEEEEEEEEEEEE")
+
             qwidget = DropWidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn, main=self.main)
+
+            if widgetType == "ImageLabel":
+                qwidget.setPixmap(QPixmap(":/photo_landscape_big.png"))
             self.dropsLayouts[dropLayoutModel.name].addComponent(qwidget)
 
     def __repr__(self):

@@ -15,6 +15,7 @@
 
     <file alias="folder_window.png">./resources/icons/base/folder_window.png</file>
     <file alias="photo_landscape2.png">./resources/icons/base/photo_landscape2.png</file>
+    <file alias="photo_landscape_big.png">./resources/icons/base/photo_landscape_big.png</file>
     <file alias="house.png">./resources/icons/base/house.png</file>
     <file alias="alarmclock.png">./resources/icons/base/alarmclock.png</file>
     <file alias="book_blue.png">./resources/icons/base/book_blue.png</file>
