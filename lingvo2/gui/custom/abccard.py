@@ -244,7 +244,6 @@ class AbcViewCard(QStackedWidget):
 
         super().__init__()
         self.main = main
-        print(self.main, "00000")
         self.__currentSideIndex = 1
         self.sideNames = ['front', 'back']
         self.sides = {}

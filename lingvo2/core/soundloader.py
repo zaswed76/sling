@@ -20,7 +20,8 @@ class SoundLoader(QThread):
     def run(self):
         for n, line in enumerate(self.wordList, start=1):
             line = " ".join(line.split(" ")[:])
-            __line = " ".join(line.split(" ")[:5])
+            __line = " ".join(line.split(" ")[:5]) + "_" + self.typeSound
+            print(__line)
             tts = loadGtts(line)
             file_name = Path(self.dirForSounds) / "{}.mp3".format(__line)
             saveTTS(tts, file_name)

@@ -96,6 +96,7 @@ class Main(QMainWindow):
         self.newGame()
 
 
+
     def updateDictModel(self):
         self.dictSeq.init()
         self.dictsModel.updateWorkData(self.cfg["choosedict"]['checkedDicts'], self.dictSeq)

@@ -1,4 +1,7 @@
 import sys
+import textwrap
+from tabulate import tabulate
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -34,11 +37,32 @@ class ChooseDictListView(QListView):
 
 
 
-class TextFrame(QTextEdit):
+class TextFrame(QTableWidget):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setTextColor(QColor("grey"))
-        self.setWordWrapMode(QTextOption.NoWrap)
+        self.main = main
+
+
+    def updateTable(self, table):
+
+        ncol = len(table[0])
+        nrow = len(table)
+        self.setColumnCount(ncol)
+        self.setRowCount(nrow)
+
+
+
+        for nrow, row in enumerate(table):
+            for ncol, item in enumerate(row):
+                widgetItem = QTableWidgetItem(item)
+                widgetItem.setFont(QFont('helvetica', 12))
+
+                self.setItem(nrow, ncol, widgetItem)
+
+        self.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+
+
+
 
 class ChooseDictStack(QFrame):
     def __init__(self, main, name=None, config=None, *args, **kwargs):
@@ -81,9 +105,13 @@ class ChooseDictStack(QFrame):
         tlist = []
         item = self.dictListModel.itemFromIndex(index)
         for item in self.main.dictSeq[item.text()].textItems:
-            tlist.append("   ".join(item) + "\n")
-        text = "".join(tlist)
-        self.textFrame.setPlainText(text)
+            tlist.append(item)
+        print(tlist)
+
+        # tb = tabulate(tlist, tablefmt="github")
+        # print(tb)
+
+        self.textFrame.updateTable(tlist)
 
     def dictsItems(self) -> list([str, str]):
         items = []

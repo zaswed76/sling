@@ -84,6 +84,7 @@ class Dict(MutableMapping):
         self.dictpath = dictpath
         self.sounds = sounds
 
+
         self.images = images
         self.dirname = dirname
         self.name = name
@@ -114,13 +115,17 @@ class Dict(MutableMapping):
             ex = line[3:4]
             if ex:
                 exname = ex[0].split("_")[0]
+                exname = " ".join(exname.split(" ")[:5])
             else:
                 exname = None
+            soundWordName = "{}_Word".format(line[0])
+
+            exampleSoundWordName = "{}_spoilerExample".format(exname)
 
             self.__data[line[0]] = WordItem(*line,
                                             image=self.images.get(line[0]),
-                                            sound=self.sounds.get(line[0]),
-                                            exampleSound=self.sounds.get(exname),
+                                            sound=self.sounds.get(soundWordName),
+                                            exampleSound=self.sounds.get(exampleSoundWordName),
                                             index=id
                                             )
 
@@ -172,12 +177,13 @@ class DictSeq(MutableMapping):
         self.clear()
         self.scan = scandicts.scan(self.folder)
         for n, d in self.scan.items():
-
             self.__data[n] = Dict(n, d["dictpath"],
                                   d["dirname"],
                                   d['images'],
                                   d['sounds'],
                                   soundTypeList=self.soundTypeList)
+
+
 
     def __setitem__(self, key, value):
         self.__data[key] = value
@@ -212,8 +218,8 @@ if __name__ == '__main__':
     for name, slovar in ds.items():
         print("-----------")
         print(name)
-        for wordItem in slovar.values():
-            print(wordItem.Word, wordItem.image, wordItem.sound, sep=":")
+        # for wordItem in slovar.values():
+        #     print(wordItem.Word, wordItem.image, wordItem.sound, sep=":")
 
 
 
