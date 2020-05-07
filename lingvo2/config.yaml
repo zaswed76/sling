@@ -17,7 +17,7 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
-    - "\u041B\u0438\u0441\u0442 Microsoft Office Excel"
+    - seasons
     soundTypeList:
     - Word
     - spoilerExample

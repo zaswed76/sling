@@ -33,6 +33,7 @@ def fileInput(folder):
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.player = QtMultimedia.QMediaPlayer()
         self.cfg = config.Config(paths.CONFIG)
         self._size = self.cfg["ui"]["mainWindowSize"]
         self.setFixedSize(*self._size)
@@ -116,14 +117,16 @@ class Main(QMainWindow):
             self.setFocus(Qt.ActiveWindowFocusReason)
 
     def playSound(self, filePath):
-
-        self.media = QUrl.fromLocalFile(filePath)
-        self.content = QtMultimedia.QMediaContent(self.media)
-        self.player = QtMultimedia.QMediaPlayer()
-        self.player.setMedia(self.content)
-        # self.player.positionChanged.connect(self.positionSuond)
-        self.player.stateChanged.connect(self.mediaStatusSuond)
-        self.player.play()
+        if self.player.state() == QtMultimedia.QMediaPlayer.StoppedState:
+            self.media = QUrl.fromLocalFile(filePath)
+            self.content = QtMultimedia.QMediaContent(self.media)
+            self.player = QtMultimedia.QMediaPlayer()
+            self.player.setMedia(self.content)
+            self.player.stateChanged.connect(self.mediaStatusSuond)
+            self.player.play()
+        else:
+            self.player.setMedia(QtMultimedia.QMediaContent())
+            self.player.stop()
 
     def positionSuond(self, i):
         pass
@@ -137,6 +140,8 @@ class Main(QMainWindow):
     def newGame(self):
         self.dictsModel.reset()
         self.viewCard.updateContent()
+        self.player.setMedia(QtMultimedia.QMediaContent())
+        self.player.stop()
 
 
 
@@ -167,6 +172,8 @@ class Main(QMainWindow):
 
 
     def changeStackWidget(self, i):
+        self.player.setMedia(QtMultimedia.QMediaContent())
+        self.player.stop()
         if self._currentStackWidget == "cardEditView":
             self.cfg.save()
         elif self._currentStackWidget == "chooseDict":
@@ -253,7 +260,8 @@ class Main(QMainWindow):
             self.viewCard.sideToName("front")
             self.viewCard.updateContent()
             self.setFocus(Qt.ActiveWindowFocusReason)
-
+            self.player.setMedia(QtMultimedia.QMediaContent())
+            self.player.stop()
 
         elif e.key() == Qt.Key_Left:
             print("<<<<<<<<<<<<")

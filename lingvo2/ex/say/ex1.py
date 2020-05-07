@@ -3,7 +3,7 @@ from gtts import gTTS
 
 from textblob import TextBlob
 
-line = "cat"
+line = "один"
 
 
 lang = TextBlob(line).detect_language()
