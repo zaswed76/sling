@@ -17,7 +17,7 @@ card:
     - input_InputEdit
 choosedict:
     checkedDicts:
-    - seasons
+    - days of the week
     soundTypeList:
     - Word
     - spoilerExample

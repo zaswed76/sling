@@ -56,7 +56,9 @@ class WordItem:
 
             self.spoilerExample = Example(ex[0])
             self.example2 = Example(ex[1])
-        self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
+
+        if self.cyrillicTrans:
+            self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
 
     def getSpoiler(self):
         text = self.spoilerExample.spoiler
@@ -116,7 +118,7 @@ class Dict(MutableMapping):
             ex = line[3:4]
             if ex:
                 exname = ex[0].split("_")[0]
-                exname = " ".join(exname.split(" ")[:5])
+                exname = " ".join(exname.split(" ")[:8])
             else:
                 exname = None
             soundWordName = "{}_Word".format(line[0])

@@ -22,6 +22,14 @@ DropLabel#cyrillicTrans {
 
 }
 
+DropLabel#transcription {
+    font-size: 30px;
+    font-weight: 100;
+    color: #525254;
+
+
+}
+
 
 DropLabel#translation {
     font-size: 48px;

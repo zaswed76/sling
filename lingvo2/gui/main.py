@@ -1,3 +1,4 @@
+import time
 import fileinput
 import glob
 
@@ -33,8 +34,10 @@ def fileInput(folder):
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.player = QtMultimedia.QMediaPlayer()
+
         self.cfg = config.Config(paths.CONFIG)
+        self.player = QtMultimedia.QMediaPlayer()
+        self.start_time = time.time()
         self._size = self.cfg["ui"]["mainWindowSize"]
         self.setFixedSize(*self._size)
         self._set_style_sheet(self.cfg["currentStyle"])
@@ -254,6 +257,22 @@ class Main(QMainWindow):
         elif self._currentStackWidget == "cardEditView":
             self.editViewKeyPressEvent(e)
         self.centerStackFrame.setFocus()
+
+
+    def wheelEvent(self, event):
+        ang = event.angleDelta().y()
+        print(ang)
+        if ang > 0:
+            # self.start_time = datetime.datetime.now()
+            res = time.time() - self.start_time
+            self.start_time = time.time()
+            if res > 0.5:
+
+                self.viewCard.sideToName("front")
+                self.viewCard.updateContent()
+                self.setFocus(Qt.ActiveWindowFocusReason)
+                self.player.setMedia(QtMultimedia.QMediaContent())
+                self.player.stop()
 
     def viewKeyPressEvent(self, e):
         if e.key() == Qt.Key_Right:

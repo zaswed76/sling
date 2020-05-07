@@ -19,7 +19,7 @@ def _mfilter(lst):
     return any(res)
 
 def _formatter(data):
-    _data = [list(x[:5]) for x in data if any(x)]
+    _data = [list(x[:6]) for x in data if any(x)]
     res = []
     for line in _data:
         line = [str(x) for x in line]

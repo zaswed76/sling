@@ -2,6 +2,7 @@ dropItemsTypeList:
 - [Word, DropLabel]
 - [translation, DropLabel]
 - [cyrillicTrans, DropLabel]
+- [transcription, DropLabel]
 - [spoilerExample, SpoilerExampleLabel]
 - [example2, DropLabel]
 - [input, InputEdit]
