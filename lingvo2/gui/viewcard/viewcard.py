@@ -34,10 +34,10 @@ class ViewCard(AbcViewCard):
 
 
 
-    def updateContent(self):
+    def updateContent(self, wordItem):
         if not self.isComponent():
             return
-        wordItem = self.dictsModel.nextItem()
+
         if wordItem is None:
             return
         for nameSide, side in self.sides.items():
@@ -60,7 +60,6 @@ class ViewCard(AbcViewCard):
                             else:
                                 widget.setSpoiletText("")
                         elif textType == "image" and image:
-                            print(image, "!!!!!!!!!!!!")
                             widget.setPixmap(QPixmap(image))
 
                     else:

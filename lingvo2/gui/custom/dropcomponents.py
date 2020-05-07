@@ -59,7 +59,7 @@ class ImageLabel(AbcDropLabel):
 
         super().__init__(main, *__args)
         self.setScaledContents(True)
-        self.setFixedSize(300, 400)
+        self.setFixedSize(300, 350)
         self.main = main
         self.cfg = self.main.cfg
         self.setText("ImageLabel")

@@ -144,7 +144,8 @@ class Main(QMainWindow):
 
     def newGame(self):
         self.dictsModel.reset()
-        self.viewCard.updateContent()
+        wordItem = self.dictsModel.nextItem()
+        self.viewCard.updateContent(wordItem)
         self.player.setMedia(QtMultimedia.QMediaContent())
         self.player.stop()
 
@@ -263,15 +264,14 @@ class Main(QMainWindow):
 
     def wheelEvent(self, event):
         ang = event.angleDelta().y()
-        print(ang)
         if ang > 0:
-            # self.start_time = datetime.datetime.now()
             res = time.time() - self.start_time
             self.start_time = time.time()
-            if res > 0.5:
+            if res > 0.4:
 
                 self.viewCard.sideToName("front")
-                self.viewCard.updateContent()
+                wordItem = self.dictsModel.nextItem()
+                self.viewCard.updateContent(wordItem)
                 self.setFocus(Qt.ActiveWindowFocusReason)
                 self.player.setMedia(QtMultimedia.QMediaContent())
                 self.player.stop()
@@ -279,13 +279,19 @@ class Main(QMainWindow):
     def viewKeyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
             self.viewCard.sideToName("front")
-            self.viewCard.updateContent()
+            wordItem = self.dictsModel.nextItem()
+            self.viewCard.updateContent(wordItem)
             self.setFocus(Qt.ActiveWindowFocusReason)
             self.player.setMedia(QtMultimedia.QMediaContent())
             self.player.stop()
 
         elif e.key() == Qt.Key_Left:
-            print("<<<<<<<<<<<<")
+            self.viewCard.sideToName("front")
+            wordItem = self.dictsModel.prevItem()
+            self.viewCard.updateContent(wordItem)
+            self.setFocus(Qt.ActiveWindowFocusReason)
+            self.player.setMedia(QtMultimedia.QMediaContent())
+            self.player.stop()
         elif e.key() == Qt.Key_Space:
             self.viewCard.changeSide()
 

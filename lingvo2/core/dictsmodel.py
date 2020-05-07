@@ -44,7 +44,8 @@ class DictsModel:
     def prevItem(self):
         if self._cursor > 0:
             self._cursor -=1
-            return self._workList[self._cursor]
+            self.currentItem = self._workList[self._cursor]
+            return self.currentItem
 
     def reset(self):
         self._cursor = -1
