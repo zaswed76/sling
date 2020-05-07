@@ -187,9 +187,13 @@ class AbcDropWidgetItem(QFrame):
             self.component.setText(text)
         self.box.addWidget(self.component)
 
-        if text in ["Word", "spoilerExample", "example2"]:
+        if text in ["Word", "spoilerExample"]:
             self.soundBtn = SoundBtn(self.component)
             self.enabledIcon(soundBtnFlag)
+
+    def setPixmap(self, pixmap):
+        print(pixmap)
+        self.component.setPixmap(pixmap)
 
     def setSpoiletText(self, text):
         try:

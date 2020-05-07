@@ -6,5 +6,5 @@ dropItemsTypeList:
 - [spoilerExample, SpoilerExampleLabel]
 - [example2, DropLabel]
 - [input, InputEdit]
-- [OnlyIcon, ClassWidget, ./resources/icons/base/icon_gift_alt.png, onlyIcon]
+- [image, ImageLabel, ./resources/icons/base/photo_landscape2.png, iconAndText]
 

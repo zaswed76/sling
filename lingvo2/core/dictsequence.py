@@ -60,6 +60,9 @@ class WordItem:
         if self.cyrillicTrans:
             self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
 
+    def getImage(self):
+        return self.image
+
     def getSpoiler(self):
         text = self.spoilerExample.spoiler
         return text

@@ -43,6 +43,7 @@ class Main(QMainWindow):
         self._set_style_sheet(self.cfg["currentStyle"])
 
         self.dictSeq = DictSeq(paths.DATA)
+
         self.dictSeq.setSoundTypes(self.cfg["choosedict"]["soundTypeList"])
 
 
@@ -98,6 +99,7 @@ class Main(QMainWindow):
         self.changeStackWidget(0)
 
         self.newGame()
+        print(self.dictSeq["days of the week"]["monday"].image)
 
 
 

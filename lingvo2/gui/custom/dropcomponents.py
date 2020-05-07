@@ -54,7 +54,15 @@ class DropLayout(AbcDropLayout):
         return "AbcDropLayout"
 
 
+class ImageLabel(AbcDropLabel):
+    def __init__(self, main, *__args):
 
+        super().__init__(main, *__args)
+        self.setScaledContents(True)
+        self.setFixedSize(300, 400)
+        self.main = main
+        self.cfg = self.main.cfg
+        self.setText("ImageLabel")
 
 class DropLabel(AbcDropLabel):
     def __init__(self, main, *__args):
@@ -62,6 +70,7 @@ class DropLabel(AbcDropLabel):
         super().__init__(main, *__args)
         self.main = main
         self.cfg = self.main.cfg
+        self.setTextInteractionFlags(Qt.TextSelectableByMouse)
 
 
 class SpoilerExampleLabel(QFrame):

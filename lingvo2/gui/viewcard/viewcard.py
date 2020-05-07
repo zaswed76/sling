@@ -48,6 +48,8 @@ class ViewCard(AbcViewCard):
                     textType = component.text
                     text = wordItem.getTypeText(textType)
                     spoilerText = wordItem.getSpoiler()
+                    image = wordItem.getImage()
+
                     if text is not None:
                         widget.setText(text)
                         widget.enabledIcon(True)
@@ -57,6 +59,10 @@ class ViewCard(AbcViewCard):
                                 widget.setSpoiletText(spoilerText)
                             else:
                                 widget.setSpoiletText("")
+                        elif textType == "image" and image:
+                            print(image, "!!!!!!!!!!!!")
+                            widget.setPixmap(QPixmap(image))
+
                     else:
                         widget.clearText()
                         widget.enabledIcon(False)
