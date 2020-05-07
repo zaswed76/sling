@@ -123,4 +123,5 @@ if __name__ == '__main__':
     targetDir = datadir / "sounds"
 
     wordList = ["mother", "father"]
-    SoundLoader(wordList, targetDir)
+    SoundLoader("word", wordList, targetDir)
+    SoundLoader.run()

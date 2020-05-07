@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from core.xlsxreader import xlsxRead
 from collections import UserDict
+import xlrd
+import pandas as pd
 
 
 class Reader:
@@ -13,7 +15,11 @@ class Reader:
 
 
     def load(self, path):
+        """
 
+        :param path:
+        :return:
+        """
         self.data.clear()
         self.path = Path(path)
         if self.path.suffix == ".txt":
@@ -30,7 +36,8 @@ class Reader:
         return self.data
 
     def readXlsx(self, path):
-        return xlsxRead(path)
+        xlsx = xlsxRead(path)
+        return xlsx
 
 
 
@@ -73,14 +80,29 @@ def scan(folder,
         for filename in filenames:
             name, ext = os.path.splitext(filename)
             if ext in dictexts:
-                dm[name] = {'dictpath': os.path.join(root, filename),
-                            "dirname": root,
-                            'images': rglobs(root, imageexts),
-                            'sounds': rglobs(root, soundexts)
-                            }
+                _dictpath = os.path.join(root, filename)
+
+                if validateFile(_dictpath, ext):
+                    dm[name] = {'dictpath': _dictpath,
+                                "dirname": root,
+                                'images': rglobs(root, imageexts),
+                                'sounds': rglobs(root, soundexts)
+                                }
 
     return dm
 
+def validateFile(file, ext):
+    if ext == ".xlsx":
+        try:
+            pd.read_excel(file)
+        except PermissionError:
+            print("{} - отказано в доступе".format(file))
+            return False
+        except xlrd.biffh.XLRDError:
+            print("{} - нельзя прочитать".format(file))
+            return False
+        else:
+            return True
 
 if __name__ == '__main__':
     import paths

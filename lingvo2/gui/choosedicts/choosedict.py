@@ -21,6 +21,7 @@ class DictListModel(QStandardItemModel):
 
     def updateDictList(self, dictList):
         for i in dictList:
+            print(i, "5555")
             self.appendRow(DictItem(i))
 
 class ChooseDictListView(QListView):
@@ -44,7 +45,11 @@ class TextFrame(QTableWidget):
 
 
     def updateTable(self, table):
-
+        if not table:
+            self.clear()
+            for i in reversed(range(self.rowCount())):
+                self.removeRow(i)
+            return
         ncol = len(table[0])
         nrow = len(table)
         self.setColumnCount(ncol)

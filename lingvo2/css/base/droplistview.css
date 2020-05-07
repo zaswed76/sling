@@ -1,8 +1,31 @@
 
 
-QListWidget::item {
-    color: #054077;
-    background-color:transparent;
-    font-size: 26pt;
-    font-family: Arial;
+/*QListWidget::item {*/
+    /*color: #054077;*/
+    /*background-color:transparent;*/
+    /*font-size: 26pt;*/
+    /*font-family: Arial;*/
+
+/*}*/
+
+DropListWidget {
+    border-top: none;
+    border-left: none;
+    border-right: 4px solid #ebebed;
+    border-bottom: none;
+    background: none;
+    color: #252424;
+    font-family: Helvetica;
+    font-size: 14pt;
+    min-width: 140px;
+}
+
+DropListWidget::item:hover {
+    background: #cecece;
+    color: #151414;
+}
+
+DropListWidget::item:selected {
+    background: #206eb2;
+    color: #ffffff;
 }

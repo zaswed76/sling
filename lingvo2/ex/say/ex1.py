@@ -1,7 +1,15 @@
+import gtts
+from gtts import gTTS
 
-# from gtts import gTTS
-# for i in range(1):
-#     tts = gTTS('This my cat', lang='en')
-#     tts.save('tts_output{}.mp3'.format(str(i)))
+from langdetect import detect
+
+print(detect('cat'))
+
+
+
+for i in ["кот который гуляет сам по себе"]:
+    line = str(i)
+    tts = gTTS(line, lang='ru')
+    tts.save('tts_output{}.mp3'.format(line))
 
 

@@ -5,9 +5,9 @@ import numpy as np
 
 
 def xlsxRead(xlsx_path):
-    df = pd.read_excel(xlsx_path, header=None)
-    df2 = df.fillna("")
-    return _formatter(df2.values)
+        df = pd.read_excel(xlsx_path, header=None)
+        df2 = df.fillna("")
+        return _formatter(df2.values)
 
 def _mfilter(lst):
     res = []
@@ -22,6 +22,7 @@ def _formatter(data):
     _data = [list(x[:5]) for x in data if any(x)]
     res = []
     for line in _data:
+        line = [str(x) for x in line]
         if _mfilter(line):
             res.append(line)
     return res

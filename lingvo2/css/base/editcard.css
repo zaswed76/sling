@@ -11,3 +11,57 @@ AbcDropLayout {
     background-color: #f1f1f1;
 }
 
+
+ViewFrame {
+
+    background-color: #f8f8f8;
+    /*border: 10px green solid;*/
+    /*border-radius: 4px;*/
+}
+
+
+
+
+EditCard{
+    background-color: #5ea9cd;
+    border: 1px #424244 solid;
+    border-radius: 6px;
+    /*background-image: url(:/palazzo_canvase-texture2_light.jpg)*/
+    background-image: url(:/palazzo_canvase-texture2_yellow.jpg)
+}
+
+DropLayout {
+    background: none ;
+    /*background-image: url(:/palazzo_canvase-texture2_light.jpg)*/
+
+}
+
+DropLayout#top {
+
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+DropLayout#center {
+
+    border-top: 1px solid #a49277;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #9c8971;
+
+}
+
+DropLayout#bottom {
+
+
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}

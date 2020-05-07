@@ -20,7 +20,7 @@ class EditCardWidget(QFrame):
         self.box_0.setContentsMargins(0, 0, 0, 0)
         self.box_0.setSpacing(0)
         self.box_0.addWidget(editDropList)
-        self.box_0.addStretch(1)
+        self.box_0.addSpacing(20)
 
         self.box_right = QVBoxLayout()
 
@@ -31,6 +31,7 @@ class EditCardWidget(QFrame):
 
         self.box_right.addWidget(self.turnSideBtn)
         self.box_right.addWidget(viewCard)
+
 
         self.box_0.addLayout(self.box_right)
         self.box_0.addStretch(1)

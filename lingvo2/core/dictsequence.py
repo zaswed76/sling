@@ -76,7 +76,8 @@ class WordItem:
 
 
 class Dict(MutableMapping):
-    def __init__(self, name, dictpath,  dirname, images, sounds, soundTypeList=None):
+    def __init__(self, content, name, dictpath,  dirname, images, sounds, soundTypeList=None):
+        self.content = content
         if soundTypeList is None:
             self.soundTypeList = []
         self.soundTypeList = soundTypeList
@@ -111,7 +112,7 @@ class Dict(MutableMapping):
         return [x.textItems for x in self.__data.values()]
 
     def updateWordObjects(self):
-        for id, line in enumerate(scandicts.Reader().load(self.dictpath)):
+        for id, line in enumerate(self.content):
             ex = line[3:4]
             if ex:
                 exname = ex[0].split("_")[0]
@@ -119,15 +120,13 @@ class Dict(MutableMapping):
             else:
                 exname = None
             soundWordName = "{}_Word".format(line[0])
-
             exampleSoundWordName = "{}_spoilerExample".format(exname)
-
             self.__data[line[0]] = WordItem(*line,
                                             image=self.images.get(line[0]),
                                             sound=self.sounds.get(soundWordName),
                                             exampleSound=self.sounds.get(exampleSoundWordName),
                                             index=id
-                                            )
+                                        )
 
     def __setitem__(self, key, value):
         self.__data[key] = value
@@ -177,7 +176,10 @@ class DictSeq(MutableMapping):
         self.clear()
         self.scan = scandicts.scan(self.folder)
         for n, d in self.scan.items():
-            self.__data[n] = Dict(n, d["dictpath"],
+            content = scandicts.Reader().load(d["dictpath"])
+            if content is None:
+                return
+            self.__data[n] = Dict(content, n, d["dictpath"],
                                   d["dirname"],
                                   d['images'],
                                   d['sounds'],
