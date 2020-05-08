@@ -21,9 +21,6 @@ project = 'sling'
 copyright = '2020, zaswed76'
 author = 'zaswed76'
 
-# The full version, including alpha/beta/rc tags
-release = '0.0.1'
-
 
 # -- General configuration ---------------------------------------------------
 
