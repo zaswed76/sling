@@ -30,14 +30,6 @@ class ChooseDictListView(QListView):
         self.main = main
 
 
-
-
-
-
-
-
-
-
 class TextFrame(QTableWidget):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -128,7 +120,9 @@ class ChooseDictStack(QFrame):
     def setCheckedItemsToNames(self, args):
         for index in range(self.dictListModel.rowCount()):
             item = self.dictListModel.item(index)
+
             text = item.text()
+            print(text)
             if text in args:
                 item.setCheckState(Qt.Checked)
 

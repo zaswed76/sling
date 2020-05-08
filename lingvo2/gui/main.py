@@ -99,7 +99,7 @@ class Main(QMainWindow):
         self.changeStackWidget(0)
 
         self.newGame()
-        print(self.dictSeq["days of the week"]["monday"].image)
+
 
 
 

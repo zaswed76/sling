@@ -167,6 +167,7 @@ class AbcDropWidgetItem(QFrame):
 
         super().__init__(*args, **kwargs)
         self.main = main
+
         self.widgetType = widget_tipe
         self.text = text
         self.soundBtn = None
@@ -181,6 +182,13 @@ class AbcDropWidgetItem(QFrame):
             self.idO = idO
 
         self.component = getattr(dropcomponents, widget_tipe)(self.main)
+        if widget_tipe == "ImageLabel":
+            height = self.main.cfg["ui"]["viewCardSize"][1]/2.4
+            self.component.setFixedHeight(height)
+            self.component.setFixedWidth(height)
+
+
+
 
 
         if text:

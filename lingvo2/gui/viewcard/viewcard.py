@@ -62,6 +62,7 @@ class ViewCard(AbcViewCard):
                         elif textType == "image" and image:
                             widget.setPixmap(QPixmap(image))
 
+
                     else:
                         widget.clearText()
                         widget.enabledIcon(False)
@@ -93,7 +94,10 @@ class ViewCard(AbcViewCard):
             widgetType = comp.qwidgetType
             idO = comp.idO
             comp.soundBtn = self.cardModel.soundBtnDefault
-            qwidget = WidgetItem(widgetType, text=text, idO=idO,  soundBtnFlag=comp.soundBtn, main=self.main)
+            qwidget = WidgetItem(widgetType, text=text, idO=idO,
+                                 soundBtnFlag=comp.soundBtn, main=self.main)
+            if widgetType == "ImageLabel":
+                qwidget.setPixmap(QPixmap(":/photo_landscape_big.png"))
             if qwidget.soundBtn is not None:
                 qwidget.soundBtn.clicked.connect(self.main.soundClick)
             qwidget.setObjectNameComponent(text)
