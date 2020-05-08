@@ -6,8 +6,9 @@ ChooseDictListView {
     background: #c4bbad;
     color: #252424;
     font-family: Helvetica;
-    font-size: 16pt;
+    font-size: 10pt;
     /*outline: 0;*/
+    max-width: 150px;
 }
 
 ChooseDictListView::item:hover {

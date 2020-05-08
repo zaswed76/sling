@@ -60,7 +60,7 @@ class TextFrame(QTableWidget):
         for nrow, row in enumerate(table):
             for ncol, item in enumerate(row):
                 widgetItem = QTableWidgetItem(item)
-                widgetItem.setFont(QFont('helvetica', 12))
+                widgetItem.setFont(QFont('helvetica', 8))
 
                 self.setItem(nrow, ncol, widgetItem)
 
