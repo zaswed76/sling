@@ -37,3 +37,6 @@ class CenterStackFrame(QFrame):
     def insertWidget(self, i, name,  widget):
         self.stackWidgets[name] = widget
         self.stack.insertWidget(i, widget)
+
+    def __repr__(self):
+        return str(self.stackWidgets)

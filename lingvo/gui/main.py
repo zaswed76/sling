@@ -171,6 +171,11 @@ class Main(QMainWindow):
         self.cardModel.saveContent()
 
     def keyPressEvent(self, e):
+        # modifiers = QApplication.keyboardModifiers()
+        # if modifiers == Qt.ShiftModifier:
+        if e.key() == Qt.Key_Up:
+            print("!!!!!")
+            self.openTerminal()
         if e.key() == Qt.Key_Right:
             self.viewCardStack.setSideIndex(0)
             self.viewCardStack.setItemWord(self.dictsModel.nextItem())
@@ -179,6 +184,10 @@ class Main(QMainWindow):
             # print(self.cardModel.prevItem())
         elif e.key() == Qt.Key_Space:
             self.viewCardStack.turnSide()
+
+    def openTerminal(self):
+        #todo openTerminal
+        print("openTerminal")
 
 
 if __name__ == '__main__':

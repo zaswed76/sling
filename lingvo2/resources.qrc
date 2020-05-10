@@ -13,6 +13,7 @@
     <file alias="add.png">./resources/icons/base/add.png</file>
     <file alias="add2.png">./resources/icons/base/add2.png</file>
 
+    <file alias="book_blue_add.png">./resources/icons/base/book_blue_add.png</file>
     <file alias="folder_window.png">./resources/icons/base/folder_window.png</file>
     <file alias="photo_landscape2.png">./resources/icons/base/photo_landscape2.png</file>
     <file alias="photo_landscape_big.png">./resources/icons/base/photo_landscape_big.png</file>

@@ -16,6 +16,7 @@ from gui.choosedicts.contollers import ChooseDictStackController
 from gui.editcard import editcard, editcardWidget, editdrop_listview
 from gui.viewcard import viewcard
 from gui.maintoolbar import ToolBar
+from gui.terminal import TeminalFrame, TerminalController
 
 qInstallMessageHandler(qt_message_handler)
 
@@ -85,11 +86,19 @@ class Main(QMainWindow):
         self.viewEditCard.setCardModel(self.cardModel)
         self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard, "cardEditView")
 
+        self.terminalController = TerminalController(self)
+        self.terminal = TeminalFrame(self, self.cfg, "terminal", self.terminalController)
+
+        # self.controls["terminal"] = self.terminalController
+        # self.terminal.setController(self.terminalController)
+
         self.stackWidgets["view"] = self.viewFrame
         self.stackWidgets["chooseDict"] = self.chooseDict
         self.stackWidgets["cardEditView"] = self.viewCardEditWidget
+        self.stackWidgets["terminal"] = self.terminal
 
         self.centerStackFrame.setStackWidgets(self.stackWidgets)
+
         self.centerStackFrame.showStack(self._currentStackWidget)
         self.centerStackFrame.stack.currentChanged.connect(self.changeStackWidget)
 
@@ -252,6 +261,10 @@ class Main(QMainWindow):
 
 
     def keyPressEvent(self, e):
+        modifiers = QApplication.keyboardModifiers()
+        if modifiers == (Qt.ControlModifier | Qt.ShiftModifier):
+            if e.key() == Qt.Key_T:
+                self.openTerminal()
         if e.key() == Qt.Key_F12:
             self.toolBar.setVisible(not self._visibleToolBarFlag)
         if self._currentStackWidget == "view":
@@ -305,6 +318,12 @@ class Main(QMainWindow):
         y = e.pos().y()
         if rect.contains(x, y) and not self._visibleToolBarFlag:
             self.toolBar.setVisible(True)
+
+    def openTerminal(self):
+        self._currentStackWidget = "terminal"
+        self.centerStackFrame.showStack("terminal")
+        # self.terminal.setHelloText("{}\n>>> ".format(str(paths.ROOT)))
+        # todo openTerminal
 
 
 if __name__ == '__main__':

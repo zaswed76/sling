@@ -2,4 +2,24 @@ CenterStackFrame {
     background-color: #f8f8f8;
 }
 
+TeminalFrame {
+}
+
+TerminalLine {
+    background-color: #3E4349;
+    color: #0b8fee;
+    font-family: 'Consolas', 'Menlo', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-size: 16pt;
+    height: 48px;
+
+}
+
+
+
+TerminalLabel {
+    background-color: #dcdcde;
+    color: #063357;
+    font-family: 'Consolas', 'Menlo', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-size: 16pt;
+}
 

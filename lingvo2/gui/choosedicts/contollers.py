@@ -88,6 +88,14 @@ class ChooseDictStackController:
                 loaderDict[name].run()
         return loaderDict
 
+    def addDictFolder(self):
+        fdname = QFileDialog.getExistingDirectory(self.main, '/home')
+        if fdname:
+            dataDir = paths.DATA
+            pfname = Path(fdname)
+            print(pfname)
+            # name = pfname.stem
+
     def finishedSignal(self, p_name):
         self.finishedList.append(p_name)
         # if len(self.finishedList) == len(self.main.chooseDict.checkedDicts()):

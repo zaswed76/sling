@@ -57,11 +57,13 @@ class ChooseDictControls(QFrame):
 
 
         self.addDictBtn = self.addBtn("addDict", ":/notebook_add.png")
+        self.addDictDolderBtn = self.addBtn("addDictFolder", ":/book_blue_add.png")
         self.addSoundsBtn = self.addBtn("loadSoundsBtn", ":/music_blue_add.png")
         self.openDataFolder = self.addBtn("openDataFolder", ":/folder_window.png")
 
 
         self.box.addWidget(self.addDictBtn, alignment=Qt.AlignCenter)
+        self.box.addWidget(self.addDictDolderBtn, alignment=Qt.AlignCenter)
         self.box.addWidget(self.addSoundsBtn, alignment=Qt.AlignCenter)
         self.box.addStretch(10)
         self.box.addWidget(self.openDataFolder, alignment=Qt.AlignCenter)
