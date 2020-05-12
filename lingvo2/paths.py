@@ -9,6 +9,7 @@ CORECONFIG = ROOT / "coreconfig.yaml"
 DATA = ROOT / "data"
 CSS = ROOT / "css"
 ICONS = ROOT / "resources/icons"
+RESOURCES = ROOT / "resources"
 UIFORM = ROOT / "gui/uiform"
 
 DATATESTDIR = ROOT / "datatest"

@@ -6,11 +6,12 @@ TeminalFrame {
 }
 
 TerminalLine {
-    background-color: #3E4349;
+    background-color: #5b636a;
     color: #0b8fee;
     font-family: 'Consolas', 'Menlo', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
     font-size: 16pt;
     height: 48px;
+    border: none;
 
 }
 

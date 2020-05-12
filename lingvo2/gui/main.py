@@ -196,7 +196,7 @@ class Main(QMainWindow):
             self.dictsModel.updateWorkData(check, self.dictSeq)
             self.newGame()
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
-        self.stackWidgets[self._currentStackWidget].setFocus(Qt.ActiveWindowFocusReason)
+        # self.stackWidgets[self._currentStackWidget].setFocus(Qt.ActiveWindowFocusReason)
         if self.currentStackWidget == "view":
             self.toolBar.setDisabledButton("cardrefresh", False)
         else:
@@ -322,6 +322,13 @@ class Main(QMainWindow):
     def openTerminal(self):
         self._currentStackWidget = "terminal"
         self.centerStackFrame.showStack("terminal")
+
+
+        focused_widget = qApp.focusWidget()
+        focused_widget.clearFocus()
+        self.terminal.setFocus()
+        self.terminal.TerminalLine.setFocus()
+
         # self.terminal.setHelloText("{}\n>>> ".format(str(paths.ROOT)))
         # todo openTerminal
 

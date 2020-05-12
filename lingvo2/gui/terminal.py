@@ -1,10 +1,12 @@
 
 #!/usr/bin/env python3
-
+import subprocess
 import sys
+from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+import paths
 
 def terminalParser(textCommand):
     arg1 = None
@@ -26,6 +28,7 @@ class TerminalLine(QLineEdit):
         super().__init__()
         self.labelTerminal = labelTerminal
         self.controller = controller
+        self.setFocusPolicy(Qt.StrongFocus)
 
     def keyPressEvent(self, qKeyEvent):
         if qKeyEvent.key() == Qt.Key_Return:
@@ -34,6 +37,8 @@ class TerminalLine(QLineEdit):
                 if repl:
                     command = terminalParser(repl)
                     self.labelTerminal.setText(str(command))
+                    print(command[0])
+                    # getattr(self.controller, command[0])(*command[1:2])
                     try:
                         getattr(self.controller, command[0])(*command[1:2])
                     except AttributeError:
@@ -90,13 +95,60 @@ class TerminalController(QObject):
         super().__init__()
         self.main = main
 
-    def open(self, *args):
-        print("что то делаем")
-        self.returnSignal.emit("результат")
+    def opendir(self, *args):
+        if args:
+            res = OpenPath(args[0]).open()
+            print(res)
+        self.returnSignal.emit(str(res))
 
     def help(self, *args):
         self.returnSignal.emit("справка по командам")
 
+    def opendict(self, *args):
+        if args:
+            dct= self.main.dictSeq.get(args[0])
+            if dct:
+                path = dct.dictpath
+                print(str(path))
+                res = subprocess.Popen("start {}".format(path))
+                print(res)
+                self.returnSignal.emit(str(res))
+            else:
+                 return "не удалось открыть словарь"
+        else:
+            return "не удалось открыть словарь"
+
+
+
+class OpenPath:
+    Paths = {
+        "data": paths.DATA,
+        "resources": paths.RESOURCES
+    }
+    def __init__(self, p_arg):
+        self.p_arg = p_arg
+
+
+    def open(self) -> str:
+        if not self.p_arg:
+            return "не удалось открыть путь"
+        path = OpenPath.Paths.get(self.p_arg)
+        if path:
+            return self._open(path)
+        else:
+            path = Path(self.p_arg)
+            if path.is_dir():
+                return self._open(path)
+            else:
+                return "не удалось открыть путь"
+
+
+
+
+
+    def _open(self, _p):
+        subprocess.Popen('explorer {}'.format(_p))
+        return _p
 
 
 
