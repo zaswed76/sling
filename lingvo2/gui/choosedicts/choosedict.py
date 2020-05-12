@@ -19,10 +19,13 @@ class DictListModel(QStandardItemModel):
     def __init__(self):
         super().__init__()
 
+
+
     def updateDictList(self, dictList):
         for i in dictList:
             print(i, "5555")
-            self.appendRow(DictItem(i))
+            stitem = DictItem(i)
+            self.appendRow(stitem)
 
 class ChooseDictListView(QListView):
     def __init__(self, main, *args, **kwargs):
@@ -30,7 +33,7 @@ class ChooseDictListView(QListView):
         self.main = main
 
 
-class TextFrame(QTableWidget):
+class TableFrame(QTableWidget):
     def __init__(self, main, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.main = main
@@ -58,6 +61,11 @@ class TextFrame(QTableWidget):
 
         self.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
 
+class TableLabelInfo(QLabel):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+        self.setFixedHeight(100)
+
 
 
 
@@ -70,6 +78,7 @@ class ChooseDictStack(QFrame):
         self.box = BoxLayout(QBoxLayout.LeftToRight, self)
         self.box.setContentsMargins(0, 0, 0, 0)
         self.box.setSpacing(0)
+        self.tableBox = BoxLayout(QBoxLayout.TopToBottom, None)
 
         self.chooseDictListView = ChooseDictListView(self.main)
         self.dictListModel = DictListModel()
@@ -78,11 +87,16 @@ class ChooseDictStack(QFrame):
         self.updateViewList()
         self.chooseDictListView.clicked[QModelIndex].connect(self.itemDictChange)
 
+        self.tableLabelInfo = TableLabelInfo()
+
         self.controlFrame = ChooseDictControls(self.main)
-        self.textFrame = TextFrame(self.main)
+        self.textFrame = TableFrame(self.main)
         self.box.addWidget(self.chooseDictListView, stretch=10)
         self.box.addWidget(self.controlFrame, stretch=2)
-        self.box.addWidget(self.textFrame, stretch=20)
+        self.tableBox.addWidget(self.tableLabelInfo)
+        self.tableBox.addWidget(self.textFrame)
+        self.box.addLayout(self.tableBox)
+
 
         top_right = self.rect().topRight()
         n = top_right - QPoint(41, -2)
@@ -96,18 +110,23 @@ class ChooseDictStack(QFrame):
     def parentMethod(self):
         print("parentMethod")
 
+    def updateDictInfoLabel(self, nameDict):
+        cont = self.main.dictSeq[nameDict].contents()
+        lst = []
+        for n, z in cont.items():
+            lst.append("{}  -  {}".format(n, z))
+        text = "\n".join(lst)
+        self.tableLabelInfo.setText(text)
 
     def itemDictChange(self, index):
+        self.main.updateDictModel()
+        # self.main.chooseDict.updateViewList()
         self.cfg["choosedict"]["checkedDicts"] = self.checkedDicts()
         tlist = []
-        item = self.dictListModel.itemFromIndex(index)
-        for item in self.main.dictSeq[item.text()].textItems:
+        _item = self.dictListModel.itemFromIndex(index)
+        for item in self.main.dictSeq[_item.text()].textItems:
             tlist.append(item)
-        print(tlist)
-
-        # tb = tabulate(tlist, tablefmt="github")
-        # print(tb)
-
+        self.updateDictInfoLabel(_item.text())
         self.textFrame.updateTable(tlist)
 
     def dictsItems(self) -> list([str, str]):
@@ -120,9 +139,7 @@ class ChooseDictStack(QFrame):
     def setCheckedItemsToNames(self, args):
         for index in range(self.dictListModel.rowCount()):
             item = self.dictListModel.item(index)
-
             text = item.text()
-            print(text)
             if text in args:
                 item.setCheckState(Qt.Checked)
 
@@ -133,6 +150,12 @@ class ChooseDictStack(QFrame):
             if item.checkState():
                 selected.append(item.text())
         return selected
+
+    # def updateTable(self):
+    #     for index in range(self.dictListModel.rowCount()):
+    #         self.itemDictChange(index)
+
+
 
 
 

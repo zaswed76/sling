@@ -17,6 +17,7 @@ from gui.editcard import editcard, editcardWidget, editdrop_listview
 from gui.viewcard import viewcard
 from gui.maintoolbar import ToolBar
 from gui.terminal import TeminalFrame, TerminalController
+from gui.gsettings.gsettings import Gsettings
 
 qInstallMessageHandler(qt_message_handler)
 
@@ -35,6 +36,7 @@ def fileInput(folder):
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
+        # self.showFullScreen()
 
         self.cfg = config.Config(paths.CONFIG)
         self.player = QtMultimedia.QMediaPlayer()
@@ -66,7 +68,7 @@ class Main(QMainWindow):
 
         # выбираем словарь
         self.chooseDict = ChooseDictStack(self, name="chooseDict", config=self.cfg)
-        self.chooseDict.setFocusPolicy(Qt.NoFocus)
+        # self.chooseDict.setFocusPolicy(Qt.NoFocus)
         self.chooseDictController = ChooseDictStackController(self, self.chooseDict)
         self.controls["chooseDictStack"] = self.chooseDictController
         # работаем с карточками
@@ -92,10 +94,15 @@ class Main(QMainWindow):
         # self.controls["terminal"] = self.terminalController
         # self.terminal.setController(self.terminalController)
 
+
+        self.gsettings = Gsettings(self, self.cfg, "gsettings ")
+
+
         self.stackWidgets["view"] = self.viewFrame
         self.stackWidgets["chooseDict"] = self.chooseDict
         self.stackWidgets["cardEditView"] = self.viewCardEditWidget
         self.stackWidgets["terminal"] = self.terminal
+        self.stackWidgets["gsettings"] = self.gsettings
 
         self.centerStackFrame.setStackWidgets(self.stackWidgets)
 
@@ -221,9 +228,9 @@ class Main(QMainWindow):
 
 
 
-    def profileAction(self):
+    def gsettingsAction(self):
         pass
-        # print("profile")
+        self.centerStackFrame.showStack("gsettings")
 
     def cardrefreshAction(self):
         currentStack = self.currentStackWidget

@@ -90,11 +90,22 @@ class Dict(MutableMapping):
         self.dictpath = dictpath
         self.sounds = sounds
 
-
         self.images = images
         self.dirname = dirname
         self.name = name
         self.updateWordObjects()
+
+
+    def contents(self):
+        cnt = dict(WordSound = 0, ExampleSound = 0, image = 0)
+        for item in self.__data.values():
+            if item.sound: cnt['WordSound']+= 1
+            if item.exampleSound:  cnt['ExampleSound']+= 1
+            if item.image: cnt['image'] += 1
+        return cnt
+
+
+
 
 
     def itemListForTypeSound(self, typeSound):

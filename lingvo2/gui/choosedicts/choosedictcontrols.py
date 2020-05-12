@@ -8,7 +8,7 @@ class ControlBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
-        self.setIconSize(QSize(28, 28))
+        self.setIconSize(QSize(22, 22))
 
 
 class LoadSoundsDialog(AbcDialog):
@@ -30,6 +30,11 @@ class LoadSoundsDialog(AbcDialog):
         self.statusLabel.setObjectName("LoadSoundsDialog_statusLabel")
 
         self.box.addWidget(self.statusLabel)
+
+    def closeEvent(self, *args, **kwargs):
+        self.main.updateDictModel()
+        self.main.chooseDict.updateViewList()
+
 
 
     def loadSoundWeb(self):
@@ -53,7 +58,8 @@ class ChooseDictControls(QFrame):
         super().__init__(*args, **kwargs)
         self.main = main
         self.setObjectName("chooseDictStack")
-        self.box = BoxLayout(QBoxLayout.TopToBottom, self, spacing=6, content_margin=(0, 6, 0, 0))
+        self.box = BoxLayout(QBoxLayout.TopToBottom, self, spacing=2, content_margin=(0, 2, 0, 0))
+
 
 
         self.addDictBtn = self.addBtn("addDict", ":/notebook_add.png")

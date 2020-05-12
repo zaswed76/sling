@@ -45,7 +45,7 @@ class ToolBar(QToolBar):
         # self.addSeparator()
         # self.addWidget(Spacer(stretch=1))
         self.addAction(
-            QAction(QIcon(":/gear.png"), "profile", self))
+            QAction(QIcon(":/gear.png"), "gsettings", self))
         self.addButton(QIcon(":/replace2.png"), "cardrefresh")
         self.addWidget(Spacer(spacing=42))
 

@@ -26,6 +26,7 @@ ChooseDictListView::item:selected {
 
 ChooseDictControls {
     background-color: #c4bbad;
+    max-width: 32px;
 
 }
 
@@ -79,28 +80,17 @@ SoundLoaderDialog {
     border-bottom:  1px solid #b9fbb5;
     border-top: none;
 }
-/*ChooseDictStack {*/
-    /*background-color: #e8e8e8;*/
 
-/*}*/
-
-/*ViewStack {*/
-    /*background-color: #c2c2c2;*/
-/*}*/
-
-/*ChooseDictStack {*/
-    /*background-color: #c9c9c9;*/
-    /*border-left: 1px solid #5d5d5f;*/
-    /*border-right:  1px solid #5d5d5f;*/
-    /*border-bottom:  1px solid #5d5d5f;*/
-    /*border-top: 1px solid #5d5d5f;*/
-/*}*/
-
-/*ControlFrame {*/
-    /*background-color: #d1d1d3;*/
-/*}*/
-
-/*TextFrame {*/
-    /*background-color: #a8a8a8;*/
-/*}*/
+TableLabelInfo {
+    background-color: #e9e9eb;
+    font-size: 12pt;
+    font-family: Helvetica;
+    font-style: italic;
+    color: #091f5e;
+    padding: 0px 0px 0px 0px;
+    border-left: none;
+    border-right:  none;
+    border-bottom:  1px solid #5e93fb;
+    border-top: none;
+}
 

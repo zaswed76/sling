@@ -69,14 +69,12 @@ class ChooseDictStackController:
     def loadSoundWebBtn(self):
         colors = ["#A7D8FB", "#B9FBB5"]
         gen = (x for x in itertools.cycle(colors))
-
         self.finishedList = []
         self.loadList = []
         loaderDict = {}
         checkList = self.main.chooseDict.checkedDicts()
         self.loadDialogsFrame = LoadDialogsFrame(self.loadSoundsDialog)
         self.loadDialogsFrame.show()
-
         self.loadDialogsFrame.addStratch(10)
 
         for n, (name, Dict) in enumerate(self.main.dictSeq.items()):
@@ -86,6 +84,7 @@ class ChooseDictStackController:
                 self.loadDialogsFrame.addWidget(loaderDict[name])
                 loaderDict[name].finishedSignal.connect(self.finishedSignal)
                 loaderDict[name].run()
+        # self.main.chooseDict.updateTable()
         return loaderDict
 
     def addDictFolder(self):
