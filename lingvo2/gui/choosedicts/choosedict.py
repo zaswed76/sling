@@ -23,7 +23,6 @@ class DictListModel(QStandardItemModel):
 
     def updateDictList(self, dictList):
         for i in dictList:
-            print(i, "5555")
             stitem = DictItem(i)
             self.appendRow(stitem)
 
@@ -142,6 +141,7 @@ class ChooseDictStack(QFrame):
             text = item.text()
             if text in args:
                 item.setCheckState(Qt.Checked)
+
 
     def checkedDicts(self) -> list([str, str]):
         selected = []

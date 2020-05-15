@@ -39,6 +39,8 @@ class Main(QMainWindow):
         # self.showFullScreen()
 
         self.cfg = config.Config(paths.CONFIG)
+
+
         self.player = QtMultimedia.QMediaPlayer()
         self.start_time = time.time()
         self._size = self.cfg["ui"]["mainWindowSize"]
@@ -188,6 +190,7 @@ class Main(QMainWindow):
         self.toolBar.visibilityChanged.connect(self.visibilityToolBar)
         self.addToolBar(Qt.TopToolBarArea, self.toolBar)
         self.toolBar.actionTriggered.connect(self.toolActions)
+        self.toolBar.btns["autoSound"].setChecked(self.cfg["core"]["autoSound"])
 
     def visibilityToolBar(self, p_bool):
         self._visibleToolBarFlag = p_bool
@@ -217,6 +220,15 @@ class Main(QMainWindow):
 
     def chooseDictAction(self):
         self.centerStackFrame.showStack("chooseDict")
+
+    def autoSoundAction(self):
+        checked = not self.toolBar.btns["autoSound"].isChecked()
+        self.cfg["core"]["autoSound"] = checked
+
+
+
+
+
 
     def cardEditViewAction(self):
         self.centerStackFrame.showStack("cardEditView")
@@ -301,10 +313,17 @@ class Main(QMainWindow):
             self.viewCard.sideToName("front")
             wordItem = self.dictsModel.nextItem()
             self.viewCard.updateContent(wordItem)
-            self.setFocus(Qt.ActiveWindowFocusReason)
-            self.player.setMedia(QtMultimedia.QMediaContent())
-            self.player.stop()
 
+            self.setFocus(Qt.ActiveWindowFocusReason)
+
+            if (self.cfg["core"]["autoSound"] and
+                        self.viewCard.sidesComponent["Word"]):
+               pathsound = self.dictsModel.currentItem.sound
+               if pathsound is not None:
+                   self.playSound(pathsound)
+            else:
+                self.player.setMedia(QtMultimedia.QMediaContent())
+                self.player.stop()
         elif e.key() == Qt.Key_Left:
             self.viewCard.sideToName("front")
             wordItem = self.dictsModel.prevItem()
@@ -314,6 +333,12 @@ class Main(QMainWindow):
             self.player.stop()
         elif e.key() == Qt.Key_Space:
             self.viewCard.changeSide()
+            print(self.viewCard.sidesComponent["Word"], "7777777")
+            if (self.cfg["core"]["autoSound"] and self.viewCard.sidesComponent["Word"]):
+                pathsound = self.dictsModel.currentItem.sound
+                if pathsound is not None:
+                   self.playSound(pathsound)
+
 
     def editViewKeyPressEvent(self, e):
         if e.key() == Qt.Key_Space:

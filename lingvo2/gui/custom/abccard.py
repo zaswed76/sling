@@ -255,6 +255,7 @@ class AbcViewCard(QStackedWidget):
 
         super().__init__()
         self.main = main
+        self.sidesComponent = {}
         self.__currentSideIndex = 1
         self.sideNames = ['front', 'back']
         self.sides = {}
@@ -346,6 +347,7 @@ class AbcViewCard(QStackedWidget):
         self.setGraphicsEffect(shadow)
         self.currentSideIndex = not self.currentSideIndex
         self.setCurrentIndex(self.currentSideIndex)
+        self.sidesComponent["Word"] = self.currentSideIndex
         return self.currentSideName
 
     def sideToName(self, name):

@@ -1,3 +1,40 @@
 Gsettings {
     background-color: #0f7994;
 }
+
+GsettingsSection {
+    border-top: none;
+    border-left: none;
+    border-right: 5px solid #5e93fb;
+    border-bottom: none;
+    background: #f8efdf;
+    color: #252424;
+    font-family: Helvetica;
+    font-size: 14pt;
+    /*padding: 0px 0px 0px 00px;*/
+    max-width: 150px;
+}
+
+GsettingsSection::item {
+    background: #f8efdf;
+    color: #474747;
+    /*padding: 0px 0px 0px 0px;*/
+}
+
+GsettingsSection::item:selected {
+    background: #5e93fb;
+    color: #ffffff;
+
+}
+
+
+
+GSettingsGeometry {
+    background-color: #96f6fe;
+}
+
+GSettingsDict {
+    background-color: #e8e8e8;
+}
+
+

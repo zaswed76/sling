@@ -5,6 +5,7 @@ choosedict:
     - Word
     - spoilerExample
 core:
+    autoSound: true
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx
 currentStyle: base

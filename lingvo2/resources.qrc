@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
 
+    <file alias="music_green.png">./resources/icons/base/music_green.png</file>
     <file alias="volume.png">./resources/icons/base/volume.png</file>
     <file alias="volumeHover.png">./resources/icons/base/volumeHover.png</file>
 

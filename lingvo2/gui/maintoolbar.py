@@ -4,15 +4,18 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
 
 class ToolBtn(QToolButton):
-    def __init__(self, parent, qicon, action):
+    def __init__(self, parent, qicon, action, checkable=False):
         super().__init__()
         self.action = action
         self.setObjectName(action)
         self.parent = parent
         self.setIcon(qicon)
+        print(checkable)
+        self.setCheckable(checkable)
 
     def mousePressEvent(self, QMouseEvent):
         getattr(self.parent, self.action)()
+        return super().mousePressEvent(QMouseEvent)
 
 
 
@@ -47,12 +50,16 @@ class ToolBar(QToolBar):
         self.addAction(
             QAction(QIcon(":/gear.png"), "gsettings", self))
         self.addButton(QIcon(":/replace2.png"), "cardrefresh")
+        self.addWidget(Spacer(stretch=1))
+        self.addButton(QIcon(":/music_green.png"), "autoSound", checkable=True)
+
         self.addWidget(Spacer(spacing=42))
 
-    def addButton(self, Qicon, method):
+    def addButton(self, Qicon, method, checkable=False):
         methodName = "{}Action".format(method)
-        self.btns[method] = ToolBtn(self.main, Qicon, methodName)
+        self.btns[method] = ToolBtn(self.main, Qicon, methodName, checkable)
         self.addWidget(self.btns[method])
+        return self.btns[method]
 
     def setDisabledButton(self, btnName, p_bool):
         self.btns[btnName].setDisabled(p_bool)

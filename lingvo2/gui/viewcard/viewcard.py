@@ -28,7 +28,7 @@ class ViewCard(AbcViewCard):
         super().__init__(main, *args, **kwargs)
         self.main = main
         self.dictsModel = dictsModel
-        # self.setFixedSize(720, 720)
+
 
 
 
@@ -44,8 +44,8 @@ class ViewCard(AbcViewCard):
             for layout in side.layouts:
                 for component in layout.components:
                     widget = component
-
                     textType = component.text
+                    self.sidesComponent["Word"] = self.sides[nameSide]
                     text = wordItem.getTypeText(textType)
                     spoilerText = wordItem.getSpoiler()
                     image = wordItem.getImage()
@@ -67,7 +67,9 @@ class ViewCard(AbcViewCard):
                         widget.clearText()
                         widget.enabledIcon(False)
 
+    def changeSide(self):
 
+        return super().changeSide()
 
     def updateWidgetComponent(self):
         for sideName, side in self.cardModel.sides.items():
@@ -96,6 +98,7 @@ class ViewCard(AbcViewCard):
             comp.soundBtn = self.cardModel.soundBtnDefault
             qwidget = WidgetItem(widgetType, text=text, idO=idO,
                                  soundBtnFlag=comp.soundBtn, main=self.main)
+
             if widgetType == "ImageLabel":
                 qwidget.setPixmap(QPixmap(":/photo_landscape_big.png"))
             if qwidget.soundBtn is not None:
