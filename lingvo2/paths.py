@@ -13,3 +13,4 @@ RESOURCES = ROOT / "resources"
 UIFORM = ROOT / "gui/uiform"
 
 DATATESTDIR = ROOT / "datatest"
+BALABOLKA = ROOT / "libs/balcon/balcon.exe"

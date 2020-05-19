@@ -316,8 +316,7 @@ class Main(QMainWindow):
 
             self.setFocus(Qt.ActiveWindowFocusReason)
 
-            if (self.cfg["core"]["autoSound"] and
-                        self.viewCard.sidesComponent["Word"]):
+            if self.cfg["core"]["autoSound"]:
                pathsound = self.dictsModel.currentItem.sound
                if pathsound is not None:
                    self.playSound(pathsound)

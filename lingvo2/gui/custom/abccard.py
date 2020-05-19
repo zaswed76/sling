@@ -352,7 +352,7 @@ class AbcViewCard(QStackedWidget):
 
     def sideToName(self, name):
         self.setCurrentWidget(self.sides[name])
-        self.currentSideIndex = self.sideNames.index(name)
+        # self.currentSideIndex = self.sideNames.index(name)
         return self.currentSideName
 
 

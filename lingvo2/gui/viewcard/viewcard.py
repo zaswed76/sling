@@ -29,11 +29,6 @@ class ViewCard(AbcViewCard):
         self.main = main
         self.dictsModel = dictsModel
 
-
-
-
-
-
     def updateContent(self, wordItem):
         if not self.isComponent():
             return
@@ -61,14 +56,11 @@ class ViewCard(AbcViewCard):
                                 widget.setSpoiletText("")
                         elif textType == "image" and image:
                             widget.setPixmap(QPixmap(image))
-
-
                     else:
                         widget.clearText()
                         widget.enabledIcon(False)
 
     def changeSide(self):
-
         return super().changeSide()
 
     def updateWidgetComponent(self):
