@@ -6,7 +6,7 @@ choosedict:
     - spoilerExample
 core:
     autoSoundGo: false
-    autoSoundTurn: true
+    autoSoundTurn: false
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx
 currentStyle: base

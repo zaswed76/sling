@@ -347,6 +347,7 @@ class AbcViewCard(QStackedWidget):
         self.setGraphicsEffect(shadow)
         self.currentSideIndex = not self.currentSideIndex
         self.setCurrentIndex(self.currentSideIndex)
+        # todo
         self.sidesComponent["Word"] = self.currentSideIndex
         return self.currentSideName
 
@@ -358,6 +359,7 @@ class AbcViewCard(QStackedWidget):
         self.currentSideIndex = self.sideNames.index(name)
 
         return self.currentSideName
+        #fasadAQtrack
 
 
     def __repr__(self):
