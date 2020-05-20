@@ -1,6 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
 
+    <file alias="windows.png">./resources/icons/base/windows.png</file>
+    <file alias="delete.png">./resources/icons/base/delete.png</file>
     <file alias="music_green.png">./resources/icons/base/music_green.png</file>
     <file alias="volume.png">./resources/icons/base/volume.png</file>
     <file alias="volumeHover.png">./resources/icons/base/volumeHover.png</file>

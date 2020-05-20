@@ -36,15 +36,13 @@ def fileInput(folder):
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
-        # self.showFullScreen()
-
         self.cfg = config.Config(paths.CONFIG)
-
+        self._size = self.cfg["ui"]["mainWindowSize"]
+        self._initScreen()
 
         self.player = QtMultimedia.QMediaPlayer()
         self.start_time = time.time()
-        self._size = self.cfg["ui"]["mainWindowSize"]
-        self.setFixedSize(*self._size)
+
         self._set_style_sheet(self.cfg["currentStyle"])
 
         self.dictSeq = DictSeq(paths.DATA)
@@ -119,7 +117,12 @@ class Main(QMainWindow):
         self.newGame()
 
 
-
+    def _initScreen(self):
+        if self.cfg["ui"]["fullScreen"]:
+            self.showFullScreen()
+        else:
+            self.showNormal()
+            # self.setFixedSize(*self._size)
 
     def updateDictModel(self):
         self.dictSeq.init()
@@ -213,7 +216,14 @@ class Main(QMainWindow):
             self.toolBar.setDisabledButton("cardrefresh", True)
 
 
+    def showScreenAction(self):
+        if self.isFullScreen():
+            self.showNormal()
+        else:
+            self.showFullScreen()
 
+    def closeWindowAction(self):
+        self.close()
 
     def toolActions(self, act):
         getattr(self, "{}Action".format(act.text()))()
@@ -275,6 +285,7 @@ class Main(QMainWindow):
         QApplication.instance().setStyleSheet(styleSheet)
 
     def closeEvent(self, *args, **kwargs):
+
         self.cfg.save()
         self.cardModel.saveContent()
 

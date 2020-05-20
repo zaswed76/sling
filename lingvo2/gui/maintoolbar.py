@@ -10,7 +10,7 @@ class ToolBtn(QToolButton):
         self.setObjectName(action)
         self.parent = parent
         self.setIcon(qicon)
-        print(checkable)
+
         self.setCheckable(checkable)
 
     def mousePressEvent(self, QMouseEvent):
@@ -53,7 +53,13 @@ class ToolBar(QToolBar):
         self.addWidget(Spacer(stretch=1))
         self.addButton(QIcon(":/music_green.png"), "autoSound", checkable=True)
 
-        self.addWidget(Spacer(spacing=42))
+        self.addAction(
+            QAction(QIcon(":/windows.png"), "showScreen", self))
+
+        self.addAction(
+            QAction(QIcon(":/delete.png"), "closeWindow", self))
+
+        # self.addWidget(Spacer(spacing=42))
 
     def addButton(self, Qicon, method, checkable=False):
         methodName = "{}Action".format(method)

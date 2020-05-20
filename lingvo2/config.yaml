@@ -1,11 +1,11 @@
 choosedict:
     checkedDicts:
-    - seasons
+    - days of the week
     soundTypeList:
     - Word
     - spoilerExample
 core:
-    autoSound: true
+    autoSound: false
     cycle: true
     lastFileDict: E:/pyprojects/ling/lingvo/data/slovar1/slovar1.xlsx
 currentStyle: base
@@ -18,9 +18,10 @@ customizeLabel:
     translation: AAAAAAAAAAAAA
 ui:
     currentStackWidget: view
+    fullScreen: false
     mainWindowSize:
-    - 740
-    - 680
+    - 840
+    - 880
     viewCardSize:
-    - 500
-    - 610
+    - 670
+    - 810
