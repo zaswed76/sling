@@ -60,8 +60,8 @@ class ViewCard(AbcViewCard):
                         widget.clearText()
                         widget.enabledIcon(False)
 
-    def changeSide(self):
-        return super().changeSide()
+    # def changeSide(self):
+    #     return super().changeSide()
 
     def updateWidgetComponent(self):
         for sideName, side in self.cardModel.sides.items():

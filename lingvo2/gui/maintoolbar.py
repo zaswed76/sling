@@ -51,8 +51,10 @@ class ToolBar(QToolBar):
             QAction(QIcon(":/gear.png"), "gsettings", self))
         self.addButton(QIcon(":/replace2.png"), "cardrefresh")
         self.addWidget(Spacer(stretch=1))
-        self.addButton(QIcon(":/music_green.png"), "autoSound", checkable=True)
-
+        self.addButton(QIcon(":/music_green_go.png"), "autoSoundGo", checkable=True)
+        self.addWidget(Spacer(spacing=4))
+        self.addButton(QIcon(":/music_green_rotate.png"), "autoSoundTurn", checkable=True)
+        self.addSeparator()
         self.addAction(
             QAction(QIcon(":/windows.png"), "showScreen", self))
 

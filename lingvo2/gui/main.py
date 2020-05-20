@@ -193,7 +193,8 @@ class Main(QMainWindow):
         self.toolBar.visibilityChanged.connect(self.visibilityToolBar)
         self.addToolBar(Qt.TopToolBarArea, self.toolBar)
         self.toolBar.actionTriggered.connect(self.toolActions)
-        self.toolBar.btns["autoSound"].setChecked(self.cfg["core"]["autoSound"])
+        self.toolBar.btns["autoSoundGo"].setChecked(self.cfg["core"]["autoSoundGo"])
+        self.toolBar.btns["autoSoundTurn"].setChecked(self.cfg["core"]["autoSoundTurn"])
 
     def visibilityToolBar(self, p_bool):
         self._visibleToolBarFlag = p_bool
@@ -231,11 +232,13 @@ class Main(QMainWindow):
     def chooseDictAction(self):
         self.centerStackFrame.showStack("chooseDict")
 
-    def autoSoundAction(self):
-        checked = not self.toolBar.btns["autoSound"].isChecked()
-        self.cfg["core"]["autoSound"] = checked
+    def autoSoundGoAction(self):
+        checked = not self.toolBar.btns["autoSoundGo"].isChecked()
+        self.cfg["core"]["autoSoundGo"] = checked
 
-
+    def autoSoundTurnAction(self):
+        checked = not self.toolBar.btns["autoSoundTurn"].isChecked()
+        self.cfg["core"]["autoSoundTurn"] = checked
 
 
 
@@ -295,9 +298,9 @@ class Main(QMainWindow):
         if modifiers == (Qt.ControlModifier | Qt.ShiftModifier):
             if e.key() == Qt.Key_T:
                 self.openTerminal()
-        if e.key() == Qt.Key_F12:
+        elif e.key() == Qt.Key_F12:
             self.toolBar.setVisible(not self._visibleToolBarFlag)
-        if self._currentStackWidget == "view":
+        elif self._currentStackWidget == "view":
             self.viewKeyPressEvent(e)
 
         elif self._currentStackWidget == "cardEditView":
@@ -311,7 +314,6 @@ class Main(QMainWindow):
             res = time.time() - self.start_time
             self.start_time = time.time()
             if res > 0.4:
-
                 self.viewCard.sideToName("front")
                 wordItem = self.dictsModel.nextItem()
                 self.viewCard.updateContent(wordItem)
@@ -321,13 +323,14 @@ class Main(QMainWindow):
 
     def viewKeyPressEvent(self, e):
         if e.key() == Qt.Key_Right:
+
             self.viewCard.sideToName("front")
             wordItem = self.dictsModel.nextItem()
             self.viewCard.updateContent(wordItem)
 
             self.setFocus(Qt.ActiveWindowFocusReason)
 
-            if self.cfg["core"]["autoSound"]:
+            if self.cfg["core"]["autoSoundGo"]:
                pathsound = self.dictsModel.currentItem.sound
                if pathsound is not None:
                    self.playSound(pathsound)
@@ -343,8 +346,8 @@ class Main(QMainWindow):
             self.player.stop()
         elif e.key() == Qt.Key_Space:
             self.viewCard.changeSide()
-            print(self.viewCard.sidesComponent["Word"], "7777777")
-            if (self.cfg["core"]["autoSound"] and self.viewCard.sidesComponent["Word"]):
+
+            if (self.cfg["core"]["autoSoundTurn"] and self.viewCard.sidesComponent["Word"]):
                 pathsound = self.dictsModel.currentItem.sound
                 if pathsound is not None:
                    self.playSound(pathsound)

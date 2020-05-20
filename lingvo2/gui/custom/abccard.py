@@ -351,8 +351,12 @@ class AbcViewCard(QStackedWidget):
         return self.currentSideName
 
     def sideToName(self, name):
+        x = 4 if name == "front" else -4
+        shadow = QGraphicsDropShadowEffect(blurRadius=30, xOffset=x, yOffset=4)
+        self.setGraphicsEffect(shadow)
         self.setCurrentWidget(self.sides[name])
-        # self.currentSideIndex = self.sideNames.index(name)
+        self.currentSideIndex = self.sideNames.index(name)
+
         return self.currentSideName
 
 
