@@ -27,19 +27,37 @@ class ServiceBtn(QPushButton):
 class GSettingsGeometry(AbcGSettingsFrame):
     def __init__(self, main, cfg, textName, obgectName, *args, **kwargs):
         super().__init__(main, cfg, textName, obgectName, *args, **kwargs)
+        self.cfg = cfg
         self.main = main
         self.box = QVBoxLayout(self)
+        self.options = {}
+
+        viewCardWidth = AbcSpinBox()
+        viewCardWidth.setMaximum(1500)
+        viewCardWidth.setValue(cfg["ui"]["viewCardWidth"])
+        viewCardWidth.lastValue = viewCardWidth.value()
+
+        self.addOption("ширина карточки", viewCardWidth, "viewCardWidth")
+
+        viewCardHeight = AbcSpinBox()
+        viewCardHeight.setMaximum(1500)
+        viewCardHeight.setValue(cfg["ui"]["viewCardHeight"])
+        viewCardHeight.lastValue = viewCardHeight.value()
+        self.addOption("высота карточки", viewCardHeight, "viewCardHeight")
+
+        fullScreen = QCheckBox()
+        fullScreen.setChecked(cfg["ui"]["fullScreen"])
+        fullScreen.setValue = fullScreen.setChecked
+        fullScreen.value = fullScreen.isChecked
+        fullScreen.lastValue = fullScreen.isChecked()
+        self.addOption("полный экран", fullScreen, "fullScreen")
+
+        self.box.addStretch(10)
 
 
-        width_option = AbcSpinBox()
-
-        width_option.setMaximum(1500)
-        width_option.setValue(cfg["ui"]["viewCardSize"][0])
-        width_option.lastValue = width_option.value()
-        self.addOption("ширина карточки", width_option)
-
-
-    def addOption(self, name, widget):
+    def addOption(self, text, widget, objectName):
+        self.options[objectName] = widget
+        self.options[objectName].setObjectName(objectName)
         box = customwidgets.BoxLayout(QBoxLayout.LeftToRight, spacing=8)
         option = widget
         lastValue = option.lastValue
@@ -48,8 +66,13 @@ class GSettingsGeometry(AbcGSettingsFrame):
         box.addWidget(option)
         box.addWidget(redo)
         form = AbcFormFormlayout()
-        form.addRow(AbcFormLabel(name), box)
+        form.addRow(AbcFormLabel(text), box)
         self.box.addLayout(form)
+
+    def updateCfg(self):
+        for option in self.options.values():
+            v = option.value()
+            self.cfg["ui"][option.objectName()] = v
 
 
 

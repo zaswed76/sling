@@ -23,6 +23,5 @@ ui:
     mainWindowSize:
     - 840
     - 880
-    viewCardSize:
-    - 670
-    - 810
+    viewCardHeight: 810
+    viewCardWidth: 700

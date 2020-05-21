@@ -43,7 +43,7 @@ class MainToolBarController(QObject):
         self.main.centerStackFrame.removeStackWidget("view", self.main.stackWidgets["view"])
         del self.main.stackWidgets["view"]
         self.main.viewCard = viewcard.ViewCard(self.main.dictsModel, main=self.main)
-        self.main.viewCard.setFixedSize(*self.main.cfg["ui"]["viewCardSize"])
+        self.main.viewCard.setFixedSize(self.main.cfg["ui"]["viewCardWidth"], self.main.cfg["ui"]["viewCardHeight"])
         self.main.viewCard.setCardModel(self.main.cardModel)
         self.main.viewFrame = viewcard.ViewFrame(self.main.viewCard, "view")
         self.main.stackWidgets["view"] = self.main.viewFrame

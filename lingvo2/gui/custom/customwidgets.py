@@ -12,12 +12,15 @@ class AbcSpinBox(QSpinBox):
 class AbcFormLabel(QLabel):
     def __init__(self, *__args):
         super().__init__(*__args)
+        self.setFixedWidth(210)
 
 
 class AbcFormFormlayout(QFormLayout):
     def __init__(self):
         super().__init__()
         self.setSpacing(10)
+        self.setFieldGrowthPolicy(QFormLayout.ExpandingFieldsGrow)
+        self.setFormAlignment(Qt.AlignTop | Qt.AlignLeft)
 
 
 

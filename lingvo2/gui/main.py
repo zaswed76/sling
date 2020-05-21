@@ -71,7 +71,7 @@ class Main(QMainWindow):
         self.controls["chooseDictStack"] = self.chooseDictController
         # работаем с карточками
         self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
-        self.viewCard.setFixedSize(*self.cfg["ui"]["viewCardSize"])
+        self.viewCard.setFixedSize(self.cfg["ui"]["viewCardWidth"], self.cfg["ui"]["viewCardHeight"])
         self.viewCard.setCardModel(self.cardModel)
         self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")  # 790, 830   790, 788
         self.viewFrame.setFixedSize(self._size[0], self._size[1] - 42)  # 790, 830   790, 788
@@ -188,6 +188,7 @@ class Main(QMainWindow):
         self._visibleToolBarFlag = p_bool
 
     def changeStackWidget(self, i):
+
         self.player.setMedia(QtMultimedia.QMediaContent())
         self.player.stop()
         if self._currentStackWidget == "cardEditView":
@@ -196,12 +197,23 @@ class Main(QMainWindow):
             check = self.chooseDict.checkedDicts()
             self.dictsModel.updateWorkData(check, self.dictSeq)
             self.newGame()
+        elif self._currentStackWidget == "gsettings":
+            self.gsettings._sections["gSettingsGeometry"].updateCfg()
+            # todo update geometry
+
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
+
         # self.stackWidgets[self._currentStackWidget].setFocus(Qt.ActiveWindowFocusReason)
+
         if self.currentStackWidget == "view":
             self.toolBar.setDisabledButton("cardrefresh", False)
         else:
             self.toolBar.setDisabledButton("cardrefresh", True)
+
+
+
+
+
 
     def toolActions(self, act):
         getattr(self.mainToolBarController, "{}Action".format(act.text()))()

@@ -20,7 +20,8 @@ AbcSpinBox {
     font-size: 12px;
     color: #24282e;
     min-height: 22px;
-    max-width: 100px;
+    max-width: 120px;
+    min-width: 80px;
 }
 
 AbcFormLabel {
