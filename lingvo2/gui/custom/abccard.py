@@ -183,7 +183,7 @@ class AbcDropWidgetItem(QFrame):
 
         self.component = getattr(dropcomponents, widget_tipe)(self.main)
         if widget_tipe == "ImageLabel":
-            height = self.main.cfg["ui"]["viewCardSize"][1]/2.4
+            height = self.main.cfg["ui"]["viewCardWidth"]/2.4
             self.component.setFixedHeight(height)
             self.component.setFixedWidth(height)
 

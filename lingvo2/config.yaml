@@ -19,7 +19,7 @@ customizeLabel:
     translation: AAAAAAAAAAAAA
 ui:
     currentStackWidget: view
-    fullScreen: false
+    fullScreen: true
     mainWindowSize:
     - 840
     - 880
