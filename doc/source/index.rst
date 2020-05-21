@@ -7,10 +7,11 @@ Welcome to sling's documentation!
 =================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    dictionaries
+   code
 
 
 

@@ -14,7 +14,7 @@ class ToolBtn(QToolButton):
         self.setCheckable(checkable)
 
     def mousePressEvent(self, QMouseEvent):
-        getattr(self.parent, self.action)()
+        getattr(self.parent.mainToolBarController, self.action)()
         return super().mousePressEvent(QMouseEvent)
 
 

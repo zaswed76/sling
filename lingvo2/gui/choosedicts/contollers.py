@@ -84,7 +84,6 @@ class ChooseDictStackController:
                 self.loadDialogsFrame.addWidget(loaderDict[name])
                 loaderDict[name].finishedSignal.connect(self.finishedSignal)
                 loaderDict[name].run()
-        # self.main.chooseDict.updateTable()
         return loaderDict
 
     def addDictFolder(self):
@@ -97,8 +96,6 @@ class ChooseDictStackController:
 
     def finishedSignal(self, p_name):
         self.finishedList.append(p_name)
-        # if len(self.finishedList) == len(self.main.chooseDict.checkedDicts()):
-        #     self.loadDialogsFrame.close()
 
 
 

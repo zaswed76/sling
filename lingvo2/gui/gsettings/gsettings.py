@@ -19,27 +19,27 @@ class GsettingsStack(QStackedWidget):
 
 
 class Gsettings(QFrame):
-    def __init__(self, cfg, main, objectName):
+    def __init__(self, main, cfg, objectName):
         super().__init__()
         self.setObjectName(objectName)
         self.main = main
         self.cfg = cfg
         self.box = BoxLayout(QBoxLayout.LeftToRight, self)
-        self._sectionsDict = {}
+        self._sections = {}
         self.sections = GsettingsSection()
         self.sections.itemSelectionChanged.connect(self.chooseSection)
         self.settingsStacks = GsettingsStack()
         self.box.addWidget(self.sections)
         self.box.addWidget(self.settingsStacks)
 
-        self._sectionsDict["gSettingsGeometry"] = GSettingsGeometry(self.main,
-                                                                    self.cfg,
+        self._sections["gSettingsGeometry"] = GSettingsGeometry(self.main,
+                                                                self.cfg,
                                                                     "графика",
                                                                     "gSettingsGeometry")
-        self._sectionsDict["gSettingsDict"] = GSettingsDict(self.main, self.cfg,
+        self._sections["gSettingsDict"] = GSettingsDict(self.main, self.cfg,
                                                             "словари", "gSettingsDict")
 
-        self.setSections(self._sectionsDict)
+        self.setSections(self._sections)
 
     def setSections(self, sectionsDict):
         for name, sectionFrame in sectionsDict.items():

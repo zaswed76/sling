@@ -4,7 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from gui.custom.customwidgets import *
 
-class ControlBtn(QPushButton):
+class DictControlBtn(QPushButton):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
@@ -20,7 +20,7 @@ class LoadSoundsDialog(AbcDialog):
         self.resize(400, 200)
         self.box = BoxLayout(QBoxLayout.TopToBottom, self)
         self.box.setSpacing(4)
-        self.loadSoundWebBtn = ControlBtn("загрузить файлы из интернета")
+        self.loadSoundWebBtn = DictControlBtn("загрузить файлы из интернета")
         self.loadSoundWebBtn.setObjectName("loadSoundWebBtn")
         self.loadSoundWebBtn.clicked.connect(self.loadSoundWeb)
         self.box.addWidget(self.loadSoundWebBtn)
@@ -75,7 +75,7 @@ class ChooseDictControls(QFrame):
         self.box.addWidget(self.openDataFolder, alignment=Qt.AlignCenter)
 
     def addBtn(self, methodName, icon=None):
-        Btn = ControlBtn()
+        Btn = DictControlBtn()
         if icon is not None:
             Btn.setIcon(QIcon(icon))
         else:

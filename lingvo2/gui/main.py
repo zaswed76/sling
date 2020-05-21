@@ -5,7 +5,6 @@ import glob
 from PyQt5 import QtMultimedia
 from tools.handler import qt_message_handler
 
-
 import config
 from core.cardModel import CardModel
 from core.dictsequence import DictSeq
@@ -17,7 +16,8 @@ from gui.editcard import editcard, editcardWidget, editdrop_listview
 from gui.viewcard import viewcard
 from gui.maintoolbar import ToolBar
 from gui.terminal import TeminalFrame, TerminalController
-from gui.gsettings.gsettings import Gsettings
+from gui.gsettings import gsettings, gsettingsControllers
+from gui.mainToolBarController import MainToolBarController
 
 qInstallMessageHandler(qt_message_handler)
 
@@ -31,14 +31,14 @@ def fileInput(folder):
     return "".join(ls)
 
 
-
-
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.cfg = config.Config(paths.CONFIG)
         self._size = self.cfg["ui"]["mainWindowSize"]
         self._initScreen()
+
+        self.mainToolBarController = MainToolBarController(self)
 
         self.player = QtMultimedia.QMediaPlayer()
         self.start_time = time.time()
@@ -48,8 +48,6 @@ class Main(QMainWindow):
         self.dictSeq = DictSeq(paths.DATA)
 
         self.dictSeq.setSoundTypes(self.cfg["choosedict"]["soundTypeList"])
-
-
 
         self.dictsModel = DictsModel(self.dictSeq)
         self.updateDictModel()
@@ -75,15 +73,15 @@ class Main(QMainWindow):
         self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
         self.viewCard.setFixedSize(*self.cfg["ui"]["viewCardSize"])
         self.viewCard.setCardModel(self.cardModel)
-        self.viewFrame = viewcard.ViewFrame(self.viewCard, "view") # 790, 830   790, 788
-        self.viewFrame.setFixedSize(self._size[0], self._size[1]-42) # 790, 830   790, 788
+        self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")  # 790, 830   790, 788
+        self.viewFrame.setFixedSize(self._size[0], self._size[1] - 42)  # 790, 830   790, 788
 
         # редактируем карточки
         self.editDropList = editdrop_listview.DropListWidget(None, "editDropList")
         self.editDropList.setFocusPolicy(Qt.NoFocus)
         self.editDropList.setItems(config.Config(paths.CARD_CONFIG)["dropItemsTypeList"])
         self.viewEditCard = editcard.EditCard(main=self)
-        self.viewEditCard.setFixedSize(self._size[0]-190, self._size[1]-190)
+        self.viewEditCard.setFixedSize(self._size[0] - 190, self._size[1] - 190)
 
         self.viewEditCard.setCardModel(self.cardModel)
         self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard, "cardEditView")
@@ -91,12 +89,14 @@ class Main(QMainWindow):
         self.terminalController = TerminalController(self)
         self.terminal = TeminalFrame(self, self.cfg, "terminal", self.terminalController)
 
-        # self.controls["terminal"] = self.terminalController
-        # self.terminal.setController(self.terminalController)
+        self.gsettings = gsettings.Gsettings(self, self.cfg, "gsettings")
+        self.gsetGeometryController = gsettingsControllers.GsettingsGeometryController(
+            self, self.gsettings._sections["gSettingsGeometry"])
+        self.controls["gSettingsGeometry"] = self.gsetGeometryController
 
-
-        self.gsettings = Gsettings(self, self.cfg, "gsettings ")
-
+        self.gDictController = gsettingsControllers.GDictController(
+            self, self.gsettings._sections["gSettingsDict"])
+        self.controls["gSettingsDict"] = self.gDictController
 
         self.stackWidgets["view"] = self.viewFrame
         self.stackWidgets["chooseDict"] = self.chooseDict
@@ -116,25 +116,21 @@ class Main(QMainWindow):
 
         self.newGame()
 
-
     def _initScreen(self):
         if self.cfg["ui"]["fullScreen"]:
             self.showFullScreen()
         else:
             self.showNormal()
-            # self.setFixedSize(*self._size)
 
     def updateDictModel(self):
         self.dictSeq.init()
         self.dictsModel.updateWorkData(self.cfg["choosedict"]['checkedDicts'], self.dictSeq)
 
-
-
     def soundClick(self):
         # todo может ли self.dictsModel.currentItem == None
         pathsound = None
         widgetType = self.sender().parent().parent().widgetType
-        if widgetType == "SpoilerExampleLabel"  and self.dictsModel.currentItem is not None:
+        if widgetType == "SpoilerExampleLabel" and self.dictsModel.currentItem is not None:
             pathsound = self.dictsModel.currentItem.exampleSound
         elif widgetType == "DropLabel" and self.dictsModel.currentItem is not None:
             pathsound = self.dictsModel.currentItem.sound
@@ -154,10 +150,6 @@ class Main(QMainWindow):
             self.player.setMedia(QtMultimedia.QMediaContent())
             self.player.stop()
 
-    def positionSuond(self, i):
-        pass
-        # print(i, "!!!")
-
     def mediaStatusSuond(self, i):
         if self.player.state() == QtMultimedia.QMediaPlayer.StoppedState:
             self.player.setMedia(QtMultimedia.QMediaContent())
@@ -170,16 +162,12 @@ class Main(QMainWindow):
         self.player.setMedia(QtMultimedia.QMediaContent())
         self.player.stop()
 
-
-
     def updateViews(self):
         self.viewCardEditWidget.updateContent()
         self.viewCard.updateWidgetComponent()
 
-
     def getCardModel(self) -> CardModel:
         return self.cfgpObject.load()
-
 
     def connect(self):
         controll = self.sender()
@@ -199,7 +187,6 @@ class Main(QMainWindow):
     def visibilityToolBar(self, p_bool):
         self._visibleToolBarFlag = p_bool
 
-
     def changeStackWidget(self, i):
         self.player.setMedia(QtMultimedia.QMediaContent())
         self.player.stop()
@@ -216,65 +203,12 @@ class Main(QMainWindow):
         else:
             self.toolBar.setDisabledButton("cardrefresh", True)
 
-
-    def showScreenAction(self):
-        if self.isFullScreen():
-            self.showNormal()
-        else:
-            self.showFullScreen()
-
-    def closeWindowAction(self):
-        self.close()
-
     def toolActions(self, act):
-        getattr(self, "{}Action".format(act.text()))()
-
-    def chooseDictAction(self):
-        self.centerStackFrame.showStack("chooseDict")
-
-    def autoSoundGoAction(self):
-        checked = not self.toolBar.btns["autoSoundGo"].isChecked()
-        self.cfg["core"]["autoSoundGo"] = checked
-
-    def autoSoundTurnAction(self):
-        checked = not self.toolBar.btns["autoSoundTurn"].isChecked()
-        self.cfg["core"]["autoSoundTurn"] = checked
-
-
-
-
-    def cardEditViewAction(self):
-        self.centerStackFrame.showStack("cardEditView")
-
-    def cardViewAction(self):
-        if self.currentStackWidget == "cardEditView":
-            self.cardrefreshAction()
-        self.centerStackFrame.showStack("view")
-
-
-
-    def gsettingsAction(self):
-        pass
-        self.centerStackFrame.showStack("gsettings")
-
-    def cardrefreshAction(self):
-        currentStack = self.currentStackWidget
-        self.centerStackFrame.removeStackWidget("view", self.stackWidgets["view"])
-        del self.stackWidgets["view"]
-        self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
-        self.viewCard.setFixedSize(*self.cfg["ui"]["viewCardSize"])
-        self.viewCard.setCardModel(self.cardModel)
-        self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")
-        self.stackWidgets["view"] = self.viewFrame
-        self.centerStackFrame.insertWidget(0, "view", self.stackWidgets["view"])
-        self.centerStackFrame.showStack(currentStack)
-        self.newGame()
-
+        getattr(self.mainToolBarController, "{}Action".format(act.text()))()
 
     @property
     def currentStackWidget(self):
         return self._currentStackWidget
-
 
     @property
     def dictList(self):
@@ -292,7 +226,6 @@ class Main(QMainWindow):
         self.cfg.save()
         self.cardModel.saveContent()
 
-
     def keyPressEvent(self, e):
         modifiers = QApplication.keyboardModifiers()
         if modifiers == (Qt.ControlModifier | Qt.ShiftModifier):
@@ -306,7 +239,6 @@ class Main(QMainWindow):
         elif self._currentStackWidget == "cardEditView":
             self.editViewKeyPressEvent(e)
         self.centerStackFrame.setFocus()
-
 
     def wheelEvent(self, event):
         ang = event.angleDelta().y()
@@ -331,9 +263,9 @@ class Main(QMainWindow):
             self.setFocus(Qt.ActiveWindowFocusReason)
 
             if self.cfg["core"]["autoSoundGo"]:
-               pathsound = self.dictsModel.currentItem.sound
-               if pathsound is not None:
-                   self.playSound(pathsound)
+                pathsound = self.dictsModel.currentItem.sound
+                if pathsound is not None:
+                    self.playSound(pathsound)
             else:
                 self.player.setMedia(QtMultimedia.QMediaContent())
                 self.player.stop()
@@ -346,12 +278,10 @@ class Main(QMainWindow):
             self.player.stop()
         elif e.key() == Qt.Key_Space:
             self.viewCard.changeSide()
-
-            if (self.cfg["core"]["autoSoundTurn"] and self.viewCard.sidesComponent["Word"]):
+            if (self.cfg["core"]["autoSoundTurn"] and self.viewCard.currentSideIndex == 1):
                 pathsound = self.dictsModel.currentItem.sound
                 if pathsound is not None:
-                   self.playSound(pathsound)
-
+                    self.playSound(pathsound)
 
     def editViewKeyPressEvent(self, e):
         if e.key() == Qt.Key_Space:
@@ -367,7 +297,6 @@ class Main(QMainWindow):
     def openTerminal(self):
         self._currentStackWidget = "terminal"
         self.centerStackFrame.showStack("terminal")
-
 
         focused_widget = qApp.focusWidget()
         focused_widget.clearFocus()

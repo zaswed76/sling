@@ -255,7 +255,6 @@ class AbcViewCard(QStackedWidget):
 
         super().__init__()
         self.main = main
-        self.sidesComponent = {}
         self.__currentSideIndex = 1
         self.sideNames = ['front', 'back']
         self.sides = {}
@@ -343,25 +342,23 @@ class AbcViewCard(QStackedWidget):
 
     def changeSide(self):
         x = 4 if self.currentSideIndex else -4
-        shadow = QGraphicsDropShadowEffect(blurRadius=30, xOffset=x, yOffset=4)
-        self.setGraphicsEffect(shadow)
+        self.setShadowEffect(x)
         self.currentSideIndex = not self.currentSideIndex
         self.setCurrentIndex(self.currentSideIndex)
-        # todo
-        self.sidesComponent["Word"] = self.currentSideIndex
         return self.currentSideName
 
     def sideToName(self, name):
         x = 4 if name == "front" else -4
-        shadow = QGraphicsDropShadowEffect(blurRadius=30, xOffset=x, yOffset=4)
-        self.setGraphicsEffect(shadow)
+        self.setShadowEffect(x)
         self.setCurrentWidget(self.sides[name])
         self.currentSideIndex = self.sideNames.index(name)
-
         return self.currentSideName
-        #fasadAQtrack
 
 
+
+    def setShadowEffect(self, xOffset):
+        shadow = QGraphicsDropShadowEffect(blurRadius=30, xOffset=xOffset, yOffset=4)
+        self.setGraphicsEffect(shadow)
     def __repr__(self):
         return "AbcViewCard"
 

@@ -40,11 +40,9 @@ class ViewCard(AbcViewCard):
                 for component in layout.components:
                     widget = component
                     textType = component.text
-                    self.sidesComponent["Word"] = self.sides[nameSide]
                     text = wordItem.getTypeText(textType)
                     spoilerText = wordItem.getSpoiler()
                     image = wordItem.getImage()
-
                     if text is not None:
                         widget.setText(text)
                         widget.enabledIcon(True)

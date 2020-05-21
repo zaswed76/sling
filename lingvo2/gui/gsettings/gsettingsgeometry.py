@@ -4,11 +4,21 @@
 from gui.custom.customwidgets import *
 from gui.gsettings.abc import AbcGSettingsFrame
 
+from gui.custom import customwidgets
+
+class ControlBtn(customwidgets.AbcControlBtn):
+    def __init__(self, objectName, main, text="", *__args):
+        super().__init__(objectName, main, text, *__args)
+
 
 class GSettingsGeometry(AbcGSettingsFrame):
     def __init__(self, main, cfg, textName, obgectName, *args, **kwargs):
         super().__init__(main, cfg, textName, obgectName, *args, **kwargs)
-        self.box = QHBoxLayout(self)
+        self.main = main
+        self.box = QVBoxLayout(self)
+        self.btn = ControlBtn("tratata", self.main)
+        self.box.addWidget(self.btn)
+
 
 
 

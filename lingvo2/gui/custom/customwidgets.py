@@ -32,6 +32,13 @@ class BoxLayout(QBoxLayout):
         self.setSpacing(spacing)
 
 
+class AbcControlBtn(QPushButton):
+    def __init__(self, objectName, main, text='', *__args):
+        super().__init__(*__args)
+        self.main = main
+        self.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setObjectName(objectName)
+        self.clicked.connect(self.main.connect)
 
 
 

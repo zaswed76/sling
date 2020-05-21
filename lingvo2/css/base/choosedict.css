@@ -37,7 +37,7 @@ TextFrame {
      border: 2px solid #cbcbcb;
 }
 
-ControlBtn{
+DictControlBtn{
     /*image: url(":/addSound.png");*/
     color: #5d5d5f;
     border: 1px solid #0f7994;
@@ -50,7 +50,7 @@ ControlBtn{
 
 }
 
-ControlBtn:hover {
+DictControlBtn:hover {
     border: 1px solid #f4f4f6;
 }
 
