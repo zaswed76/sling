@@ -71,7 +71,7 @@ class Main(QMainWindow):
         self.controls["chooseDictStack"] = self.chooseDictController
         # работаем с карточками
         self.viewCard = viewcard.ViewCard(self.dictsModel, main=self)
-        self.viewCard.setFixedSize(self.cfg["ui"]["viewCardWidth"], self.cfg["ui"]["viewCardHeight"])
+        self.resizeCardView()
         self.viewCard.setCardModel(self.cardModel)
         self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")  # 790, 830   790, 788
         self.viewFrame.setFixedSize(self._size[0], self._size[1] - 42)  # 790, 830   790, 788
@@ -115,6 +115,9 @@ class Main(QMainWindow):
         self.changeStackWidget(0)
 
         self.newGame()
+
+    def resizeCardView(self):
+        self.viewCard.setFixedSize(self.cfg["ui"]["viewCardWidth"], self.cfg["ui"]["viewCardHeight"])
 
     def _initScreen(self):
         if self.cfg["ui"]["fullScreen"]:
@@ -199,6 +202,7 @@ class Main(QMainWindow):
             self.newGame()
         elif self._currentStackWidget == "gsettings":
             self.gsettings._sections["gSettingsGeometry"].updateCfg()
+            self.resizeCardView()
             # todo update geometry
 
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
