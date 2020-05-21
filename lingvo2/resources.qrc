@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
 
+    <file alias="redo.png">./resources/icons/base/redo.png</file>
     <file alias="windows.png">./resources/icons/base/windows.png</file>
     <file alias="delete.png">./resources/icons/base/delete.png</file>
 

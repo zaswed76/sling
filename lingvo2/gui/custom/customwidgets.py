@@ -5,6 +5,21 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
+class AbcSpinBox(QSpinBox):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+
+class AbcFormLabel(QLabel):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+
+
+class AbcFormFormlayout(QFormLayout):
+    def __init__(self):
+        super().__init__()
+        self.setSpacing(10)
+
+
 
 
 class AbcDialog(QFrame):

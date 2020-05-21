@@ -9,9 +9,22 @@ AbcControlBtn{
     font-size: 14px;
     font-style: italic ;
 
-
 }
 
 AbcControlBtn:hover {
     border: 1px solid #f6d72a;
+}
+
+AbcSpinBox {
+    font-family: Helvetica;
+    font-size: 12px;
+    color: #24282e;
+    min-height: 22px;
+    max-width: 100px;
+}
+
+AbcFormLabel {
+    font-family: Helvetica;
+    font-size: 14px;
+    color: #202022;
 }
