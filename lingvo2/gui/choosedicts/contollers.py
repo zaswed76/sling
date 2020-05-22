@@ -60,7 +60,7 @@ class ChooseDictStackController:
     def openDataFolder(self):
         print("openDataFolder")
 
-        subprocess.Popen('explorer {}'.format(paths.DATA))
+        subprocess.Popen('explorer {}'.format(paths.DICTIONARIES))
 
     def loadSoundsBtn(self):
         self.loadSoundsDialog = LoadSoundsDialog(self.main)
@@ -89,7 +89,7 @@ class ChooseDictStackController:
     def addDictFolder(self):
         fdname = QFileDialog.getExistingDirectory(self.main, '/home')
         if fdname:
-            dataDir = paths.DATA
+            dataDir = paths.DICTIONARIES
             pfname = Path(fdname)
             print(pfname)
             # name = pfname.stem
@@ -109,7 +109,7 @@ class ChooseDictStackController:
     def addDict(self):
         fname = QFileDialog.getOpenFileName(None, 'Open file', '/home')[0]
         if fname:
-            dataDir = paths.DATA
+            dataDir = paths.DICTIONARIES
             pfname = Path(fname)
             name = pfname.stem
 

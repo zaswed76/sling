@@ -105,7 +105,7 @@ class Main(QMainWindow):
         self.cfg = config.Config(paths.CONFIG)
         self._set_style_sheet(self.cfg["currentStyle"])
 
-        self.dictSeq = DictSeq(paths.DATA)
+        self.dictSeq = DictSeq(paths.DICTIONARIES)
 
         # здесь хранятся все стеки (окна)
         self.centerStackFrame = CenterStackFrame(self)

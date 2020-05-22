@@ -123,7 +123,7 @@ class TerminalController(QObject):
 
 class OpenPath:
     Paths = {
-        "data": paths.DATA,
+        "data": paths.DICTIONARIES,
         "resources": paths.RESOURCES
     }
 

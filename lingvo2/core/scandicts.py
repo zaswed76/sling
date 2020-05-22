@@ -112,7 +112,7 @@ if __name__ == '__main__':
     reader = Reader().load(season)
     pprint.pprint(reader)
 
-    # datapath = paths.DATA
+    # datapath = paths.D
 
 
 

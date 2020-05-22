@@ -36,6 +36,7 @@ class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.cfg = config.Config(paths.CONFIG)
+        self.currentProfile = self.cfg["core"]["currentProfile"]
         self._size = self.cfg["ui"]["mainWindowSize"]
         self._initScreen()
 
@@ -46,7 +47,7 @@ class Main(QMainWindow):
 
         self._set_style_sheet(self.cfg["currentStyle"])
 
-        self.dictSeq = DictSeq(paths.DATA)
+        self.dictSeq = DictSeq(paths.DICTIONARIES)
 
         self.dictSeq.setSoundTypes(self.cfg["choosedict"]["soundTypeList"])
 

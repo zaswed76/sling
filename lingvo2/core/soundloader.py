@@ -117,7 +117,7 @@ def saveTTS(gtts, path):
 if __name__ == '__main__':
     import paths
 
-    datadir = paths.DATA / "family"
+    datadir = paths.DICTIONARIES / "family"
     Path(datadir / "sounds").mkdir(parents=True, exist_ok=True)
     targetDir = datadir / "sounds"
 

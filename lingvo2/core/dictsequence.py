@@ -2,7 +2,7 @@ import paths
 from core import scandicts
 from collections.abc import MutableMapping
 
-datadir = paths.DATA
+datadir = paths.DICTIONARIES
 
 class Example:
     def __init__(self, example: str = None):
@@ -231,7 +231,7 @@ class DictSeq(MutableMapping):
 
 if __name__ == '__main__':
     import pprint
-    ds = DictSeq(paths.DATA)
+    ds = DictSeq(paths.DICTIONARIES)
     print(ds)
     for name, slovar in ds.items():
         print("-----------")

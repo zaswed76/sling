@@ -53,5 +53,5 @@ class DictsModel:
 if __name__ == '__main__':
     import paths
     from core.dictsequence import DictSeq
-    dictSeq = DictSeq(paths.DATA)
+    dictSeq = DictSeq(paths.DICTIONARIES)
     cardModel = DictsModel(dictSeq)
