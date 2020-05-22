@@ -187,10 +187,6 @@ class AbcDropWidgetItem(QFrame):
             self.component.setFixedHeight(height)
             self.component.setFixedWidth(height)
 
-
-
-
-
         if text:
             self.component.setText(text)
         self.box.addWidget(self.component)

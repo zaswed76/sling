@@ -7,6 +7,9 @@ class MainToolBarController(QObject):
         super().__init__()
         self.main = main
 
+    def profilesAction(self):
+        self.main.centerStackFrame.showStack("profiles")
+
     def showScreenAction(self):
         if self.main.isFullScreen():
             self.main.showNormal()

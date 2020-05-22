@@ -18,6 +18,7 @@ from gui.maintoolbar import ToolBar
 from gui.terminal import TeminalFrame, TerminalController
 from gui.gsettings import gsettings, gsettingsControllers
 from gui.mainToolBarController import MainToolBarController
+from gui.profiles import profiles, profilesController
 
 qInstallMessageHandler(qt_message_handler)
 
@@ -98,11 +99,17 @@ class Main(QMainWindow):
             self, self.gsettings._sections["gSettingsDict"])
         self.controls["gSettingsDict"] = self.gDictController
 
+        self.profiles = profiles.Profiles(self, objectName="profiles", config=self.cfg)
+        self.profilesController = profilesController.ProfilesController(self, self.profiles)
+        self.controls["profiles"] = self.profilesController
+
+
         self.stackWidgets["view"] = self.viewFrame
         self.stackWidgets["chooseDict"] = self.chooseDict
         self.stackWidgets["cardEditView"] = self.viewCardEditWidget
         self.stackWidgets["terminal"] = self.terminal
         self.stackWidgets["gsettings"] = self.gsettings
+        self.stackWidgets["profiles"] = self.profiles
 
         self.centerStackFrame.setStackWidgets(self.stackWidgets)
 
