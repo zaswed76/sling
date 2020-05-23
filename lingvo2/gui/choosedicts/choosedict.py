@@ -1,6 +1,6 @@
 import sys
 import textwrap
-from tabulate import tabulate
+# from tabulate import tabulate
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
