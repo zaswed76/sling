@@ -43,13 +43,13 @@ class ToolBar(QToolBar):
             QAction(QIcon(":/book_blue.png"), "chooseDict", self))
         self.addAction(
             QAction(QIcon(":/component_blue_edit.png"), "cardEditView", self))
-        # self.addAction(
-            # QAction(QIcon(":/profile.png"), "profile", self))
-        # self.addSeparator()
-        # self.addWidget(Spacer(stretch=1))
+
+        self.addAction(
+            QAction(QIcon(":/joypad.png"), "gameStack", self))
+
         self.addAction(
             QAction(QIcon(":/gear.png"), "gsettings", self))
-        self.addButton(QIcon(":/replace2.png"), "cardrefresh")
+
         self.addAction(
             QAction(QIcon(":/users_family.png"), "profiles", self))
 
@@ -58,6 +58,7 @@ class ToolBar(QToolBar):
         self.addButton(QIcon(":/music_green_go.png"), "autoSoundGo", checkable=True)
         self.addWidget(Spacer(spacing=4))
         self.addButton(QIcon(":/music_green_rotate.png"), "autoSoundTurn", checkable=True)
+        self.addButton(QIcon(":/replace2.png"), "cardrefresh")
         self.addSeparator()
         self.addAction(
             QAction(QIcon(":/windows.png"), "showScreen", self))

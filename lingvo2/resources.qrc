@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
 
+    <file alias="joypad.png">./resources/icons/base/joypad.png</file>
     <file alias="users_family.png">./resources/icons/base/users_family.png</file>
     <file alias="components.png">./resources/icons/base/components.png</file>
 

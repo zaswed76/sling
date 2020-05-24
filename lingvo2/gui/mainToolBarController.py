@@ -7,6 +7,9 @@ class MainToolBarController(QObject):
         super().__init__()
         self.main = main
 
+    def gameStackAction(self):
+        self.main.centerStackFrame.showStack("games")
+
     def profilesAction(self):
         self.main.centerStackFrame.showStack("profiles")
 

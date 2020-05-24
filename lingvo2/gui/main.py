@@ -19,6 +19,7 @@ from gui.terminal import TeminalFrame, TerminalController
 from gui.gsettings import gsettings, gsettingsControllers
 from gui.mainToolBarController import MainToolBarController
 from gui.profiles import profiles, profilesController
+from gui.games import gamestack, gamesController
 
 qInstallMessageHandler(qt_message_handler)
 
@@ -104,6 +105,10 @@ class Main(QMainWindow):
         self.profilesController = profilesController.ProfilesController(self, self.profiles)
         self.controls["profiles"] = self.profilesController
 
+        self.games = gamestack.Games(self, objectName="games", config=self.cfg)
+        self.gamesController = gamesController.GamesController(self, self.games)
+        self.controls["games"] = self.gamesController
+
 
         self.stackWidgets["view"] = self.viewFrame
         self.stackWidgets["chooseDict"] = self.chooseDict
@@ -111,6 +116,7 @@ class Main(QMainWindow):
         self.stackWidgets["terminal"] = self.terminal
         self.stackWidgets["gsettings"] = self.gsettings
         self.stackWidgets["profiles"] = self.profiles
+        self.stackWidgets["games"] = self.games
 
         self.centerStackFrame.setStackWidgets(self.stackWidgets)
 
