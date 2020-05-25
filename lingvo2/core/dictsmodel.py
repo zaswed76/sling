@@ -10,6 +10,7 @@ class DictsModel:
 
 
         self.dictSeq = dict_seq
+
         self._workData = {}
         self._workList = list()
         self._cursor = -1
@@ -25,6 +26,7 @@ class DictsModel:
         return self._workList
 
     def updateWorkData(self, checkedDicts, dictSeq):
+
         self.reset()
         self._workData = {k:v for k, v in dictSeq.items() if k in checkedDicts}
 

@@ -36,9 +36,10 @@ class WordItem:
         self.index = kwargs.get("index", 0)
         self.sound = kwargs.get("sound")
         self.exampleSound = kwargs.get("exampleSound")
-
         self.image = kwargs.get("image")
+        self.localVideo = False
         ln = len(args)
+
         if ln == 2:
             self.Word, self.translation = args
         elif ln == 3:
@@ -53,12 +54,11 @@ class WordItem:
             self.example2 = Example(ex[1])
         elif ln == 6:
             self.Word, self.cyrillicTrans, self.translation, *ex, self.transcription = args
-
             self.spoilerExample = Example(ex[0])
             self.example2 = Example(ex[1])
+        if self.Word == "localVideo":
+            self.localVideo = True
 
-        if self.cyrillicTrans:
-            self.cyrillicTrans = "[{}]".format(self.cyrillicTrans)
 
     def getImage(self):
         return self.image
@@ -81,7 +81,7 @@ class WordItem:
 
 
 class Dict(MutableMapping):
-    def __init__(self, content, name, dictpath,  dirname, images, sounds, soundTypeList=None):
+    def __init__(self, content, name, dictpath,  dirname, images, sounds, video, soundTypeList=None):
         self.content = content
         if soundTypeList is None:
             self.soundTypeList = []
@@ -91,6 +91,8 @@ class Dict(MutableMapping):
         self.sounds = sounds
 
         self.images = images
+        self.video = video
+        # print(self.video, "=============")
         self.dirname = dirname
         self.name = name
         self.updateWordObjects()
@@ -199,6 +201,7 @@ class DictSeq(MutableMapping):
                                   d["dirname"],
                                   d['images'],
                                   d['sounds'],
+                                  d['video'],
                                   soundTypeList=self.soundTypeList)
 
 

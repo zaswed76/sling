@@ -52,7 +52,8 @@ class ToolBar(QToolBar):
 
         self.addAction(
             QAction(QIcon(":/users_family.png"), "profiles", self))
-
+        self.addAction(
+            QAction(QIcon(":/video_chat.png"), "video", self))
 
         self.addWidget(Spacer(stretch=1))
         self.addButton(QIcon(":/music_green_go.png"), "autoSoundGo", checkable=True)

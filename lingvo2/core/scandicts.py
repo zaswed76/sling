@@ -61,6 +61,7 @@ def rglobs(folder, exts):
 def scan(folder,
          dictexts=('.txt', '.xlsx'),
          imageexts=(".jpg", '.png'),
+         videoexts=(".mp4", '.avi', '.webm'),
          soundexts=(".mp3",)):
 
     """
@@ -86,7 +87,8 @@ def scan(folder,
                     dm[name] = {'dictpath': _dictpath,
                                 "dirname": root,
                                 'images': rglobs(root, imageexts),
-                                'sounds': rglobs(root, soundexts)
+                                'sounds': rglobs(root, soundexts),
+                                'video': rglobs(root, videoexts)
                                 }
 
     return dm

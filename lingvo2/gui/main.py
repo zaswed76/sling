@@ -20,6 +20,7 @@ from gui.gsettings import gsettings, gsettingsControllers
 from gui.mainToolBarController import MainToolBarController
 from gui.profiles import profiles, profilesController
 from gui.games import gamestack, gamesController
+from gui.video import video, videoController
 
 qInstallMessageHandler(qt_message_handler)
 
@@ -109,6 +110,9 @@ class Main(QMainWindow):
         self.gamesController = gamesController.GamesController(self, self.games)
         self.controls["games"] = self.gamesController
 
+        self.video = video.Video(self, objectName="video", config=self.cfg)
+        self.videoController = videoController.VideoController(self, self.profiles)
+        self.controls["video"] = self.videoController
 
         self.stackWidgets["view"] = self.viewFrame
         self.stackWidgets["chooseDict"] = self.chooseDict
@@ -117,6 +121,7 @@ class Main(QMainWindow):
         self.stackWidgets["gsettings"] = self.gsettings
         self.stackWidgets["profiles"] = self.profiles
         self.stackWidgets["games"] = self.games
+        self.stackWidgets["video"] = self.video
 
         self.centerStackFrame.setStackWidgets(self.stackWidgets)
 
@@ -230,9 +235,6 @@ class Main(QMainWindow):
 
 
 
-
-
-
     def toolActions(self, act):
         getattr(self.mainToolBarController, "{}Action".format(act.text()))()
 
@@ -288,6 +290,9 @@ class Main(QMainWindow):
 
             self.viewCard.sideToName("front")
             wordItem = self.dictsModel.nextItem()
+            if wordItem is not None:
+                if wordItem.localVideo:
+                    print(self.dictsModel.workData)
             self.viewCard.updateContent(wordItem)
 
             self.setFocus(Qt.ActiveWindowFocusReason)

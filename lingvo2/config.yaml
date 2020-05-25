@@ -5,7 +5,7 @@ choosedict:
     - Word
     - spoilerExample
 core:
-    autoSoundGo: true
+    autoSoundGo: false
     autoSoundTurn: false
     currentProfile: profile_1
     cycle: true
@@ -20,7 +20,7 @@ customizeLabel:
     translation: AAAAAAAAAAAAA
 ui:
     currentStackWidget: view
-    fullScreen: true
+    fullScreen: false
     mainWindowSize:
     - 840
     - 880
