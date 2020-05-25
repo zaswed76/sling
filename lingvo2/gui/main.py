@@ -78,14 +78,14 @@ class Main(QMainWindow):
         self.resizeCardView()
         self.viewCard.setCardModel(self.cardModel)
         self.viewFrame = viewcard.ViewFrame(self.viewCard, "view")  # 790, 830   790, 788
-        self.viewFrame.setFixedSize(self._size[0], self._size[1] - 42)  # 790, 830   790, 788
+        # self.viewFrame.setFixedSize(self._size[0], self._size[1] - 42)  # 790, 830   790, 788
 
         # редактируем карточки
         self.editDropList = editdrop_listview.DropListWidget(None, "editDropList")
         self.editDropList.setFocusPolicy(Qt.NoFocus)
         self.editDropList.setItems(config.Config(paths.CARD_CONFIG)["dropItemsTypeList"])
         self.viewEditCard = editcard.EditCard(main=self)
-        self.viewEditCard.setFixedSize(self._size[0] - 190, self._size[1] - 190)
+        self.viewEditCard.setFixedSize(self.cfg["ui"]["viewCardWidth"], self.cfg["ui"]["viewCardHeight"])
 
         self.viewEditCard.setCardModel(self.cardModel)
         self.viewCardEditWidget = editcardWidget.EditCardWidget(self.editDropList, self.viewEditCard, "cardEditView")
@@ -134,6 +134,16 @@ class Main(QMainWindow):
         self.changeStackWidget(0)
 
         self.newGame()
+
+    def sizeHint(self):
+        w = self.cfg["ui"]["viewCardWidth"]
+        h = self.cfg["ui"]["viewCardHeight"]
+        return QSize(w, h)
+
+    def currentDict(self):
+        dictname = self.cfg["choosedict"]['checkedDicts'][0]
+        currentDict = self.dictSeq[dictname]
+        return currentDict
 
     def resizeCardView(self):
         self.viewCard.setFixedSize(self.cfg["ui"]["viewCardWidth"], self.cfg["ui"]["viewCardHeight"])
@@ -222,7 +232,12 @@ class Main(QMainWindow):
         elif self._currentStackWidget == "gsettings":
             self.gsettings._sections["gSettingsGeometry"].updateCfg()
             self.resizeCardView()
+            print(self.cfg["ui"]["viewCardWidth"], "!!!!!!!!!!!!!!")
+            self.video.setSizeVideo(self.cfg["ui"]["viewCardWidth"] + 150,
+                                             self.cfg["ui"]["viewCardHeight"])
             # todo update geometry
+        elif self._currentStackWidget == "video":
+            self.video.pause()
 
         self._currentStackWidget = self.centerStackFrame.stack.widget(i).objectName()
 

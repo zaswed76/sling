@@ -25,6 +25,24 @@ class Video(QFrame):
         self.box = BoxLayout(QBoxLayout.TopToBottom, self)
         self.box.addWidget(self.player)
 
+    def setFile(self, file):
+        self.player.setFile(file)
+        self.player.playButton.setEnabled(True)
+
+    def play(self):
+        self.player.play()
+
+    def pause(self):
+        self.player.mediaPlayer.pause()
+
+    def setSizeVideo(self, w, h):
+        qsizef = QSizeF(w, h)
+        self.player.videoItem.setSize(qsizef)
+        self.player.graphicsView.setFixedSize(w+2, h+2)
+        # self.player.graphicsView.setS
+
+
+
 
 
 if __name__ == '__main__':

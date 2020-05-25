@@ -10,8 +10,14 @@ class MainToolBarController(QObject):
     def gameStackAction(self):
         self.main.centerStackFrame.showStack("games")
 
+
     def videoAction(self):
         self.main.centerStackFrame.showStack("video")
+        videoDict = self.main.currentDict().video
+        if videoDict:
+            videofile = list(videoDict.values())[0]
+            self.main.video.setFile(videofile)
+            self.main.video.play()
 
     def profilesAction(self):
         self.main.centerStackFrame.showStack("profiles")
